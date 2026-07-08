@@ -1,0 +1,11 @@
+.env
+myenv/
+__pycache__/
+*.pyc
+data/faiss_index/
+*.db
+*.db-shm
+*.db-wal
+*_backup.py
+.streamlit/
+*.txt.bak

@@ -105,7 +105,7 @@ Context: {sp500_growth_context}
 Inflation Expectations: {inflation_expectations}
 Context: {inflation_expectations_context}
 
-Return ONLY this exact format, no other text:
+CRITICAL RULE — READ CAREFULLY: For any factor where the data field explicitly says "Data unavailable" or similar (no usable content returned), you MUST output a score of exactly 0 for that factor, with NO exceptions. This overrides everything else, including the historical/background Context provided for that factor. Do NOT use the Context section to infer a score when the Data field says unavailable — the Context is only general background information, not current data, and must be ignored entirely for scoring purposes when current data is missing. A missing data point is always Neutral (0), regardless of what the general context suggests about that factor's typical relationship with gold.\n\nReturn ONLY this exact format, no other text:
 REAL_YIELDS_SCORE: [integer -10 to 10]
 USD_INDEX_SCORE: [integer -10 to 10]
 FED_RATE_SCORE: [integer -10 to 10]
@@ -163,6 +163,12 @@ def generate_prediction(state: GoldState) -> dict:
     for key in FACTOR_WEIGHTS:
         prompt_inputs[f"{key}_context"] = rag_context.get(key, "N/A")
 
+    unavailable_keys = set()
+    for key in FACTOR_WEIGHTS:
+        val = str(prompt_inputs.get(key, ""))
+        if "Data unavailable" in val or "no usable content" in val.lower():
+            unavailable_keys.add(key)
+
     scoring_response = (scoring_prompt | llm).invoke(prompt_inputs)
 
     scores = {}
@@ -187,6 +193,19 @@ def generate_prediction(state: GoldState) -> dict:
                     scores[factor_key] = 0
     for key in FACTOR_WEIGHTS:
         if key not in scores:
+            scores[key] = 0
+
+    for key in unavailable_keys:
+        scores[key] = 0
+
+    # Hard override: force Neutral (0) for any factor whose raw data says unavailable,
+    # regardless of what the LLM scored it — the LLM has been shown to ignore prompt
+    # instructions to do this on its own.
+    for key in FACTOR_WEIGHTS:
+        raw_value = str(state.get(key, ""))
+        print(f"[DEBUG] {key}: raw_value={raw_value!r}")
+        if "Data unavailable" in raw_value or "no usable content" in raw_value.lower():
+            print(f"[DEBUG] OVERRIDING {key} to 0 (was {scores.get(key)})")
             scores[key] = 0
 
     strength = calculate_strength(scores)

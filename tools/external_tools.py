@@ -54,6 +54,7 @@ async def _tavily_search_async(query: str, max_results: int = 5) -> str:
     result = await search_tool.ainvoke({"query": query, "max_results": max_results})
 
     parsed = json.loads(result[0]["text"])
+    print(f"[TAVILY DEBUG] query={query!r} raw_result_count={len(parsed.get('results', []))} raw_results={json.dumps(parsed.get('results', []), indent=2)[:2000]}")
     contents = [r.get("content", "") for r in parsed.get("results", []) if r.get("content")]
     if not contents:
         raise ValueError("Tavily returned no usable content")
@@ -95,7 +96,7 @@ def tavily_search(query: str, max_results: int = 5) -> str:
 def get_central_bank_gold_buying() -> str:
     """Searches for recent central bank gold purchasing activity and de-dollarization trends."""
     try:
-        result = tavily_search("central bank gold buying reserves 2026 de-dollarization")
+        result = tavily_search("central bank gold buying 2026")
         return f"Central Bank Gold Buying: {sentence_truncate(result)}"
     except Exception as e:
         return f"Central Bank Gold Buying: Data unavailable ({str(e)})"
@@ -105,7 +106,7 @@ def get_central_bank_gold_buying() -> str:
 def get_geopolitical_risk() -> str:
     """Searches for current geopolitical conflict and war risk signals affecting safe-haven demand."""
     try:
-        result = tavily_search("geopolitical conflict war risk 2026 safe haven gold")
+        result = tavily_search("geopolitical risk news 2026")
         return f"Geopolitical Risk: {sentence_truncate(result)}"
     except Exception as e:
         return f"Geopolitical Risk: Data unavailable ({str(e)})"

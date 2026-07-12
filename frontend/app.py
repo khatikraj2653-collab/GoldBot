@@ -271,8 +271,12 @@ def smart_truncate(text, limit: int = 1200) -> str:
     return text[:limit].rsplit(' ', 1)[0].strip() + "..."
 
 
-def score_badge(key, scores):
+def score_badge(key, scores, result=None):
     score = scores.get(key)
+    if result is not None:
+        raw = str(result.get(key, ""))
+        if "Data unavailable" in raw or "no usable content" in raw.lower():
+            score = 0
     if score is None:
         return ""
     if score > 0:
@@ -474,15 +478,15 @@ if st.session_state.result:
 
     st.markdown("<div class='sec-label'>Macro</div>", unsafe_allow_html=True)
     for label, key in [("Real Yields", "real_yields"), ("USD Index", "usd_index"), ("Fed Rate", "fed_rate"), ("Inflation Expectations", "inflation_expectations")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores)}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='sec-label'>Safe Haven Signals</div>", unsafe_allow_html=True)
     for label, key in [("2-Year Treasury", "treasury_2y"), ("VIX", "vix"), ("S&P 500 Growth", "sp500_growth")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores)}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='sec-label'>Geopolitical</div>", unsafe_allow_html=True)
     for label, key in [("Central Bank Buying", "central_bank_buying"), ("Geopolitical Risk", "geopolitical_risk")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores)}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
 
     st.markdown("<hr style='border-color:rgba(255,190,60,0.08);margin:24px 0'>", unsafe_allow_html=True)
     st.markdown("<div style='font-family:Space Grotesk,sans-serif;font-size:1rem;font-weight:600;color:#FFF3D6;margin-bottom:14px'>Prediction</div>", unsafe_allow_html=True)
@@ -573,7 +577,7 @@ def one_word_signal(score):
 
 
 @st.cache_data(ttl=900)
-def get_ticker_data(scores_snapshot):
+def get_ticker_data(scores_snapshot, unavailable_snapshot):
     price, change, pct = get_gold_price()
     if price is None:
         return "GOLD (GC=F): N/A"
@@ -598,7 +602,8 @@ def get_ticker_data(scores_snapshot):
 
     factor_html = ""
     for label, key in factor_labels:
-        signal = one_word_signal(scores_snapshot.get(key))
+        score_val = 0 if key in unavailable_snapshot else scores_snapshot.get(key)
+        signal = one_word_signal(score_val)
         color = signal_color(signal)
         factor_html += f"<span style='margin-right:32px'><strong style='color:#C9B27A'>{label}</strong> <span style='color:{color};font-weight:600'>{signal}</span></span>"
 
@@ -606,7 +611,13 @@ def get_ticker_data(scores_snapshot):
 
 
 current_scores = st.session_state.result.get("scores", {}) if st.session_state.result else {}
-ticker_html = get_ticker_data(current_scores)
+current_unavailable = set()
+if st.session_state.result:
+    for k in current_scores:
+        raw_v = str(st.session_state.result.get(k, ""))
+        if "Data unavailable" in raw_v or "no usable content" in raw_v.lower():
+            current_unavailable.add(k)
+ticker_html = get_ticker_data(current_scores, frozenset(current_unavailable))
 
 st.markdown(f"""
 <style>

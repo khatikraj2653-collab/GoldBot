@@ -1,0 +1,9 @@
+date,event,predicted_status,predicted_strength,gold_price,gold_ma50,sp500_price,sp500_ma50,regime_ground_truth,price_direction_correct,regime_correct
+2026-03-04,Warsh formally nominated by Trump,ON,50%,5120.2,4813.36,6869.5,6905.3,SAFE_HAVEN_CONFIRMED,True,True
+2026-04-08,Iran ceasefire agreed (initial 2-week pause),OFF,43%,4749.5,4919.24,6782.81,6768.27,SAFE_HAVEN_REJECTED,True,True
+2026-04-21,Warsh confirmation hearing + ceasefire extended indefinitely,OFF,40%,4698.4,4887.17,7064.01,6778.0,SAFE_HAVEN_REJECTED,True,True
+2026-04-28,UAE shock announcement: OPEC exit,OFF,48%,4591.5,4854.27,7138.8,6802.14,SAFE_HAVEN_REJECTED,True,True
+2026-05-13,"Warsh confirmed as Fed Chair (54-45, most divisive vote in history)",OFF,41%,4697.7,4749.89,7444.25,6896.91,SAFE_HAVEN_REJECTED,True,True
+2026-05-15,"Powell term ends, Warsh term begins",OFF,38%,4555.8,4730.86,7408.5,6921.1,SAFE_HAVEN_REJECTED,True,True
+2026-06-14,Iran war MOU announced,OFF,40%,4215.0,4587.76,7431.46,7247.79,SAFE_HAVEN_REJECTED,True,True
+2026-06-21,Lake Lucerne Summit - Hormuz negotiations,OFF,49%,4224.1,4558.3,7500.58,7315.63,SAFE_HAVEN_REJECTED,True,True

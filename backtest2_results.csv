@@ -1,0 +1,11 @@
+date,event,predicted_status,predicted_strength,gold_price,gold_ma50,sp500_price,sp500_ma50,regime_ground_truth,price_direction_correct,regime_correct
+2025-09-17,FOMC meeting,OFF,48%,3681.8,3425.74,6600.35,6406.64,AMBIGUOUS,False,
+2025-10-29,FOMC meeting,OFF,48%,3983.7,3789.85,6890.59,6622.09,AMBIGUOUS,False,
+2025-11-20,VIX spike (26.4),ON,50%,4056.5,3966.69,6538.76,6711.04,SAFE_HAVEN_CONFIRMED,True,True
+2025-12-10,FOMC meeting,OFF,48%,4196.4,4084.42,6886.68,6755.81,AMBIGUOUS,False,
+2026-01-08,Iran protest crackdown / internet shutdown,OFF,44%,4449.7,4209.39,6921.46,6816.7,AMBIGUOUS,False,
+2026-01-28,FOMC meeting,OFF,42%,5301.6,4409.42,6978.03,6847.63,AMBIGUOUS,False,
+2026-02-28,US-Israel strikes on Iran begin (war outbreak),OFF,49%,5230.5,4762.75,6878.88,6899.87,SAFE_HAVEN_CONFIRMED,False,False
+2026-03-18,FOMC meeting (during Iran war / Hormuz blockade),ON,53%,4889.9,4947.02,6624.7,6872.82,AMBIGUOUS,False,
+2026-04-29,FOMC meeting,OFF,45%,4545.2,4847.52,7135.95,6808.0,SAFE_HAVEN_REJECTED,True,True
+2026-06-17,FOMC meeting (first Warsh-chaired),OFF,38%,4358.9,4568.81,7420.1,7301.28,SAFE_HAVEN_REJECTED,True,True

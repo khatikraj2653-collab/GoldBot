@@ -1,10 +1,12 @@
 import yfinance as yf
 from langchain_core.tools import tool
+from tools.cache_utils import cached_tool, TTL_SLOW, TTL_FAST
 
 yf.set_tz_cache_location("D:\\yf_cache")
 
 
 @tool
+@cached_tool(TTL_SLOW)
 def get_usd_index() -> str:
     """Fetches the current USD Index (DXY) value as a dollar strength signal."""
     try:
@@ -16,6 +18,7 @@ def get_usd_index() -> str:
 
 
 @tool
+@cached_tool(TTL_FAST)
 def get_vix() -> str:
     """Fetches the current VIX (CBOE Volatility Index) value as a market fear signal."""
     try:

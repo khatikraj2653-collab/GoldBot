@@ -439,7 +439,7 @@ if not st.session_state.result:
                 if "STRENGTH:" in line:
                     strength_hist = line.split(":")[-1].strip()
 
-            save_history(status_hist, strength_hist, time.strftime("%H:%M"), result)
+            save_history(status_hist, strength_hist, time.strftime("%Y-%m-%d %H:%M"), result)
             st.session_state.history = load_history()
             st.rerun()
 

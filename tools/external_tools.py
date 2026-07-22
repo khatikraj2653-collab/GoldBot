@@ -6,6 +6,7 @@ import threading
 from langchain_core.tools import tool
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from dotenv import load_dotenv
+from tools.cache_utils import cached_tool, TTL_SLOW, TTL_FAST
 
 load_dotenv()
 
@@ -93,6 +94,7 @@ def tavily_search(query: str, max_results: int = 5) -> str:
 
 
 @tool
+@cached_tool(TTL_SLOW)
 def get_central_bank_gold_buying() -> str:
     """Searches for recent central bank gold purchasing activity and de-dollarization trends."""
     try:
@@ -103,6 +105,7 @@ def get_central_bank_gold_buying() -> str:
 
 
 @tool
+@cached_tool(TTL_FAST)
 def get_geopolitical_risk() -> str:
     """Searches for current geopolitical conflict and war risk signals affecting safe-haven demand."""
     try:

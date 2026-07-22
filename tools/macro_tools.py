@@ -2,12 +2,14 @@ import os
 from langchain_core.tools import tool
 from fredapi import Fred
 from dotenv import load_dotenv
+from tools.cache_utils import cached_tool, TTL_SLOW
 
 load_dotenv()
 fred = Fred(api_key=os.getenv("FRED_API_KEY"))
 
 
 @tool
+@cached_tool(TTL_SLOW)
 def get_real_yields() -> str:
     """Fetches the 10-Year Treasury Inflation-Protected Security (TIPS) real yield from FRED."""
     try:
@@ -18,6 +20,7 @@ def get_real_yields() -> str:
 
 
 @tool
+@cached_tool(TTL_SLOW)
 def get_fed_rate() -> str:
     """Fetches the current Federal Funds Rate from FRED."""
     try:
@@ -28,6 +31,7 @@ def get_fed_rate() -> str:
 
 
 @tool
+@cached_tool(TTL_SLOW)
 def get_treasury_2y() -> str:
     """Fetches the 2-Year Treasury Constant Maturity Rate from FRED."""
     try:

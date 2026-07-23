@@ -363,7 +363,7 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
 </footer>
 
 <script>
-function goApp(){window.location.href='http://localhost:8501';}
+function goApp(){try{window.parent.document.querySelector('[data-testid="stPageLink"] a').click();}catch(e){}}
 
 var gPrices={GOLD:{price:0,prev:0},SILVER:{price:0,prev:0},PLATINUM:{price:0,prev:0},PALLADIUM:{price:0,prev:0}};
 function gfmt(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}

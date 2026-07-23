@@ -81,6 +81,7 @@ st.set_page_config(page_title="GoldBot", page_icon="🪙", layout="wide", initia
 
 st.markdown("""
 <style>
+[data-testid="stSidebarNav"] { display: none !important; }
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap');
 
 html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {

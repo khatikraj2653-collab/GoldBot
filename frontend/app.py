@@ -3,6 +3,13 @@ import sys
 import time
 import sqlite3
 import json
+from zoneinfo import ZoneInfo
+from datetime import datetime
+
+UK_TZ = ZoneInfo("Europe/London")
+
+def uk_time_str():
+    return datetime.now(UK_TZ).strftime("%Y-%m-%d %H:%M")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
@@ -439,7 +446,7 @@ if not st.session_state.result:
                 if "STRENGTH:" in line:
                     strength_hist = line.split(":")[-1].strip()
 
-            save_history(status_hist, strength_hist, time.strftime("%Y-%m-%d %H:%M"), result)
+            save_history(status_hist, strength_hist, uk_time_str(), result)
             st.session_state.history = load_history()
             st.rerun()
 

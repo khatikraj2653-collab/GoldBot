@@ -65,6 +65,8 @@ iframe_fixes = """
 body { background: #1A1712 !important; }
 #hero { min-height: 650px !important; padding-top: 40px !important; }
 .nav-cta { display: none !important; }
+.nav { justify-content: center !important; gap: 60px !important; }
+.nav-logo { position: absolute !important; left: 48px !important; }
 </style>
 """
 html_content = html_content.replace('<head>', '<head>' + iframe_fixes)

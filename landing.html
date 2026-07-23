@@ -406,6 +406,7 @@ async function fetchGoldPrices(){
   }
 }
 fetchGoldPrices();
+setTimeout(fetchGoldPrices, 3000);
 setInterval(fetchGoldPrices,60000);
 
 const gbubPhrases = [

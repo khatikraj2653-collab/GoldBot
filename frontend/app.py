@@ -63,7 +63,7 @@ iframe_fixes = """
 <style>
 #welcomeModal { display: none !important; }
 body { background: #1A1712 !important; }
-#hero { min-height: auto !important; padding-top: 20px !important; }
+#hero { min-height: 650px !important; padding-top: 40px !important; }
 .nav-cta { display: none !important; }
 </style>
 """

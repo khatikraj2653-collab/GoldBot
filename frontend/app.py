@@ -64,6 +64,7 @@ iframe_fixes = """
 #welcomeModal { display: none !important; }
 body { background: #1A1712 !important; }
 #hero { min-height: auto !important; padding-top: 20px !important; }
+.nav-cta { display: none !important; }
 </style>
 """
 html_content = html_content.replace('<head>', '<head>' + iframe_fixes)

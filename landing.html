@@ -159,8 +159,46 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .rc-label{font-size:9.5px;font-weight:700;letter-spacing:0.12em;color:#6A5A38;text-transform:uppercase;margin-bottom:10px;}
 .rc-title{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#FFF3D6;margin-bottom:8px;line-height:1.3;}
 .rc-desc{font-size:0.78rem;color:#8A7A50;line-height:1.8;margin-bottom:18px;max-width:700px;}
-.rc-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.rc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
 .rc-tag{background:rgba(180,130,20,0.15);border:1px solid rgba(200,150,20,0.18);color:#D4A017;border-radius:6px;padding:3px 10px;font-size:10px;font-weight:600;}
+.rc-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.rc-btn{background:linear-gradient(135deg,#B8860B,#FFD700);color:#1A1712;border:none;border-radius:9px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 0 18px rgba(255,190,60,0.35);transition:all 0.2s;white-space:nowrap;}
+.rc-btn:hover{box-shadow:0 0 28px rgba(255,215,0,0.55);transform:translateY(-1px);}
+.rc-btn-outline{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,190,60,0.3);color:#FFD700;border-radius:9px;padding:10px 23px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.rc-btn-outline:hover{border-color:rgba(255,190,60,0.6);background:rgba(180,130,20,0.1);}
+
+#researchpage{display:none;position:fixed;inset:0;background:#1A1712;z-index:200;overflow-y:auto;}
+.rp-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;border-bottom:1px solid rgba(255,190,60,0.1);background:rgba(26,23,18,0.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10;}
+.rp-back{background:rgba(255,190,60,0.1);border:1px solid rgba(255,190,60,0.2);color:#FFD700;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.rp-back:hover{background:rgba(255,190,60,0.18);}
+.rp-content{max-width:760px;margin:0 auto;padding:60px 48px;}
+.rp-category{font-size:10px;font-weight:700;letter-spacing:0.12em;color:#6A5A38;text-transform:uppercase;margin-bottom:10px;}
+.rp-title{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:#FFF3D6;margin-bottom:14px;line-height:1.3;}
+.rp-authors{font-size:12px;color:#C9B27A;margin-bottom:8px;}
+.rp-venue{font-size:11px;color:#8A7A50;margin-bottom:24px;}
+.rp-divider{height:1px;background:rgba(255,190,60,0.1);margin:24px 0;}
+.rp-section-title{font-size:10.5px;font-weight:600;color:#E8C878;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;}
+.rp-body{font-size:0.82rem;color:#B8A87A;line-height:1.9;margin-bottom:20px;}
+.rp-highlight{background:rgba(80,60,10,0.4);border:1px solid rgba(200,150,20,0.2);border-radius:10px;padding:16px 20px;margin:16px 0;}
+.rp-highlight p{font-size:0.8rem;color:#E8C878;line-height:1.8;}
+.rp-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px;}
+.rp-tag{background:rgba(180,130,20,0.15);border:1px solid rgba(200,150,20,0.18);color:#D4A017;border-radius:6px;padding:4px 12px;font-size:10.5px;font-weight:600;}
+.rp-links{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 26px;}
+.rp-ssrn-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#B8860B,#FFD700);color:#1A1712;border-radius:9px;padding:11px 22px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 0 18px rgba(255,190,60,0.35);transition:all 0.2s;}
+.rp-ssrn-btn:hover{box-shadow:0 0 28px rgba(255,215,0,0.55);transform:translateY(-1px);}
+.rp-ssrn-btn-outline{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,190,60,0.3);color:#FFD700;border-radius:9px;padding:10px 21px;font-size:12.5px;font-weight:600;text-decoration:none;transition:all 0.2s;}
+.rp-ssrn-btn-outline:hover{border-color:rgba(255,190,60,0.6);background:rgba(180,130,20,0.1);}
+.rp-h2{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#FFF3D6;margin:36px 0 14px;letter-spacing:-0.2px;}
+.rp-h3{font-size:0.9rem;font-weight:700;color:#E8C878;margin:22px 0 10px;}
+.rp-table-wrap{overflow-x:auto;margin:14px 0 22px;border-radius:10px;border:1px solid rgba(200,150,20,0.2);}
+.rp-table{width:100%;border-collapse:collapse;font-size:0.72rem;}
+.rp-table th{background:rgba(80,60,10,0.5);color:#E8C878;text-align:left;padding:7px 11px;font-weight:600;white-space:nowrap;border-bottom:1px solid rgba(200,150,20,0.25);}
+.rp-table td{padding:6px 11px;color:#B8A87A;border-bottom:1px solid rgba(180,130,20,0.1);white-space:nowrap;}
+.rp-table tr:last-child td{border-bottom:none;}
+.rp-table tr.rp-total td{color:#FFD700;font-weight:700;}
+.rp-refs{font-size:0.72rem;color:#6A5A38;line-height:2;}
+.rp-refs p{margin-bottom:8px;}
+.rp-caption{font-size:0.72rem;color:#C9B27A;font-weight:600;margin:18px 0 8px;}
 
 #cta{position:relative;z-index:5;padding:80px 48px;text-align:center;background:radial-gradient(ellipse at 50% 50%,#2A2010 0%,#1A1712 70%);}
 .cta-title{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#FFF3D6;margin-bottom:12px;letter-spacing:-0.4px;}
@@ -232,7 +270,7 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
         <div><div class="stat-num">9</div><div class="stat-lbl">CAUSAL FACTORS</div></div>
         <div><div class="stat-num">RAG</div><div class="stat-lbl">GROUNDED SCORING</div></div>
         <div><div class="stat-num">MSc</div><div class="stat-lbl">WARWICK AI</div></div>
-        <div><div class="stat-num">SSRN</div><div class="stat-lbl">TARGET VENUE</div></div>
+        <div><div class="stat-num">SSRN</div><div class="stat-lbl">LIVE PREPRINT</div></div>
       </div>
     </div>
 
@@ -242,7 +280,7 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
       <div class="gbub gbub-l3" id="gbub3">📉 Real yields tracked live</div>
       <div class="gbub gbub-r1" id="gbub4">😨 VIX: monitored in real-time</div>
       <div class="gbub gbub-r2" id="gbub5">🌏 Geopolitical risk: elevated</div>
-      <div class="gbub gbub-r3" id="gbub6">🔬 Warsh Shock: validated</div>
+      <div class="gbub gbub-r3" id="gbub6">📊 Backtested across 4 market regimes</div>
       <div class="glow-ring"></div>
       <div class="robots-row">
         <div class="rw2">
@@ -333,13 +371,17 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
   <div style="max-width:1100px;margin:0 auto;">
     <div class="section-badge">📄 Academic Research</div>
     <h2 class="section-title">Published Research</h2>
-    <p class="section-sub">GoldBot is the empirical foundation for a paper testing gold's safe-haven status using a real natural experiment.</p>
+    <p class="section-sub">GoldBot is the empirical foundation for a live SSRN preprint that cross-regime backtests its safe-haven classification against a naive baseline.</p>
     <div class="research-card">
-      <div class="rc-label">Target: SSRN + Finance Research Letters</div>
-      <div class="rc-title">Gold Safe Haven Multi-Factor Analysis: Testing the January 2026 Warsh Shock as a Natural Experiment</div>
-      <div class="rc-desc">This paper presents GoldBot, a 9-factor RAG-grounded causal chain system for gold safe-haven analysis. Using the January 2026 Warsh hawkish policy pivot as a real, timestamped natural experiment, we test whether gold's traditional safe-haven status held under genuine market stress, and whether a deterministic, historically-grounded multi-factor framework outperforms single-factor models in explaining gold's reaction.</div>
+      <div class="rc-label">Live SSRN Preprint</div>
+      <div class="rc-title">GoldBot: A Multi-Factor Safe-Haven Analyzer for Gold — Cross-Regime Evidence for Trend-Matching Rather Than Event Discrimination</div>
+      <div class="rc-desc">This paper presents GoldBot, a nine-factor, LLM-orchestrated system that classifies gold's safe-haven status (ON/OFF) and quantifies its Strength% via a transparent weighted-scoring architecture with retrieval-augmented context. We backtest GoldBot across four independently constructed samples spanning four structurally distinct macro-financial regimes — a 2025-26 gold uptrend, 18 genuine macro/geopolitical events, the 2020 COVID crash, and the 2008 financial crisis. Using McNemar's exact test throughout, we find GoldBot underperforms a naive always-safe-haven-ON baseline in three of four regimes, and that its apparent accuracy is fully explained by whether its directional bias happens to align with the ambient price trend — not by genuine discrimination between distinct real-world events.</div>
       <div class="rc-tags">
-        <span class="rc-tag">LangGraph</span><span class="rc-tag">RAG · FAISS</span><span class="rc-tag">Natural Experiment</span><span class="rc-tag">Financial NLP</span><span class="rc-tag">Deterministic Weighting</span>
+        <span class="rc-tag">LangGraph</span><span class="rc-tag">RAG · FAISS</span><span class="rc-tag">Cross-Regime Backtesting</span><span class="rc-tag">McNemar's Test</span><span class="rc-tag">Financial NLP</span><span class="rc-tag">Deterministic Weighting</span>
+      </div>
+      <div class="rc-btns">
+        <button class="rc-btn" onclick="showResearch()">Read Full Paper →</button>
+        <a class="rc-btn-outline" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7200198" target="_blank" rel="noopener">View on SSRN ↗</a>
       </div>
     </div>
   </div>
@@ -359,11 +401,191 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
     <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#8A7A50;">GoldBot</span>
   </div>
   <div class="footer-text" style="color:#FFD700;font-weight:600;font-size:13px;">Built by Raj Tejpal Khatik · MSc Applied AI · University of Warwick · 2026</div>
-  <div class="footer-right">Target: SSRN + Finance Research Letters<br>Not financial advice</div>
+  <div class="footer-right">Paper · SSRN Preprint<br>Not financial advice</div>
 </footer>
+
+<div id="researchpage">
+  <div class="rp-nav">
+    <button class="rp-back" onclick="hideResearch()">← Back to GoldBot</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="nav-icon" style="width:28px;height:28px;font-size:13px;">🪙</div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#FFF3D6;">GoldBot Research</span>
+    </div>
+    <div style="font-size:10px;color:#6A5A38;">MSc Applied AI · University of Warwick</div>
+  </div>
+  <div class="rp-content">
+    <div class="rp-category">SSRN Preprint · 2026</div>
+    <h1 class="rp-title">GoldBot: A Multi-Factor Safe-Haven Analyzer for Gold — Cross-Regime Evidence for Trend-Matching Rather Than Event Discrimination</h1>
+    <div class="rp-authors">Raj Tejpal Khatik · MSc Applied AI, University of Warwick</div>
+    <div class="rp-venue">Live preprint on SSRN · Currently under review at a peer-reviewed journal</div>
+    <div class="rp-links">
+      <a class="rp-ssrn-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7200198" target="_blank" rel="noopener">📄 Read Live on SSRN ↗</a>
+      <a class="rp-ssrn-btn-outline" href="https://goldbot-raj.streamlit.app" target="_blank" rel="noopener">Live Demo ↗</a>
+    </div>
+    <div class="rp-divider"></div>
+
+    <div class="rp-section-title">Abstract</div>
+    <div class="rp-body">Gold's role as a safe-haven asset is one of the most robust stylized facts in empirical finance (Baur &amp; McDermott, 2010; Baur &amp; Lucey, 2010), yet systems built to operationalize this behavior in real time are rarely subjected to rigorous, cross-regime backtesting. We present GoldBot, a nine-factor, LLM-orchestrated system that classifies gold's safe-haven status (ON/OFF) and quantifies its Strength% via a transparent weighted-scoring architecture with retrieval-augmented context. We backtest GoldBot across four independently constructed samples spanning four structurally distinct macro-financial regimes: a stratified sample of 60 dates during a 2025-26 gold uptrend (Backtest 1), a set of 18 genuine macro/geopolitical events spanning both an uptrend and a subsequent downtrend within the same window (Backtest 2), 20 stratified dates during the 2020 COVID crash and recovery (Backtest 3), and 20 stratified dates during the 2008 global financial crisis (Backtest 4).</div>
+    <div class="rp-body">Using McNemar's exact test throughout, we find GoldBot underperforms a naive always-safe-haven-ON baseline in three of four regimes — significantly so in the largest sample (Backtest 1: 35.0% vs. 66.7%, n=60, p=0.018) — and ties it exactly in the fourth (Backtest 3: 90.0% vs. 90.0%, n=20). Critically, decomposition reveals this is not evidence of skill: in every regime tested, GoldBot's apparent accuracy is fully explained by whether its prevailing directional bias in that period happens to align with the ambient price trend, not by discrimination between distinct real-world events.</div>
+    <div class="rp-body">Across 18 genuinely distinct macro/geopolitical events in Backtest 2 — spanning a war outbreak, a war-ending ceasefire, a historic 54-45 Fed chair confirmation vote, and a shock OPEC exit — GoldBot's Strength% output never left a 37–50% range (SD=4.2 points), indicating near-total insensitivity to event content within a normal-range macro regime. By contrast, in the 2020 and 2008 regimes, where underlying quantitative factors reached genuinely extreme values (negative real yields, VIX above 60), GoldBot's output did shift meaningfully, suggesting the model's quantitative factors retain some responsiveness to extreme readings even as its qualitative/geopolitical scoring remains substantially compressed. We argue this cross-regime evidence for trend-matching, rather than event discrimination, is a more precise and more damaging diagnosis than any single backtest could provide, and a necessary standard for evaluating this class of system.</div>
+    <div class="rp-body" style="font-size:0.75rem;">*Live demo: <a href="https://goldbot-raj.streamlit.app" target="_blank" rel="noopener" style="color:#FFD700;">https://goldbot-raj.streamlit.app</a></div>
+
+    <div class="rp-h2">1. Introduction and Problem Statement</div>
+    <div class="rp-body">Gold's function as a hedge and safe haven against equity market stress is among the most extensively documented regularities in international finance. Baur and McDermott (2010) provide cross-country evidence that gold acts as both hedge and safe haven for major developed markets, while Baur and Lucey (2010) formalize the weak/strong distinction between hedge and safe-haven behavior. Systems that attempt to operationalize this behavior as a live, LLM-scored classification — as we do with GoldBot — face a specific validation challenge: a single backtest, run within a single macro-financial regime, cannot distinguish genuine event discrimination from a lucky (or unlucky) alignment between a system's incidental output bias and the ambient trend of that regime.</div>
+    <div class="rp-body">We address this directly by backtesting GoldBot across four structurally distinct regimes: two windows within its live 2025-26 deployment period (an uptrend and a subsequent downtrend), the 2020 COVID crash and recovery, and the 2008 global financial crisis. This design allows us to ask a sharper question than "how accurate is GoldBot" — namely, "does GoldBot's accuracy, wherever observed, reflect genuine discrimination between distinct events, or merely coincidental alignment with whatever trend happens to prevail in the sampled window." We find decisive evidence for the latter.</div>
+
+    <div class="rp-h2">2. Related Work</div>
+    <div class="rp-body"><strong style="color:#E8C878;">Gold as hedge and safe haven.</strong> Baur and McDermott (2010) test gold's status against equities across a 30-year, multi-country sample, finding it functions as both hedge and safe haven for major developed markets. Baur and Lucey (2010) introduce the weak/strong safe-haven distinction, which our regime-classification ground truth (gold/equity MA50 divergence) operationalizes as a point-in-time check.</div>
+    <div class="rp-body"><strong style="color:#E8C878;">Single-factor channels.</strong> Joy (2011) documents gold's shifting relationship with the US dollar over time, motivating GoldBot's inclusion of the USD Index as a distinct factor.</div>
+    <div class="rp-body"><strong style="color:#E8C878;">Systematic geopolitical risk measurement.</strong> Caldara and Iacoviello (2022) construct the GPR index from newspaper text; we validate GoldBot's geopolitical_risk scoring directly against this index in Section 5.6.</div>
+    <div class="rp-body"><strong style="color:#E8C878;">Gap addressed.</strong> No existing work, to our knowledge, subjects an LLM-orchestrated safe-haven classification system to backtesting across multiple structurally distinct historical macro-financial regimes specifically to test for trend-matching versus genuine event discrimination. This cross-regime design is this paper's primary methodological contribution.</div>
+
+    <div class="rp-h2">3. Theoretical Framework</div>
+    <div class="rp-h3">3.1 The nine-factor causal chain</div>
+    <div class="rp-body">GoldBot operationalizes gold's safe-haven behavior through nine factors (weights sum to 100):</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Factor</th><th>Weight</th><th>Theoretical channel</th></tr>
+      <tr><td>Real Yields (10Y TIPS)</td><td>14</td><td style="white-space:normal;">Opportunity cost of non-yielding gold</td></tr>
+      <tr><td>USD Index (DXY)</td><td>13</td><td style="white-space:normal;">Dollar-denominated pricing mechanism</td></tr>
+      <tr><td>Fed Funds Rate</td><td>12</td><td style="white-space:normal;">Policy rate path shapes real-yield trajectory</td></tr>
+      <tr><td>Central Bank Gold Buying</td><td>12</td><td style="white-space:normal;">Structural, price-insensitive reserve demand</td></tr>
+      <tr><td>2-Year Treasury Yield</td><td>11</td><td style="white-space:normal;">Near-term rate expectations</td></tr>
+      <tr><td>VIX</td><td>10</td><td style="white-space:normal;">Canonical flight-to-safety proxy</td></tr>
+      <tr><td>Geopolitical Risk</td><td>10</td><td style="white-space:normal;">Direct safe-haven trigger channel</td></tr>
+      <tr><td>S&amp;P 500 1-month Growth</td><td>9</td><td style="white-space:normal;">Capital rotation / equity-gold divergence</td></tr>
+      <tr><td>5-Year Breakeven Inflation</td><td>9</td><td style="white-space:normal;">Inflation-hedging demand</td></tr>
+    </table></div>
+    <div class="rp-h3">3.2 Scoring and aggregation</div>
+    <div class="rp-body">Each factor is scored by an LLM (GPT-4o-mini, temperature=0) on a bounded -10 to +10 scale. The weighted sum normalizes to a 0-100 Strength% score; Safe Haven status is ON if Strength% &gt;= 50.</div>
+
+    <div class="rp-h2">4. System Architecture</div>
+    <div class="rp-body">GoldBot is implemented as a LangGraph state machine with three parallel fetch subgraphs (macro, safe-haven-specific, geopolitical) converging on a generate_prediction node. Quantitative factors are fetched from FRED/yfinance; qualitative factors (central bank gold buying, geopolitical risk) are retrieved via live Tavily web search. A hard override forces any factor to neutral when its data fetch fails.</div>
+
+    <div class="rp-h2">5. Backtesting</div>
+    <div class="rp-h3">5.1 Methodology overview</div>
+    <div class="rp-body">Four backtests, each constructed independently:</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Backtest</th><th>Design</th><th>n</th><th>Window</th><th>Regime</th></tr>
+      <tr><td>1</td><td style="white-space:normal;">Stratified random dates</td><td>60 (20+20+20, three independent seeds)</td><td>Sept 2025–June 2026</td><td>Uptrend</td></tr>
+      <tr><td>2</td><td style="white-space:normal;">Genuine macro/geopolitical events</td><td>18 (10 original + 8 expansion)</td><td>Sept 2025–June 2026</td><td>Uptrend, then downtrend</td></tr>
+      <tr><td>3</td><td style="white-space:normal;">Stratified random dates</td><td>20</td><td>Jan–June 2020</td><td>COVID crash/recovery</td></tr>
+      <tr><td>4</td><td style="white-space:normal;">Stratified random dates</td><td>20</td><td>Aug 2008–March 2009</td><td>Global financial crisis</td></tr>
+    </table></div>
+    <div class="rp-body">Ground truth throughout: gold's close relative to its own 50-day moving average (price direction); gold-vs-S&amp;P500 MA divergence (regime classification, Baur &amp; Lucey's weak/strong distinction operationalized point-in-time). Backtests 3 and 4 use forced-neutral Tier 2 factors throughout (no historical text recovery attempted, consistent with the same principle applied elsewhere, and additionally necessary since GDELT's coverage does not reliably extend to 2008). Statistical treatment: McNemar's exact test throughout for paired comparisons against the naive baseline, given both methods are scored on identical dates within each backtest.</div>
+
+    <div class="rp-h3">5.2 Backtest 1: stratified sample, expanded to n=60</div>
+    <div class="rp-body">Backtest 1 was constructed incrementally: an initial n=20 sample, followed by two independent expansion batches of n=20 each (distinct random seeds, non-overlapping dates), reaching n=60.</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Sample size</th><th>GoldBot accuracy</th><th>Naive always-ON baseline</th><th>McNemar exact p</th></tr>
+      <tr><td>n=20</td><td>35.0%</td><td>70.0%</td><td>0.167</td></tr>
+      <tr><td>n=40</td><td>35.0%</td><td>67.5%</td><td>0.053</td></tr>
+      <tr class="rp-total"><td>n=60</td><td>35.0%</td><td>66.7%</td><td>0.018</td></tr>
+    </table></div>
+    <div class="rp-body">GoldBot's point estimate remained exactly stable (35.0%) across all three sample sizes, while statistical confidence in its underperformance against the naive baseline strengthened monotonically, crossing the conventional 0.05 threshold at n=60. This is the paper's only individually statistically significant result and reflects a stable, well-powered finding: during this uptrend window, GoldBot's systematic bias toward OFF classifications actively works against a naive trend-following rule.</div>
+
+    <div class="rp-h3">5.3 Backtest 2: genuine events, expanded to n=18, and the output-compression finding</div>
+    <div class="rp-body">The original 10-date sample (7 FOMC meetings, a VIX spike, the Feb 28, 2026 Iran war outbreak, and the first Warsh-chaired FOMC meeting) was expanded with 8 additional independently-verified genuine events: Warsh's formal nomination (Mar 4), the initial US-Iran ceasefire (Apr 8), Warsh's confirmation hearing and the ceasefire's indefinite extension (Apr 21), the UAE's shock OPEC exit (Apr 28), Warsh's confirmation as Fed Chair in the most divisive vote in Fed history (May 13), the Powell-Warsh transition (May 15), the Iran war memorandum of understanding (Jun 14), and the Lake Lucerne Hormuz negotiations summit (Jun 21).</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Configuration</th><th>GoldBot accuracy</th><th>Naive baseline</th></tr>
+      <tr><td style="white-space:normal;">Original n=10 (forced-neutral)</td><td>40.0%</td><td>70.0%</td></tr>
+      <tr><td style="white-space:normal;">Original n=10 (GDELT-restored)</td><td>30.0%</td><td>70.0%</td></tr>
+      <tr><td style="white-space:normal;">New 8 dates (GDELT-integrated)</td><td>100.0%</td><td>12.5%</td></tr>
+      <tr class="rp-total"><td>Combined n=18</td><td>61.1%</td><td>44.4%</td></tr>
+    </table></div>
+    <div class="rp-body">The naive baseline of 12.5% on the 8 new dates reflects that gold traded below its own 50-day moving average on 7 of these 8 dates, meaning the always-ON rule was correct on only 1 of 8 (the March 4 Warsh nomination date). The combined n=18 naive baseline of 44.4% (8/18) is the weighted average of the original 10-date baseline (7/10 correct) and this 8-date subset (1/8 correct).</div>
+    <div class="rp-body"><strong style="color:#E8C878;">The reversal from n=10 to n=18 is not evidence of improved skill.</strong> The 8 new dates happen to fall within a subsequent gold downtrend (every one of the 8 shows gold trading below its own MA50), and GoldBot's near-constant tendency toward OFF classifications — the same bias that hurt it during the uptrend-dominated original 10 dates — mechanically aligns with a downtrend. The naive always-ON baseline, conversely, collapses from 70% (original 10 dates) to just 12.5% on these 8 new dates for the identical reason, pulling the combined baseline down to 44.4%.</div>
+    <div class="rp-body">The more diagnostic finding is <strong style="color:#E8C878;">output compression</strong>. Across all 18 genuinely distinct events — including a war outbreak, a war-ending ceasefire signing, a historic Fed confirmation vote, and a shock OPEC exit — GoldBot's Strength% output never left a 37–50% range (SD=4.2 percentage points). The model does not appear to meaningfully distinguish between these substantively very different real-world developments.</div>
+    <div class="rp-body"><strong style="color:#E8C878;">Case study, Feb 28, 2026 (Iran war outbreak):</strong> Full factor decomposition (weighted contributions) yields a Strength% of exactly 49% (verified: (-15+1000)/2000x100 = 49.25 -&gt; 49%), one point below the ON threshold. The LLM assigned geopolitical_risk a score of +5 out of a possible +10 — correctly directional, but using only half its available range for what the input text described as an assassination-triggered war. A counterfactual recomputation shows that using the existing scale's maximum (+10, no architectural change required) would have been sufficient to cross the threshold (Strength% = 52%, ON).</div>
+
+    <div class="rp-h3">5.4 Backtest 3: 2020 COVID crash and recovery</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Metric</th><th>Result</th></tr>
+      <tr><td style="white-space:normal;">GoldBot price-direction accuracy</td><td>90.0% (18/20)</td></tr>
+      <tr><td style="white-space:normal;">Naive always-ON baseline</td><td>90.0% (18/20) — exact tie</td></tr>
+      <tr><td style="white-space:normal;">Regime classification accuracy</td><td>100.0% (5/5)</td></tr>
+      <tr><td style="white-space:normal;">GoldBot predictions</td><td>20/20 were ON</td></tr>
+    </table></div>
+    <div class="rp-body">Every single prediction in this window was ON. This is not evidence of genuine crisis-detection: the underlying quantitative factors reached values never seen in GoldBot's other test windows — real yields went negative (-0.02% to -0.65%, vs. 1.7–2.3% in the 2025-26 window), the Fed funds rate collapsed to near-zero (0.05–0.65%), and VIX spiked as high as 64.0 (vs. a ceiling of ~30 elsewhere). These extreme quantitative readings mechanically pushed GoldBot's weighted-sum output to a constant ON — which then happened to match this period's strong gold uptrend (18 of 20 dates above MA50), producing an exact tie with the naive baseline rather than any demonstrated edge.</div>
+
+    <div class="rp-h3">5.5 Backtest 4: 2008 global financial crisis</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Metric</th><th>Result</th></tr>
+      <tr><td style="white-space:normal;">GoldBot price-direction accuracy</td><td>60.0% (12/20)</td></tr>
+      <tr><td style="white-space:normal;">Naive always-ON baseline</td><td>70.0% (14/20)</td></tr>
+      <tr><td style="white-space:normal;">Regime classification accuracy</td><td>76.9% (10/13)</td></tr>
+      <tr><td style="white-space:normal;">GoldBot predictions</td><td>16 ON, 4 OFF</td></tr>
+      <tr><td style="white-space:normal;">McNemar exact p</td><td>0.625</td></tr>
+    </table></div>
+    <div class="rp-body">Unlike Backtests 2 and 3, GoldBot's output was not constant here — real yields swung from 1.44% to 3.14%, and VIX ranged from 21 to a peak of 69.2, producing genuine variation in the model's classifications (16 ON, 4 OFF). Despite this variability, GoldBot still underperformed the naive baseline (60% vs. 70%), though the difference is not statistically significant at this sample size (p=0.625). This is directionally consistent with every other regime tested except the COVID tie.</div>
+
+    <div class="rp-h3">5.6 Validation against the Caldara-Iacoviello GPR Index</div>
+    <div class="rp-body">GoldBot's geopolitical_risk scores across the original 10 Backtest 2 events were compared against the published GPR index at both monthly and daily resolution. Monthly: Pearson r=0.577 (p=0.081). Daily: Pearson r=0.586 (p=0.075). Both indicate a moderate, directionally positive, but not statistically significant correlation at n=10. The February 28 war outbreak's own day registers a daily GPR reading of 89.5 — lower than several preceding "quiet" days — while March 1–2 registers the window's highest reading (500.8), revealing a one-to-three-day event-to-coverage lag in the GPR methodology itself for rapid weekend-onset events, rather than a resolution artifact of our comparison.</div>
+
+    <div class="rp-h3">5.7 Cross-regime synthesis: the paper's central finding</div>
+    <div class="rp-table-wrap"><table class="rp-table">
+      <tr><th>Test period</th><th>Regime</th><th>GoldBot</th><th>Naive baseline</th><th>Outcome</th></tr>
+      <tr><td style="white-space:normal;">Backtest 1 (n=60)</td><td>2025-26 uptrend</td><td>35.0%</td><td>66.7%</td><td style="white-space:normal;">GoldBot loses (p=0.018, significant)</td></tr>
+      <tr><td style="white-space:normal;">Backtest 2 new 8 dates</td><td>2025-26 downtrend</td><td>100.0%</td><td>12.5%</td><td style="white-space:normal;">GoldBot wins — bias matches trend</td></tr>
+      <tr><td style="white-space:normal;">Backtest 3 (n=20)</td><td>2020 COVID uptrend</td><td>90.0%</td><td>90.0%</td><td style="white-space:normal;">Exact tie — bias flipped to match trend</td></tr>
+      <tr><td style="white-space:normal;">Backtest 4 (n=20)</td><td>2008 crisis (mixed)</td><td>60.0%</td><td>70.0%</td><td style="white-space:normal;">GoldBot loses (p=0.625, not significant)</td></tr>
+    </table></div>
+    <div class="rp-body">Across four independently constructed backtests spanning four structurally distinct macro-financial regimes, GoldBot has never once demonstrated accuracy exceeding what a trend-following naive rule achieves in a way attributable to genuine skill. Where it appears to "win" (the 8-date downtrend expansion, where the naive baseline collapses to just 12.5%) or "tie" (2020), this is fully explained by its incidental directional bias in that period happening to align with the ambient trend — not by discrimination between the substantively different real-world events each test contains. Where its output does vary meaningfully (2008), it still underperforms the naive rule. We consider this the strongest and most complete evidentiary base in the paper, precisely because it required no single test to carry the full weight of the conclusion.</div>
+
+    <div class="rp-h2">6. Generalization (Cross-Regime)</div>
+    <div class="rp-body">GoldBot's architecture generalizes mechanically across all four regimes tested — the pipeline runs, fetches data, and produces a classification regardless of the historical period. But mechanical generalization does not imply generalization of genuine predictive skill: the cross-regime evidence in Section 5.7 shows accuracy is regime-contingent through trend-matching alone, not through any demonstrated capacity to discriminate between distinct real-world events within a regime.</div>
+
+    <div class="rp-h2">7. Limitations</div>
+    <div class="rp-body">
+      1. Backtests 3 and 4 use forced-neutral Tier 2 factors throughout, with no GDELT-based historical recovery attempted (2008 predates reliable GDELT coverage entirely; this was extended to 2020 for consistency across the two historical regimes rather than selectively).<br><br>
+      2. Backtest 4's naive-baseline comparison is not individually statistically significant (p=0.625) at n=20, though directionally consistent with the significant Backtest 1 finding and the non-significant Backtest 2 pattern.<br><br>
+      3. The GPR validation (Section 5.6) uses only the original 10 Backtest 2 dates, not the expanded 18; extending this validation to the new 8 events is a natural next step.<br><br>
+      4. Regime-divergence ground truth excludes co-directional markets in all four backtests, reducing effective sample size for the regime-classification metric specifically.<br><br>
+      5. No formal multiple-comparisons correction was applied across the several significance tests reported in this paper; given that most tests returned non-significant or only marginally significant results, such a correction would not alter the paper's conclusions.<br><br>
+      6. Backtest 2's 8-date expansion, while comprising genuinely verified real events, was not selected via a pre-registered, fully systematic search protocol — we searched for and verified additional events until reaching a defensible set, stopping short of a forced round number (10) when further candidates (e.g., Bank of Japan decisions) did not meet the bar for genuine market "shock" events.
+    </div>
+
+    <div class="rp-h2">8. Conclusion and Future Work</div>
+    <div class="rp-body">We present GoldBot, a nine-factor safe-haven analyzer for gold, and subject it to backtesting across four independently constructed samples spanning four structurally distinct macro-financial regimes — a novel design choice motivated by the recognition that any single-regime backtest cannot distinguish genuine event discrimination from coincidental trend alignment. Our central finding is unambiguous: across all four regimes, GoldBot's accuracy is fully explained by whether its incidental directional bias happens to match the ambient price trend, with the one exact tie (2020) explained by extreme quantitative factor readings mechanically flipping that bias into trend-alignment, and the one statistically significant result (Backtest 1, n=60, p=0.018) demonstrating a genuine, confirmed underperformance against a trivial baseline. The output-compression finding (Section 5.3) further shows that even within a single regime, GoldBot's response to genuinely severe qualitative events (a war outbreak, a historic Fed confirmation) is muted to the point of near-insensitivity, while its response to extreme quantitative readings (2020's negative real yields, 2008's VIX spikes) is more substantial.</div>
+    <div class="rp-body">Future work should prioritize: (a) prompt-level recalibration anchoring the +/-10 geopolitical scoring scale to concrete historical reference events, validated via the counterfactual methodology demonstrated in Section 5.3; (b) extending the GPR validation to the full 18-event Backtest 2 sample; (c) reassessing the 50% classification threshold's calibration specifically under trending versus range-bound conditions; (d) replication in a genuine bear-market regime for gold specifically (distinct from the equity bear markets sampled in Backtests 3 and 4) to complete the cross-regime evidentiary base.</div>
+
+    <div class="rp-h2">Availability</div>
+    <div class="rp-body">GoldBot is publicly deployed at <a href="https://goldbot-raj.streamlit.app" target="_blank" rel="noopener" style="color:#FFD700;">https://goldbot-raj.streamlit.app</a>, where readers may run live analyses of gold's safe-haven status. Source code is maintained in a private repository; access requests may be directed to the corresponding author at khatikraj2653@gmail.com.</div>
+
+    <div class="rp-h2">References</div>
+    <div class="rp-refs">
+      <p>Baur, D. G., &amp; Lucey, B. M. (2010). Is Gold a Hedge or a Safe Haven? An Analysis of Stocks, Bonds and Gold. The Financial Review, 45(2), 217–229.</p>
+      <p>Baur, D. G., &amp; McDermott, T. K. (2010). Is gold a safe haven? International evidence. Journal of Banking &amp; Finance, 34(8), 1886–1898.</p>
+      <p>Caldara, D., &amp; Iacoviello, M. (2022). Measuring Geopolitical Risk. American Economic Review, 112(4), 1194–1225.</p>
+      <p>Joy, M. (2011). Gold and the US dollar: Hedge or haven? Finance Research Letters, 8(3), 120–131.</p>
+      <p>World Gold Council. (2026). Central Bank Gold Reserves Survey 2026.</p>
+      <p>The GDELT Project. Global Knowledge Graph (GKG) 2.0/1.0 [Data archive]. http://data.gdeltproject.org</p>
+      <p>Federal Reserve Economic Data (FRED). Series: DFII10, FEDFUNDS, DGS2, T5YIE.</p>
+      <p>Yahoo Finance (yfinance). Series: DX-Y.NYB, ^VIX, ^GSPC, GC=F.</p>
+      <p>Wikipedia contributors. (2026). 2026 Iran war. Wikipedia.</p>
+      <p>House of Commons Library. (2026). US-Iran ceasefire and nuclear talks in 2026 (Research Briefing CBP-10637). UK Parliament.</p>
+      <p>NPR. (2026, May 13). Senate confirms Kevin Warsh as next chair of the Federal Reserve.</p>
+      <p>CNBC. (2026, May 13). Kevin Warsh wins Senate confirmation as the next Federal Reserve chair.</p>
+      <p>Federal Reserve Board. (2026, May 22). Kevin Warsh takes oath of office as chairman.</p>
+    </div>
+
+    <div class="rp-h2">AI Disclosure Statement</div>
+    <div class="rp-body">This paper was developed with the assistance of Claude (Anthropic), an AI language model, which was used for: system architecture design and implementation guidance, statistical analysis scripting (McNemar's exact test, Pearson/Spearman correlation, Wilson-score confidence intervals), and drafting and editing of the manuscript text. All experimental results, data, and findings reported are derived from the author's own code execution and evaluation runs. The author reviewed, verified, and takes full responsibility for all content, analyses, and conclusions presented in this paper.</div>
+
+    <div class="rp-divider"></div>
+    <div class="rp-links">
+      <a class="rp-ssrn-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7200198" target="_blank" rel="noopener">📄 Read Live on SSRN ↗</a>
+    </div>
+    <div class="rp-tags">
+      <span class="rp-tag">LangGraph</span><span class="rp-tag">RAG · FAISS</span><span class="rp-tag">Cross-Regime Backtesting</span>
+      <span class="rp-tag">McNemar's Test</span><span class="rp-tag">Financial NLP</span><span class="rp-tag">Deterministic Weighting</span>
+    </div>
+  </div>
+</div>
 
 <script>
 function goApp(){try{window.parent.document.querySelector('[data-testid="stPageLink"] a').click();}catch(e){}}
+function showResearch(){document.getElementById('researchpage').style.display='block';document.body.style.overflow='hidden';window.scrollTo(0,0);}
+function hideResearch(){document.getElementById('researchpage').style.display='none';document.body.style.overflow='';}
 
 var gPrices={GOLD:{price:0,prev:0},SILVER:{price:0,prev:0},PLATINUM:{price:0,prev:0},PALLADIUM:{price:0,prev:0}};
 function gfmt(n){return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
@@ -415,7 +637,7 @@ const gbubPhrases = [
   "📉 Real yields tracked live",
   "😨 VIX: monitored in real-time",
   "🌏 Geopolitical risk: elevated",
-  "🔬 Warsh Shock: validated",
+  "📊 Backtested across 4 market regimes",
   "💵 USD Index: tracked live",
   "🏦 Fed rate: FOMC monitored",
   "📊 Inflation expectations: live",

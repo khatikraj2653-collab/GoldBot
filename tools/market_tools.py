@@ -30,15 +30,20 @@ def get_vix() -> str:
 
 
 def get_gold_price():
-    """Fetches the current gold futures price (not an @tool, used only for the UI ticker)."""
+    """Fetches the current gold futures price (not an @tool, used only for the UI ticker).
+    Uses history() instead of the heavier .info endpoint, which is unreliable on
+    cloud-hosted IPs (Yahoo Finance frequently blocks/rate-limits .info there)."""
     try:
-        gold = yf.Ticker("GC=F")
-        price = gold.info.get('regularMarketPrice')
-        prev = gold.info.get('regularMarketPreviousClose')
-        change = round(price - prev, 2) if price and prev else 0
+        hist = yf.Ticker("GC=F").history(period="5d", interval="1d")
+        closes = hist["Close"].dropna()
+        if len(closes) < 2:
+            return None, None, None
+        price = round(float(closes.iloc[-1]), 2)
+        prev = round(float(closes.iloc[-2]), 2)
+        change = round(price - prev, 2)
         pct = round((change / prev) * 100, 2) if prev else 0
         return price, change, pct
-    except Exception as e:
+    except Exception:
         return None, None, None
 
 

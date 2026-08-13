@@ -11,7 +11,7 @@ BUBBLE_CSS = """
 <style>
 .st-key-goldbot_bubble_toggle {
     position: fixed !important;
-    bottom: 24px !important;
+    bottom: 84px !important;
     right: 24px !important;
     z-index: 999999 !important;
     width: 58px !important;
@@ -34,7 +34,7 @@ BUBBLE_CSS = """
 }
 .st-key-goldbot_bubble_panel {
     position: fixed !important;
-    bottom: 94px !important;
+    bottom: 154px !important;
     right: 24px !important;
     width: 380px !important;
     max-width: calc(100vw - 32px) !important;

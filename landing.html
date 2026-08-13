@@ -205,6 +205,27 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cta-title em{font-style:normal;background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .cta-sub{font-size:0.85rem;color:#8A7A50;margin-bottom:32px;line-height:1.8;}
 
+#contact{position:relative;z-index:5;padding:64px 48px;text-align:center;background:#1A1712;border-top:1px solid rgba(255,190,60,0.08);}
+.contact-title{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#FFF3D6;margin-bottom:8px;}
+.contact-sub{font-size:0.8rem;color:#8A7A50;margin-bottom:28px;}
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:rgba(255,190,60,0.15);border:1px solid rgba(255,190,60,0.15);
+  max-width:680px;margin:0 auto;text-align:left;
+}
+.contact-grid a{
+  background:#1A1712;padding:22px 24px;display:flex;flex-direction:column;gap:6px;
+  text-decoration:none;transition:background .15s ease;
+}
+.contact-grid a:hover{background:rgba(180,130,10,0.18);}
+.contact-label{
+  font-family:'Space Grotesk',sans-serif;font-size:10.5px;text-transform:uppercase;
+  letter-spacing:0.08em;color:#8A7A50;
+}
+.contact-value{font-size:15px;font-weight:600;color:#FFF3D6;word-break:break-word;}
+@media (max-width:600px){
+  .contact-grid{grid-template-columns:1fr;}
+}
 footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(255,190,60,0.08);display:flex;align-items:center;justify-content:space-between;}
 .footer-text{font-size:11px;color:#6A5A38;}
 .footer-right{font-size:11px;color:#6A5A38;text-align:right;}
@@ -393,6 +414,37 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
   <p class="cta-sub">Get a 9-factor AI-powered Safe Haven ON/OFF prediction with Strength %, in seconds.</p>
   <button class="btn-primary" onclick="goApp()">Launch GoldBot →</button>
   <div style="margin-top:16px;font-size:11px;color:#6A5A38;">Free to use · No signup required · MSc Applied AI · University of Warwick</div>
+</section>
+
+<section id="contact">
+  <div class="contact-title">Built by Raj Tejpal Khatik</div>
+  <div class="contact-sub">MSc Applied AI, University of Warwick — open to AI/ML Engineer &amp; Agentic AI roles</div>
+  <div class="contact-grid">
+    <a href="mailto:khatikraj2653@gmail.com">
+      <span class="contact-label">Personal email</span>
+      <span class="contact-value">khatikraj2653@gmail.com</span>
+    </a>
+    <a href="mailto:Raj.Khatik@warwick.ac.uk">
+      <span class="contact-label">University email</span>
+      <span class="contact-value">Raj.Khatik@warwick.ac.uk</span>
+    </a>
+    <a href="https://www.linkedin.com/in/raj-khatik-6ab086395" target="_blank" rel="noopener">
+      <span class="contact-label">LinkedIn</span>
+      <span class="contact-value">linkedin.com/in/raj-khatik-6ab086395</span>
+    </a>
+    <a href="https://github.com/khatikraj2653-collab" target="_blank" rel="noopener">
+      <span class="contact-label">GitHub</span>
+      <span class="contact-value">github.com/khatikraj2653-collab</span>
+    </a>
+    <a href="https://wa.me/447799394985" target="_blank" rel="noopener">
+      <span class="contact-label">Phone / WhatsApp</span>
+      <span class="contact-value">+44 7799 394985</span>
+    </a>
+    <a href="https://portfolio-raj.pages.dev" target="_blank" rel="noopener">
+      <span class="contact-label">Portfolio</span>
+      <span class="contact-value">portfolio-raj.pages.dev</span>
+    </a>
+  </div>
 </section>
 
 <footer>

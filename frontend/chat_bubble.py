@@ -181,20 +181,11 @@ def render_chat_bubble():
     if st.session_state.bubble_thinking:
         last_question = st.session_state.bubble_history[-1]["content"]
         from graph.nodes import answer_followup_question
-        from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
 
-        executor = ThreadPoolExecutor(max_workers=1)
         try:
-            future = executor.submit(
-                answer_followup_question, last_question, st.session_state.get("result") or {}
-            )
-            reply = future.result(timeout=30)
-        except FutureTimeoutError:
-            reply = "That took too long to answer. Please try again - it may just be a temporary slowdown."
+            reply = answer_followup_question(last_question, st.session_state.get("result") or {})
         except Exception:
             reply = "Sorry, I couldn't process that right now. Please try again shortly."
-        finally:
-            executor.shutdown(wait=False)
 
         st.session_state.bubble_history.append({"role": "assistant", "content": reply})
         log_event("chat", question=last_question, reply=reply)

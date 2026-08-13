@@ -1,5 +1,17 @@
 ﻿import streamlit as st
 import os
+import sys
+
+# Windows' default console encoding (cp1252) can't print many Unicode
+# characters (emoji, symbols) that show up in fetched news text or API
+# errors. Force UTF-8 with a safe fallback so print() never crashes.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from log_client import log_event
+from chat_bubble import render_chat_bubble
 
 st.set_page_config(
     page_title="GoldBot - AI Gold Safe-Haven Analyser",
@@ -53,6 +65,10 @@ iframe[title="streamlit_component"] {
 </style>
 """, unsafe_allow_html=True)
 
+if "visit_logged" not in st.session_state:
+    log_event("visit", detail="landing page")
+    st.session_state.visit_logged = True
+
 st.page_link("pages/analysis.py", label="Get Started ->")
 
 landing_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'landing.html')
@@ -71,4 +87,6 @@ body { background: #1A1712 !important; }
 """
 html_content = html_content.replace('<head>', '<head>' + iframe_fixes)
 
-st.components.v1.html(html_content, height=2600, scrolling=True)
+st.components.v1.html(html_content, height=2850, scrolling=True)
+
+render_chat_bubble()

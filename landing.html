@@ -52,15 +52,16 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 @keyframes bounce{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-10px) rotate(-3deg);}}
 @keyframes bfloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 
-.gold-bot{display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 0 20px rgba(255,190,60,0.35));animation:bounce 3s ease-in-out infinite;position:relative;z-index:5;}
+.rw{display:flex;flex-direction:column;align-items:center;}
+.gold-bot{display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 0 20px rgba(255,190,60,0.35));}
 .gb-antenna-ball{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFEE99,#FFD700);box-shadow:0 0 14px rgba(255,215,0,0.9);}
 .gb-antenna-stick{width:4px;height:16px;background:linear-gradient(to bottom,#E8D8B0,#B8A060);border-radius:3px;}
 .gb-head{width:110px;height:95px;background:radial-gradient(circle at 38% 28%,#FFFFFF,#FFF3D6 55%,#E8D8A8);border-radius:38px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -3px -3px 12px rgba(180,130,20,0.07),0 4px 20px rgba(0,0,0,0.3);}
 .gb-head::before{content:'';position:absolute;top:10px;left:16px;width:32px;height:9px;background:rgba(255,255,255,0.55);border-radius:6px;transform:rotate(-10deg);}
-.gb-visor{width:84px;height:32px;background:linear-gradient(135deg,#FFB6C1 0%,#FF9E7D 50%,#D4762A 100%);border-radius:11px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 18px rgba(255,158,125,0.65);}
-.gb-eye{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF0F5,#FFB6C1);box-shadow:0 0 10px rgba(255,182,193,0.95);}
+.gb-visor{width:84px;height:32px;background:linear-gradient(135deg,#FFD700 0%,#FFA500 50%,#B8860B 100%);border-radius:11px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 18px rgba(255,190,60,0.65);}
+.gb-eye{width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFDF0,#FFE9A8);box-shadow:0 0 10px rgba(255,233,168,0.95);}
 .gb-neck{width:28px;height:12px;background:linear-gradient(to bottom,#F5E8C8,#D8C8A0);border-radius:5px;margin:1px 0;}
-.gb-body{width:94px;height:78px;background:radial-gradient(circle at 36% 28%,#FFFFFF,#FFF0D8 55%,#D8C8A8);border-radius:26px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.25);}
+.gb-body{width:100px;height:85px;background:radial-gradient(circle at 36% 28%,#FFFFFF,#FFF0D8 55%,#D8C8A8);border-radius:26px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.25);}
 .gb-screen{width:52px;height:34px;background:linear-gradient(135deg,#2A1F08,#3A2A0A);border-radius:8px;border:1.5px solid rgba(255,190,60,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
 .gb-bar1{width:32px;height:3px;background:linear-gradient(90deg,#FFD700,#FFEE88);border-radius:2px;}
 .gb-bar2{width:24px;height:3px;background:linear-gradient(90deg,#B8860B,#FFD700);border-radius:2px;opacity:0.7;}
@@ -69,22 +70,24 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .gb-legs{display:flex;gap:12px;margin-top:3px;}
 .gb-leg{width:24px;height:32px;background:radial-gradient(circle at 40% 30%,#FFF3D6,#D8C8A0);border-radius:10px;}
 .gb-feet{display:flex;gap:8px;margin-top:2px;}
+.gb-foot{width:32px;height:14px;background:linear-gradient(to right,#4A3510,#2A1F08);border-radius:7px;box-shadow:0 3px 8px rgba(0,0,0,0.4);}
 .gold-bot2{display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 0 20px rgba(255,190,60,0.3));}
-.gb2-head{width:110px;height:95px;background:radial-gradient(circle at 38% 28%,#FFFFFF,#FFF3D6 55%,#E8D8A8);border-radius:30px 30px 22px 22px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.3);}
+.gb2-head{width:95px;height:88px;background:radial-gradient(circle at 38% 28%,#FFFFFF,#FFF3D6 55%,#E8D8A8);border-radius:30px 30px 22px 22px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.3);}
 .gb2-head::before{content:'';position:absolute;top:9px;left:14px;width:28px;height:8px;background:rgba(255,255,255,0.5);border-radius:5px;transform:rotate(-9deg);}
 .gb2-visor{width:74px;height:28px;background:linear-gradient(135deg,#FFF9E6 0%,#FFE9A8 50%,#D4A017 100%);border-radius:9px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 0 16px rgba(255,233,168,0.7);}
-.gb2-eye{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFDF0,#FFE9A8);box-shadow:0 0 10px rgba(255,233,168,0.9);}
-.gb2-neck{width:26px;height:10px;background:linear-gradient(to bottom,#F5E8C8,#D8C8A0);border-radius:5px;margin:1px 0;}
-.gb2-body{width:100px;height:85px;background:radial-gradient(circle at 36% 28%,#FFFFFF,#FFF0D8 55%,#D8C8A8);border-radius:24px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.25);}
-.gb2-screen{width:48px;height:30px;background:linear-gradient(135deg,#2A1F08,#3A2A0A);border-radius:7px;border:1.5px solid rgba(255,190,60,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
-.gb2-bar1{width:28px;height:3px;background:linear-gradient(90deg,#FFD700,#FFEE88);border-radius:2px;}
-.gb2-bar2{width:20px;height:3px;background:linear-gradient(90deg,#B8860B,#FFD700);border-radius:2px;opacity:0.7;}
-.gb2-armL{position:absolute;left:-22px;top:12px;width:20px;height:46px;background:radial-gradient(circle at 40% 30%,#FFFFFF,#F5E8C8 60%,#D8C8A0);border-radius:10px;}
-.gb2-armR{position:absolute;right:-22px;top:12px;width:20px;height:46px;background:radial-gradient(circle at 40% 30%,#FFFFFF,#F5E8C8 60%,#D8C8A0);border-radius:10px;}
-.gb2-legs{display:flex;gap:10px;margin-top:3px;}
-.gb2-leg{width:22px;height:28px;background:radial-gradient(circle at 40% 30%,#FFF3D6,#D8C8A0);border-radius:9px;}
-.gb2-feet{display:flex;gap:7px;margin-top:2px;}
-.gb2-foot{width:28px;height:12px;background:linear-gradient(to right,#4A3510,#2A1F08);border-radius:6px;box-shadow:0 3px 8px rgba(0,0,0,0.4);}
+.gb2-eye{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFFFFF,#FFF3D0);box-shadow:0 0 10px rgba(255,238,150,0.9);}
+.gb2-neck{width:26px;height:14px;background:linear-gradient(to bottom,#F5E8C8,#D8C8A0);border-radius:5px;margin:1px 0;}
+.gb2-body{width:108px;height:100px;background:radial-gradient(circle at 36% 28%,#FFFFFF,#FFF0D8 55%,#D8C8A8);border-radius:22px;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:inset -2px -2px 10px rgba(180,130,20,0.06),0 4px 18px rgba(0,0,0,0.25);}
+.gb2-chest{width:60px;height:42px;background:linear-gradient(135deg,#2A1F08,#3A2A0A);border-radius:10px;border:1.5px solid rgba(255,190,60,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.gb2-tbar{width:38px;height:3px;background:linear-gradient(90deg,#B8860B,#FFD700);border-radius:2px;}
+.gb2-vbar{width:3px;height:14px;background:linear-gradient(to bottom,#FFD700,#FFEE88);border-radius:2px;}
+.gb2-armL{position:absolute;left:-28px;top:12px;width:24px;height:56px;background:radial-gradient(circle at 40% 30%,#FFFFFF,#F5E8C8 60%,#D8C8A0);border-radius:12px;}
+.gb2-armR{position:absolute;right:-28px;top:12px;width:24px;height:56px;background:radial-gradient(circle at 40% 30%,#FFFFFF,#F5E8C8 60%,#D8C8A0);border-radius:12px;}
+.gb2-legs{display:flex;gap:14px;margin-top:3px;}
+.gb2-leg{width:26px;height:36px;background:radial-gradient(circle at 40% 30%,#FFF3D6,#D8C8A0);border-radius:11px;}
+.gb2-feet{display:flex;gap:10px;margin-top:2px;}
+.gb2-foot{width:36px;height:16px;background:linear-gradient(to right,#4A3510,#2A1F08);border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.4);}
+.grshadow{background:radial-gradient(ellipse,rgba(255,190,60,0.22) 0%,transparent 70%);border-radius:50%;}
 .rw1{animation:f1 3.8s ease-in-out infinite;}
 .rw2{animation:f2 3.2s ease-in-out infinite;}
 @keyframes f1{0%,100%{transform:translateY(-160px);}50%{transform:translateY(-182px);}}
@@ -307,27 +310,7 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
       <div class="gbub gbub-r4" id="gbub8">💵 USD Index: tracked live</div>
       <div class="glow-ring"></div>
       <div class="robots-row">
-        <div class="rw2">
-          <div style="transform:scale(0.7714,1.101);transform-origin:bottom center;">
-          <div class="gold-bot2">
-            <div class="gb2-head"><div class="gb2-visor"><div class="gb2-eye"></div><div class="gb2-eye"></div></div></div>
-            <div class="gb2-neck"></div>
-            <div class="gb2-body">
-              <div class="gb2-armL"></div><div class="gb2-armR"></div>
-              <div class="gb2-screen"><div class="gb2-bar1"></div><div class="gb2-bar2"></div></div>
-            </div>
-            <div class="gb2-legs"><div class="gb2-leg"></div><div class="gb2-leg"></div></div>
-            <div class="gb2-feet"><div class="gb2-foot"></div><div class="gb2-foot"></div></div>
-          </div>
-          </div>
-          <svg width="140" height="36" viewBox="0 0 140 36" style="margin-top:3px;">
-            <defs><radialGradient id="gbg2" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.5"/><stop offset="100%" stop-color="#B8860B" stop-opacity="0"/></radialGradient></defs>
-            <ellipse cx="70" cy="20" rx="68" ry="12" fill="url(#gbg2)"/>
-            <ellipse cx="70" cy="20" rx="68" ry="12" fill="none" stroke="#FFD700" stroke-width="1.2" opacity="0.7"/>
-          </svg>
-          </div>
-        <div class="rw1">
-          <div style="transform:scale(0.6875,1.083);transform-origin:bottom center;">
+        <div class="rw rw1">
           <div class="gold-bot">
             <div class="gb-antenna-ball"></div>
             <div class="gb-antenna-stick"></div>
@@ -340,14 +323,39 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
             <div class="gb-legs"><div class="gb-leg"></div><div class="gb-leg"></div></div>
             <div class="gb-feet"><div class="gb-foot"></div><div class="gb-foot"></div></div>
           </div>
-          </div>
           <svg width="160" height="40" viewBox="0 0 160 40" style="margin-top:3px;">
             <defs><radialGradient id="gbg1" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.55"/><stop offset="100%" stop-color="#B8860B" stop-opacity="0"/></radialGradient></defs>
             <ellipse cx="80" cy="24" rx="78" ry="14" fill="url(#gbg1)"/>
             <ellipse cx="80" cy="24" rx="78" ry="14" fill="none" stroke="#FFD700" stroke-width="1.3" opacity="0.75"/>
             <ellipse cx="80" cy="24" rx="60" ry="10" fill="none" stroke="#FFA500" stroke-width="0.9" opacity="0.5"/>
+            <ellipse cx="80" cy="24" rx="40" ry="7" fill="none" stroke="#FFD700" stroke-width="0.9" opacity="0.55"/>
+            <ellipse cx="80" cy="24" rx="22" ry="4" fill="none" stroke="#FFE066" stroke-width="1" opacity="0.9"/>
+            <circle cx="80" cy="24" r="3" fill="#FFEE99" opacity="0.95"/>
           </svg>
+          <div class="grshadow" style="width:100px;height:12px;margin-top:-6px;"></div>
+        </div>
+        <div class="rw rw2">
+          <div class="gold-bot2">
+            <div class="gb2-head"><div class="gb2-visor"><div class="gb2-eye"></div><div class="gb2-eye"></div></div></div>
+            <div class="gb2-neck"></div>
+            <div class="gb2-body">
+              <div class="gb2-armL"></div><div class="gb2-armR"></div>
+              <div class="gb2-chest"><div class="gb2-tbar"></div><div class="gb2-vbar"></div></div>
+            </div>
+            <div class="gb2-legs"><div class="gb2-leg"></div><div class="gb2-leg"></div></div>
+            <div class="gb2-feet"><div class="gb2-foot"></div><div class="gb2-foot"></div></div>
           </div>
+          <svg width="180" height="44" viewBox="0 0 180 44" style="margin-top:3px;">
+            <defs><radialGradient id="gbg2" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.5"/><stop offset="100%" stop-color="#B8860B" stop-opacity="0"/></radialGradient></defs>
+            <ellipse cx="90" cy="26" rx="88" ry="16" fill="url(#gbg2)"/>
+            <ellipse cx="90" cy="26" rx="88" ry="16" fill="none" stroke="#FFD700" stroke-width="1.3" opacity="0.75"/>
+            <ellipse cx="90" cy="26" rx="68" ry="12" fill="none" stroke="#FFA500" stroke-width="0.9" opacity="0.5"/>
+            <ellipse cx="90" cy="26" rx="46" ry="8" fill="none" stroke="#FFD700" stroke-width="0.9" opacity="0.55"/>
+            <ellipse cx="90" cy="26" rx="25" ry="4.5" fill="none" stroke="#FFE066" stroke-width="1" opacity="0.9"/>
+            <circle cx="90" cy="26" r="3.5" fill="#FFEE99" opacity="0.95"/>
+          </svg>
+          <div class="grshadow" style="width:116px;height:13px;margin-top:-7px;"></div>
+        </div>
       </div>
     </div>
   </div>

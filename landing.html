@@ -116,11 +116,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 .gbub{position:absolute;border-radius:10px;padding:7px 14px;font-size:11px;font-weight:500;white-space:nowrap;background:rgba(40,30,10,0.92);border:1px solid rgba(255,190,60,0.35);color:#FFD700;z-index:6;transition:opacity 0.4s ease;}
 .gbub-l1{left:-4%;top:12%;animation:bfloat 3.2s ease-in-out infinite;}
-.gbub-l2{left:-10%;top:40%;animation:bfloat 4.1s ease-in-out infinite 0.5s;}
-.gbub-l3{left:-2%;top:70%;animation:bfloat 3.6s ease-in-out infinite 1s;}
-.gbub-r1{right:2%;top:14%;animation:bfloat 3.8s ease-in-out infinite 0.3s;}
-.gbub-r2{right:0%;top:42%;animation:bfloat 4.4s ease-in-out infinite 0.9s;}
-.gbub-r3{right:4%;top:72%;animation:bfloat 3.1s ease-in-out infinite 1.5s;}
+.gbub-l2{left:-10%;top:34%;animation:bfloat 4.1s ease-in-out infinite 0.5s;}
+.gbub-l3{left:-2%;top:56%;animation:bfloat 3.6s ease-in-out infinite 1s;}
+.gbub-l4{left:-6%;top:75%;animation:bfloat 3.9s ease-in-out infinite 1.8s;}
+.gbub-r1{right:2%;top:12%;animation:bfloat 3.8s ease-in-out infinite 0.3s;}
+.gbub-r2{right:0%;top:34%;animation:bfloat 4.4s ease-in-out infinite 0.9s;}
+.gbub-r3{right:4%;top:52%;animation:bfloat 3.1s ease-in-out infinite 1.5s;}
+.gbub-r4{right:1%;top:75%;animation:bfloat 4.6s ease-in-out infinite 2.1s;}
 
 .glow-ring{position:absolute;top:50%;left:50%;width:260px;height:260px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,215,0,0.35) 0%,rgba(255,190,60,0.15) 40%,transparent 70%);border-radius:50%;z-index:1;animation:shine-pulse 3s ease-in-out infinite;}
 @keyframes shine-pulse{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}}
@@ -299,9 +301,11 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
       <div class="gbub gbub-l1" id="gbub1">🪙 Gold: Safe Haven signal detected</div>
       <div class="gbub gbub-l2" id="gbub2">🏛️ Central bank buying: bullish</div>
       <div class="gbub gbub-l3" id="gbub3">📉 Real yields tracked live</div>
+      <div class="gbub gbub-l4" id="gbub7">🏦 Fed rate: FOMC monitored</div>
       <div class="gbub gbub-r1" id="gbub4">😨 VIX: monitored in real-time</div>
       <div class="gbub gbub-r2" id="gbub5">🌏 Geopolitical risk: elevated</div>
       <div class="gbub gbub-r3" id="gbub6">📊 Backtested across 4 market regimes</div>
+      <div class="gbub gbub-r4" id="gbub8">💵 USD Index: tracked live</div>
       <div class="glow-ring"></div>
       <div class="robots-row">
         <div class="rw2">
@@ -708,10 +712,10 @@ const gbubPhrases = [
   "🥇 GoldBot: research-grade AI"
 ];
 
-const gbubIndices = [0, 3, 6, 9, 12, 15];
+const gbubIndices = [0, 3, 6, 9, 12, 15, 1, 4];
 
 function rotateBubbles() {
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 8; i++) {
     const el = document.getElementById('gbub' + i);
     if (!el) continue;
     el.style.opacity = '0';

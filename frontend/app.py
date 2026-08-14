@@ -20,6 +20,60 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# SEO tags injected into the real top-level document (st.markdown runs in
+# Streamlit's own DOM, unlike st.components.v1.html which sandboxes into an
+# iframe Google's crawler won't associate with this page's <head>).
+st.markdown("""
+<script>
+(function() {
+  document.title = "GoldBot — AI Gold Safe-Haven Analyser";
+  function setMeta(attr, key, content) {
+    let el = document.querySelector(`meta[${attr}="${key}"]`);
+    if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
+    el.setAttribute('content', content);
+  }
+  const desc = "9-factor AI agent testing gold's safe-haven status with real-time macro and geopolitical signals, built by Raj Tejpal Khatik.";
+  setMeta('name', 'description', desc);
+  setMeta('property', 'og:title', "GoldBot — AI Gold Safe-Haven Analyser");
+  setMeta('property', 'og:description', desc);
+  setMeta('property', 'og:type', 'website');
+  setMeta('property', 'og:url', 'https://goldbot-raj.streamlit.app/');
+  setMeta('name', 'twitter:card', 'summary_large_image');
+  setMeta('name', 'twitter:title', "GoldBot — AI Gold Safe-Haven Analyser");
+  setMeta('name', 'twitter:description', desc);
+
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
+  canonical.setAttribute('href', 'https://goldbot-raj.streamlit.app/');
+
+  if (!document.getElementById('goldbot-jsonld')) {
+    const s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.id = 'goldbot-jsonld';
+    s.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "GoldBot",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "url": "https://goldbot-raj.streamlit.app/",
+      "description": desc,
+      "author": {
+        "@type": "Person",
+        "name": "Raj Tejpal Khatik",
+        "sameAs": [
+          "https://www.linkedin.com/in/raj-khatik-6ab086395",
+          "https://github.com/khatikraj2653-collab",
+          "https://portfolio-raj.pages.dev/"
+        ]
+      }
+    });
+    document.head.appendChild(s);
+  }
+})();
+</script>
+""", unsafe_allow_html=True)
+
 st.markdown("""
 <style>
 #MainMenu, footer, header { visibility: hidden; }

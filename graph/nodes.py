@@ -8,7 +8,7 @@ from graph.state import GoldState
 from rag.retriever import retrieve_factor_context
 
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
+    model="gpt-5-nano",
     api_key=os.getenv("OPENAI_API_KEY"),
     temperature=0
 )

@@ -4,6 +4,9 @@
 
 **Live app:** https://goldbot-raj.streamlit.app/
 
+## Demo
+![GoldBot demo](goldbot-demo.gif)
+
 ## Stack
 - Streamlit (frontend)
 - LangGraph (agent orchestration)

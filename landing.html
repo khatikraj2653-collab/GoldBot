@@ -256,6 +256,13 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
   .factors-grid{grid-template-columns:1fr 1fr;}
   .hiw-grid{grid-template-columns:1fr;}
 }
+
+.chat-fab{position:fixed;bottom:76px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#FFD700);color:#1A1712;border:none;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(255,190,60,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s;}
+.chat-fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(255,215,0,0.65);}
+.chat-hint{position:fixed;bottom:138px;right:14px;background:#FFF9E6;color:#1A1712;border:1px solid rgba(255,190,60,0.35);border-radius:14px;padding:11px 30px 11px 14px;max-width:224px;font-size:12.5px;line-height:1.55;box-shadow:0 4px 20px rgba(0,0,0,0.22);z-index:999;opacity:0;transform:translateY(6px);transition:opacity 0.35s,transform 0.35s;pointer-events:none;}
+.chat-hint.is-visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+.chat-hint-close{position:absolute;top:5px;right:8px;background:none;border:none;font-size:15px;cursor:pointer;color:#8A7A50;line-height:1;padding:0;}
+.chat-hint::after{content:'';position:absolute;bottom:-8px;right:18px;border:8px solid transparent;border-top-color:#FFF9E6;border-bottom:none;}
 </style>
 </head>
 <body>
@@ -751,6 +758,15 @@ function rotateBubbles() {
 }
 
 setInterval(rotateBubbles, 5000);
+
+const chatHint=document.getElementById('chatHint'),chatHintClose=document.getElementById('chatHintClose');
+let hintT=[];
+function dismissHint(){hintT.forEach(clearTimeout);hintT=[];if(chatHint)chatHint.classList.remove('is-visible');}
+if(chatHint){hintT.push(setTimeout(()=>chatHint.classList.add('is-visible'),1500),setTimeout(dismissHint,9500));if(chatHintClose)chatHintClose.addEventListener('click',dismissHint);}
+document.getElementById('chatFab').addEventListener('click',dismissHint);
 </script>
+
+<div id="chatHint" class="chat-hint"><button id="chatHintClose" class="chat-hint-close">&#215;</button>&#128075; Is gold a safe haven right now?<br>Hit <strong>Get Started &#8594;</strong> to find out</div>
+<button id="chatFab" class="chat-fab" onclick="goApp()" title="Open GoldBot">&#9889;</button>
 </body>
 </html>

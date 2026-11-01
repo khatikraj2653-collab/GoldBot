@@ -4,6 +4,9 @@
 
 **Live app:** https://goldbot-raj.streamlit.app/
 
+## Key results
+Cross-regime backtest across 4 historical regimes and 18 events. The Strength% output stayed within a 37-50% band (SD=4.2): the system matches the prevailing trend rather than discriminating between events. Research paper: SSRN 7200198 (under review).
+
 ## Demo
 ![GoldBot demo](goldbot-demo.gif)
 

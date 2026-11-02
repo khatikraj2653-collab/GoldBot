@@ -179,9 +179,8 @@ def render_chat_bubble():
 
     if st.session_state.bubble_thinking:
         last_question = st.session_state.bubble_history[-1]["content"]
-        from graph.nodes import answer_followup_question
-
         try:
+            from graph.nodes import answer_followup_question
             reply = answer_followup_question(last_question, st.session_state.get("result") or {})
         except Exception:
             reply = "Sorry, I couldn't process that right now. Please try again shortly."

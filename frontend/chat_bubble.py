@@ -4,8 +4,18 @@ answer_followup_question() logic (same grounding, identity, live gold
 price, refusal rules), just presented as a persistent floating widget
 instead of an inline box. Usable from both the landing and analysis pages.
 """
+import os
 import streamlit as st
+from langchain_openai import ChatOpenAI
 from log_client import log_event
+
+_GOLDBOT_SYSTEM = """You are GoldBot, a 9-factor AI-powered gold safe-haven analyzer created by Raj Tejpal Khatik, an MSc Applied AI student at the University of Warwick.
+Answer questions about gold, precious metals, safe-haven assets, macro economics, inflation, Fed policy, and related markets.
+If asked who you are or who created you, say: "I am GoldBot - an AI-powered gold safe-haven analyzer. Created by Raj Tejpal Khatik at the University of Warwick."
+Only refuse questions completely unrelated to finance, markets, or economics."""
+
+def _get_llm():
+    return ChatOpenAI(model="gpt-4o-mini", api_key=os.getenv("OPENAI_API_KEY"), temperature=0)
 
 BUBBLE_CSS = """
 <style>
@@ -180,8 +190,16 @@ def render_chat_bubble():
     if st.session_state.bubble_thinking:
         last_question = st.session_state.bubble_history[-1]["content"]
         try:
-            from graph.nodes import answer_followup_question
-            reply = answer_followup_question(last_question, st.session_state.get("result") or {})
+            from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+            llm = _get_llm()
+            messages = [SystemMessage(content=_GOLDBOT_SYSTEM)]
+            for prev in st.session_state.bubble_history[-7:-1]:
+                if prev["role"] == "user":
+                    messages.append(HumanMessage(content=prev["content"]))
+                else:
+                    messages.append(AIMessage(content=prev["content"]))
+            messages.append(HumanMessage(content=last_question))
+            reply = llm.invoke(messages).content
         except Exception:
             reply = "Sorry, I couldn't process that right now. Please try again shortly."
 

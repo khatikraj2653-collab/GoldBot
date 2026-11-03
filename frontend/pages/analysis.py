@@ -18,6 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from log_client import log_event
 from chat_bubble import render_chat_bubble
 from causal_map import render_causal_map, FACTOR_KEYS
+from robot3d import render_robot_3d
 
 with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static', 'robot_b64.txt'), 'r') as f:
     ROBOT_IMG = f.read()
@@ -395,28 +396,14 @@ with st.sidebar:
 
 
 if not st.session_state.result:
-    robot_img_tag = f"""<div class='robot-wrap-outer'>
-        <img class='robot-img' src='data:image/png;base64,{ROBOT_IMG}' width='180' style='border-radius:24px;filter:drop-shadow(0 0 24px rgba(255,190,60,0.4)) sepia(1) hue-rotate(0deg) saturate(2.5);margin-bottom:16px;'/>
-        <div class='robot-cloud'>Gold: Safe Haven? 🪙</div>
-        <div class='robot-cloud'>9 live factors ⚡</div>
-        <div class='robot-cloud'>RAG-grounded 📚</div>
-        <div class='robot-cloud'>Ask me anything 👋</div>
-        <div class='robot-cloud'>Real yields tracked 📉</div>
-        <div class='robot-cloud'>No hallucination 🎯</div>
-        <div class='robot-cloud'>Central bank buying 🏛️</div>
-        <div class='robot-cloud'>Warsh Shock tested 🔬</div>
-        <div class='robot-cloud'>USD Index live 💵</div>
-        <div class='robot-cloud'>VIX monitored 😨</div>
-        <div class='robot-cloud'>Fed policy tracked 🏦</div>
-        <div class='robot-cloud'>Geopolitical risk 🌏</div>
-        <div class='robot-cloud'>Strength % scored 📊</div>
-        <div class='robot-cloud'>Deterministic weighting ⚖️</div>
-        <div class='robot-cloud'>GoldBot for gold 🪙</div>
-    </div>"""
-    st.markdown(f"""
-    <div class='hero-wrap'>
+    st.markdown("""
+    <div class='hero-wrap' style='padding-bottom:0'>
         <div class='hero-badge'><span class='bdot'></span> LIVE · 9-Factor Safe Haven Analysis</div>
-        {robot_img_tag}
+    </div>
+    """, unsafe_allow_html=True)
+    render_robot_3d(height=340)
+    st.markdown("""
+    <div class='hero-wrap' style='padding-top:0'>
         <div class='hero-greeting'>Hi! I am <em>GoldBot</em></div>
         <div class='hero-sub'>
             AI-powered gold safe-haven analyser · 9 real-time factors<br>

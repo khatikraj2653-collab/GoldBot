@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoldBot causal map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:#131210;}</style>
+</head>
+<body>
+<!--CM-START-->
+<style>
+.cm{--bg:#131210;--tile:#1A1812;--tile-2:#201D15;--hair:rgba(245,235,208,.09);--hair-2:rgba(245,235,208,.18);--text:#F5EBD0;--text-2:#B3A584;--text-3:#8F8366;--gold:#F2C230;--gold-hi:#FFD54A;--up:#34D399;--down:#F87171;--neutral:#6B6048;--num:'Space Grotesk','Inter',system-ui,sans-serif;
+  font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--tile);border:1px solid var(--hair);border-radius:20px;padding:20px;box-sizing:border-box;line-height:1.5;position:relative;}
+.cm *{box-sizing:border-box;}
+.cm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.cm-title{font-family:var(--num);font-size:16px;font-weight:600;letter-spacing:-0.01em;}
+.cm-sub{font-size:13px;color:var(--text-2);max-width:640px;margin-top:2px;}
+.cm-btn{font-family:inherit;font-size:13px;font-weight:500;color:var(--text);background:transparent;border:1px solid var(--hair-2);border-radius:10px;padding:7px 14px;cursor:pointer;transition:border-color .15s,color .15s;}
+.cm-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cm-btn:focus-visible,.cm-chip:focus-visible,.cm-driver:focus-visible,.cm input:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.cm-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.cm-chip{font-family:inherit;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--text-2);background:transparent;border:1px solid var(--hair-2);border-radius:99px;padding:5px 13px;cursor:pointer;transition:border-color .15s,opacity .15s;}
+.cm-chip:hover{border-color:var(--gold);}
+.cm-chip i{width:8px;height:8px;border-radius:50%;display:block;}
+.cm-chip b{font-family:var(--num);font-weight:600;font-size:12px;color:var(--text);}
+.cm-chip[aria-pressed="true"]{opacity:.5;text-decoration:line-through;text-decoration-color:var(--text-3);}
+.cm-body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:stretch;}
+.cm-stage{position:relative;background:var(--bg);border:1px solid var(--hair);border-radius:16px;min-height:300px;}
+.cm-stage svg{display:block;width:100%;height:auto;}
+.cm-side{background:var(--bg);border:1px solid var(--hair);border-radius:16px;padding:18px;font-size:13.5px;color:var(--text-2);overflow:auto;max-height:640px;}
+.cm-side h3{font-family:var(--num);font-size:16px;font-weight:600;color:var(--text);margin:0 0 6px;letter-spacing:-0.01em;}
+.cm-side .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin:16px 0 6px;}
+.cm-tag{display:inline-block;font-size:11px;border:1px solid var(--hair-2);border-radius:99px;padding:1px 10px;color:var(--text-2);}
+.cm-big{font-family:var(--num);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:-0.02em;}
+.cm-meter{height:6px;background:var(--hair);border-radius:99px;overflow:hidden;margin:8px 0 2px;}
+.cm-meter i{display:block;height:100%;background:var(--gold);border-radius:99px;}
+.cm input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0;height:24px;cursor:pointer;}
+.cm-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);}
+.cm-note{font-size:13px;line-height:1.65;color:var(--text-2);max-height:190px;overflow:auto;border-left:2px solid var(--hair-2);padding-left:10px;}
+.cm-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.cm-driver{font-family:inherit;display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;font-size:13px;color:var(--text-2);background:transparent;border:0;border-top:1px solid var(--hair);padding:9px 2px;cursor:pointer;}
+.cm-driver:hover{color:var(--text);}
+.cm-driver b{font-family:var(--num);font-weight:600;}
+.cm .pos{color:var(--up);} .cm .neg{color:var(--down);}
+.cm-hint{font-size:12.5px;color:var(--text-3);margin-top:10px;}
+.cm-foot{margin-top:14px;font-size:12px;color:var(--text-3);line-height:1.6;}
+.cm-tip{position:absolute;pointer-events:none;z-index:5;background:var(--tile-2);border:1px solid var(--hair-2);border-radius:10px;padding:8px 11px;font-size:12.5px;color:var(--text);opacity:0;transition:opacity .12s;max-width:240px;}
+.cm-tip.on{opacity:1;}
+.cm-tip small{display:block;color:var(--text-3);font-size:11px;margin-top:2px;}
+.cm-sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.cm .node{cursor:pointer;outline:none;}
+.cm .node circle.body{transition:fill-opacity .3s,stroke-width .15s;}
+.cm .node:hover circle.body,.cm .node:focus-visible circle.body{stroke-width:3.5;}
+.cm .node.sel circle.ring{opacity:1;}
+.cm .node circle.ring{fill:none;stroke:var(--gold);stroke-width:2;opacity:0;stroke-dasharray:4 4;}
+.cm .node.dim{opacity:.28;}
+.cm .link{fill:none;transition:stroke-width .3s,opacity .3s;}
+.cm .flow{animation:cmflow 1.4s linear infinite;}
+@keyframes cmflow{to{stroke-dashoffset:-28;}}
+.cm text{font-family:'Inter',sans-serif;}
+.cm .lbl{font-size:16.5px;fill:var(--text-2);pointer-events:none;}
+.cm .snum{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;fill:var(--text);pointer-events:none;}
+.cm .orbnum{font-family:'Space Grotesk',sans-serif;font-weight:700;fill:var(--text);}
+.cm .orbsub{font-size:15px;fill:var(--text-3);}
+.cm .orbstat{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;letter-spacing:.06em;}
+.cm .gauge{transition:stroke-dasharray .45s ease;}
+.cm.compact .lbl{display:none;}
+.cm.stack .cm-body{grid-template-columns:1fr;}
+.cm.stack .cm-side{max-height:none;}
+@media (prefers-reduced-motion:reduce){.cm .flow{animation:none;}.cm *{transition:none !important;}}
+</style>
+<div class="cm" id="cm">
+  <div class="cm-head">
+    <div>
+      <div class="cm-title" id="cm-title">Interactive causal map</div>
+      <div class="cm-sub">Click a factor, then drag its score to ask “what if?”. Click a layer chip to switch that layer off. Safe-haven strength is recalculated with GoldBot’s own weights.</div>
+    </div>
+    <button class="cm-btn" id="cm-reset" type="button">Reset to model</button>
+  </div>
+  <div class="cm-chips" id="cm-chips"></div>
+  <div class="cm-body">
+    <div class="cm-stage" id="cm-stage">
+      <svg id="cm-svg" role="group" aria-label="Causal map of 9 factors feeding gold's safe-haven strength"></svg>
+      <div class="cm-tip" id="cm-tip" role="tooltip"></div>
+    </div>
+    <aside class="cm-side" id="cm-side"></aside>
+  </div>
+  <div class="cm-foot" id="cm-foot"></div>
+  <div class="cm-sr" id="cm-live" aria-live="polite"></div>
+</div>
+<script>
+(function(){
+var D = __CM_DATA__;
+// [key, label, layer, weight]: weights mirror FACTOR_WEIGHTS in graph/nodes.py
+var FACT = [
+  ['real_yields','Real Yields','macro',14],['usd_index','USD Index','macro',13],['fed_rate','Fed Rate','macro',12],['inflation_expectations','Inflation Expectations','macro',9],
+  ['treasury_2y','2-Year Treasury','safe',11],['vix','VIX','safe',10],['sp500_growth','S&P 500 Growth','safe',9],
+  ['central_bank_buying','Central Bank Buying','geo',12],['geopolitical_risk','Geopolitical Risk','geo',10]
+];
+var LAYERS = [['macro','Macro','#F2C230'],['safe','Safe haven signals','#9CC4E8'],['geo','Geopolitical','#E0875A']];
+var NS = 'http://www.w3.org/2000/svg';
+var UP = '#34D399', DOWN = '#F87171', NEUTRAL = '#6B6048', GOLD = '#F2C230';
+
+var root = document.getElementById('cm');
+var svg = document.getElementById('cm-svg');
+var stage = document.getElementById('cm-stage');
+var tip = document.getElementById('cm-tip');
+var side = document.getElementById('cm-side');
+var chipsEl = document.getElementById('cm-chips');
+var live = document.getElementById('cm-live');
+
+var base = {}, cur = {}, muted = {}, selected = null, hoverLayer = null;
+var sample = !!D.sample;
+FACT.forEach(function(f){ var v = D.scores && D.scores[f[0]]; v = (typeof v === 'number' && isFinite(v)) ? Math.max(-10, Math.min(10, Math.round(v))) : 0; base[f[0]] = v; cur[f[0]] = v; });
+LAYERS.forEach(function(l){ muted[l[0]] = false; });
+document.getElementById('cm-title').textContent = sample ? 'Try it: interactive causal map (illustrative scores)' : 'Interactive causal map · Gold';
+document.getElementById('cm-foot').textContent = sample
+  ? 'Illustrative scores, not a live reading. Run a real analysis to see live scores. Node size = factor weight, colour = score, line thickness = effect on strength. ON at 50% or above.'
+  : 'What-if view only: the original model scores are unchanged and nothing here is saved. Node size = factor weight, colour = score, line thickness = effect on strength. ON at 50% or above. Not financial advice.';
+
+function layerOf(k){ for (var i=0;i<FACT.length;i++) if (FACT[i][0]===k) return FACT[i][2]; }
+function eff(k){ return muted[layerOf(k)] ? 0 : cur[k]; }
+function strengthOf(get){ var ws = 0; FACT.forEach(function(f){ ws += get(f[0]) * f[3]; }); return Math.max(0, Math.min(100, Math.round((ws + 1000) / 20))); }
+function nowStrength(){ return strengthOf(eff); }
+function modelStrength(){ return strengthOf(function(k){ return base[k]; }); }
+function fw(k){ for (var i=0;i<FACT.length;i++) if (FACT[i][0]===k) return FACT[i][3]; }
+function fl(k){ for (var i=0;i<FACT.length;i++) if (FACT[i][0]===k) return FACT[i][1]; }
+function pts(k, v){ return v * fw(k) / 20; }
+function sgn(n){ return (n>0?'+':(n<0?'−':'')) + Math.abs(n); }
+function sgnf(n){ var r = Math.round(n*10)/10; return (r>0?'+':(r<0?'−':'')) + Math.abs(r).toFixed(1); }
+function colour(v){ return v>0 ? UP : (v<0 ? DOWN : NEUTRAL); }
+function el(name, attrs, parent){ var e = document.createElementNS(NS, name); for (var a in attrs) e.setAttribute(a, attrs[a]); if (parent) parent.appendChild(e); return e; }
+
+var G = null, nodes = {}, links = {}, orb = {};
+var compact = false, stack = false;
+
+function geometry(){
+  compact = root.clientWidth < 640;
+  stack = root.clientWidth < 900;
+  root.classList.toggle('stack', stack);
+  root.classList.toggle('compact', compact);
+  return compact
+    ? {W:720,H:720,cx:360,cy:360,rx:282,ry:282,orbR:88,nr:function(w){return 12+w*1.5;}}
+    : {W:980,H:600,cx:490,cy:300,rx:278,ry:206,orbR:88,nr:function(w){return 9+w*1.2;}};
+}
+
+function build(){
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  nodes = {}; links = {}; orb = {};
+  G = geometry();
+  svg.setAttribute('viewBox', '0 0 ' + G.W + ' ' + G.H);
+  var gl = el('g', {}, svg), gn = el('g', {}, svg), go = el('g', {}, svg);
+  // slot angles: 9 factors + a gap after every layer
+  var slot = 0, total = FACT.length + LAYERS.length, pos = {}, lowN = 0;
+  LAYERS.forEach(function(l){
+    FACT.filter(function(f){return f[2]===l[0];}).forEach(function(f){
+      var th = -Math.PI/2 + (slot + 0.5) * 2*Math.PI/total;
+      pos[f[0]] = {x:G.cx + G.rx*Math.cos(th), y:G.cy + G.ry*Math.sin(th), c:Math.cos(th), s:Math.sin(th)};
+      slot++;
+    });
+    slot++;
+  });
+  el('ellipse', {cx:G.cx, cy:G.cy, rx:G.rx, ry:G.ry, fill:'none', stroke:'#2C281D', 'stroke-width':1, 'stroke-dasharray':'2 6'}, gl);
+  FACT.forEach(function(f){
+    var k = f[0], p = pos[k], r = G.nr(f[3]);
+    var dx = G.cx - p.x, dy = G.cy - p.y, d = Math.sqrt(dx*dx+dy*dy);
+    var ex = G.cx - dx/d*(G.orbR+14), ey = G.cy - dy/d*(G.orbR+14);
+    var sx = p.x + dx/d*r, sy = p.y + dy/d*r;
+    links[k] = el('line', {x1:sx, y1:sy, x2:ex, y2:ey, 'class':'link', 'stroke-linecap':'round'}, gl);
+    var g = el('g', {'class':'node', tabindex:0, role:'button', transform:'translate(' + p.x + ',' + p.y + ')'}, gn);
+    el('circle', {'class':'ring', r:r+6}, g);
+    var body = el('circle', {'class':'body', r:r, 'stroke-width':2.5}, g);
+    var num = el('text', {'class':'snum', 'text-anchor':'middle', y:4}, g);
+    var low = p.s > 0.85, anchor = low ? "middle" : (p.c > 0.1 ? "start" : (p.c < -0.1 ? "end" : "middle"));
+    var lx = anchor==="start" ? r+9 : (anchor==="end" ? -(r+9) : 0);
+    var ly = low ? r + 18 + (lowN++ % 2) * 17 : (anchor==="middle" ? (p.s > 0 ? r+18 : -(r+9)) : 4);
+    var lab = el('text', {'class':'lbl', 'text-anchor':anchor, x:lx, y:ly}, g);
+    lab.textContent = f[1];
+    nodes[k] = {g:g, body:body, num:num, r:r};
+    g.addEventListener('click', function(){ select(k); });
+    g.addEventListener('keydown', function(e){
+      if (e.key==='Enter' || e.key===' ') { e.preventDefault(); select(k); }
+      else if (e.key==='ArrowRight' || e.key==='ArrowUp') { e.preventDefault(); setScore(k, cur[k]+1); }
+      else if (e.key==='ArrowLeft' || e.key==='ArrowDown') { e.preventDefault(); setScore(k, cur[k]-1); }
+    });
+    g.addEventListener('mouseenter', function(){ showTip(k); });
+    g.addEventListener('mouseleave', hideTip);
+    g.addEventListener('focus', function(){ showTip(k); });
+    g.addEventListener('blur', hideTip);
+  });
+  // centre gauge: gold arc = strength, tick at the 50% ON threshold
+  var C = 2*Math.PI*(G.orbR+8);
+  orb.C = C;
+  el('circle', {cx:G.cx, cy:G.cy, r:G.orbR, fill:'#1A1812', stroke:'rgba(245,235,208,.18)', 'stroke-width':1}, go);
+  el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:'#2C281D', 'stroke-width':8}, go);
+  orb.gauge = el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:GOLD, 'stroke-width':8, 'class':'gauge', transform:'rotate(-90 ' + G.cx + ' ' + G.cy + ')', 'stroke-dasharray':'0 ' + C}, go);
+  el('line', {x1:G.cx, y1:G.cy + G.orbR + 1, x2:G.cx, y2:G.cy + G.orbR + 17, stroke:'#F5EBD0', 'stroke-width':2, opacity:.7}, go);
+  orb.num = el('text', {'class':'orbnum', x:G.cx, y:G.cy + 6, 'text-anchor':'middle', 'font-size':G.orbR*0.6}, go);
+  orb.lab = el('text', {'class':'orbsub', x:G.cx, y:G.cy - G.orbR*0.42, 'text-anchor':'middle'}, go);
+  orb.lab.textContent = 'Safe-haven strength';
+  orb.stat = el('text', {'class':'orbstat', x:G.cx, y:G.cy + G.orbR*0.5, 'text-anchor':'middle'}, go);
+  orb.sub = el('text', {'class':'orbsub', x:G.cx, y:G.cy + G.orbR + 40, 'text-anchor':'middle', 'font-size':13}, go);
+  orb.shown = null;
+}
+
+function tweenTo(target){
+  var token = orb.token = (orb.token || 0) + 1;
+  var from = orb.shown == null ? target : orb.shown, t0 = null;
+  function finish(){ if (orb.token === token) { orb.done = token; orb.shown = target; orb.num.textContent = target + "%"; } }
+  if (from === target || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { finish(); return; }
+  function step(ts){
+    if (orb.token !== token || orb.done === token) return;
+    if (t0 == null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / 380), v = Math.round(from + (target - from) * p);
+    orb.num.textContent = v + '%';
+    orb.shown = v;
+    if (p < 1) requestAnimationFrame(step); else finish();
+  }
+  requestAnimationFrame(step);
+  setTimeout(finish, 520); // fallback when animation frames are throttled (background tab)
+}
+
+function update(){
+  var s = nowStrength(), model = modelStrength(), on = s >= 50;
+  FACT.forEach(function(f){
+    var k = f[0], v = eff(k), n = nodes[k], c = colour(v), m = Math.abs(v)/10;
+    n.body.setAttribute('fill', c);
+    n.body.setAttribute('fill-opacity', (0.16 + 0.84*m).toFixed(2));
+    n.body.setAttribute('stroke', c);
+    n.num.textContent = sgn(v);
+    n.g.setAttribute('aria-label', f[1] + ', score ' + sgn(v) + ', weight ' + f[3] + '. Use arrow keys to change the score.');
+    var contrib = Math.abs(pts(k, v));
+    var l = links[k];
+    l.setAttribute('stroke', c);
+    l.setAttribute('stroke-width', (v===0 ? 1 : 1.2 + contrib*1.1).toFixed(2));
+    l.setAttribute('opacity', v===0 ? 0.35 : 0.75);
+    l.setAttribute('stroke-dasharray', v===0 ? '2 6' : '8 6');
+    l.setAttribute('class', 'link' + (v===0 ? '' : ' flow'));
+    var dim = (hoverLayer && layerOf(k) !== hoverLayer) ? true : false;
+    n.g.setAttribute('class', 'node' + (selected===k ? ' sel' : '') + (dim ? ' dim' : ''));
+    l.style.opacity = dim ? 0.12 : '';
+  });
+  tweenTo(s);
+  orb.gauge.setAttribute('stroke-dasharray', (s/100*orb.C).toFixed(1) + ' ' + orb.C.toFixed(1));
+  orb.stat.textContent = on ? 'ON' : 'OFF';
+  orb.stat.setAttribute('fill', on ? UP : DOWN);
+  var d = s - model;
+  orb.sub.textContent = d === 0 ? '' : ('model ' + model + '% (' + (d>0?'+':'−') + Math.abs(d) + ')');
+  live.textContent = 'Safe-haven strength ' + s + ' percent, ' + (on ? 'ON' : 'OFF') + (d !== 0 ? ', ' + (d>0?'up ':'down ') + Math.abs(d) + ' from the model' : '');
+  LAYERS.forEach(function(l){
+    var chip = document.getElementById('chip-' + l[0]);
+    if (!chip) return;
+    var sum = 0; FACT.forEach(function(f){ if (f[2]===l[0]) sum += pts(f[0], eff(f[0])); });
+    chip.querySelector('b').textContent = sgnf(sum) + ' pts';
+    chip.setAttribute('aria-pressed', muted[l[0]] ? 'true' : 'false');
+  });
+  updateSide();
+}
+
+function buildChips(){
+  chipsEl.innerHTML = '';
+  LAYERS.forEach(function(l){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'cm-chip'; b.id = 'chip-' + l[0];
+    b.setAttribute('aria-pressed', 'false');
+    b.title = 'Click to switch this layer off and on';
+    b.innerHTML = '<i style="background:' + l[2] + '"></i><span>' + l[1] + '</span><b>0.0 pts</b>';
+    b.addEventListener('click', function(){ muted[l[0]] = !muted[l[0]]; update(); });
+    b.addEventListener('mouseenter', function(){ hoverLayer = l[0]; update(); });
+    b.addEventListener('mouseleave', function(){ hoverLayer = null; update(); });
+    b.addEventListener('focus', function(){ hoverLayer = l[0]; update(); });
+    b.addEventListener('blur', function(){ hoverLayer = null; update(); });
+    chipsEl.appendChild(b);
+  });
+}
+
+function setScore(k, v){
+  v = Math.max(-10, Math.min(10, Math.round(v)));
+  cur[k] = v;
+  if (muted[layerOf(k)]) muted[layerOf(k)] = false;
+  update();
+}
+
+function select(k){ selected = (selected === k) ? null : k; buildSide(); update(); if (stack && selected) { try { side.scrollIntoView({behavior:'smooth', block:'nearest'}); } catch (e) {} } }
+
+function showTip(k){
+  var n = nodes[k], v = eff(k), rect = stage.getBoundingClientRect(), nr = n.g.getBoundingClientRect();
+  tip.innerHTML = '<strong>' + fl(k) + '</strong><small>weight ' + fw(k) + ' · score ' + sgn(v) + ' · ' + sgnf(pts(k, v)) + ' pts of strength</small>';
+  var x = nr.left - rect.left + nr.width/2 + 14, y = nr.top - rect.top - 10;
+  if (x > rect.width - 250) x = nr.left - rect.left - 254;
+  tip.style.left = Math.max(6, x) + 'px'; tip.style.top = Math.max(6, y) + 'px';
+  tip.classList.add('on');
+}
+function hideTip(){ tip.classList.remove('on'); }
+
+function driversHtml(){
+  var arr = FACT.map(function(f){ return {k:f[0], p:pts(f[0], eff(f[0]))}; });
+  var posList = arr.filter(function(a){return a.p>0;}).sort(function(a,b){return b.p-a.p;}).slice(0,3);
+  var negList = arr.filter(function(a){return a.p<0;}).sort(function(a,b){return a.p-b.p;}).slice(0,3);
+  function rows(list, cls){ return list.length ? list.map(function(a){ return '<button type="button" class="cm-driver" data-k="' + a.k + '"><span>' + fl(a.k) + '</span><b class="' + cls + '">' + sgnf(a.p) + '</b></button>'; }).join('') : '<div class="cm-hint">None</div>'; }
+  return '<div class="k">Pushing strength up</div>' + rows(posList, 'pos') + '<div class="k">Pushing strength down</div>' + rows(negList, 'neg');
+}
+
+function buildSide(){
+  if (!selected) {
+    side.innerHTML = '<h3>Pick a factor</h3><div class="cm-hint" style="margin-top:0">Click any node on the map (or press Tab then Enter). Then drag the slider, or use the arrow keys on a focused node, to see the strength move.</div><div id="cm-drivers">' + driversHtml() + '</div>';
+    bindDrivers();
+    return;
+  }
+  var k = selected, l = LAYERS.filter(function(x){return x[0]===layerOf(k);})[0];
+  var note = (D.notes && D.notes[k]) ? String(D.notes[k]) : (sample ? 'In a live analysis, the data and reasoning behind this score appear here.' : 'No detail available for this factor.');
+  side.innerHTML =
+    '<h3>' + fl(k) + '</h3><span class="cm-tag" style="border-color:' + l[2] + '">' + l[1] + '</span>' +
+    '<div class="k">Weight</div><div class="cm-big">' + fw(k) + '<span style="font-size:13px;color:var(--text-3)"> / 100</span></div><div class="cm-meter"><i style="width:' + (fw(k)/14*100) + '%"></i></div>' +
+    '<div class="k">Your score <span id="sd-model" style="text-transform:none;letter-spacing:0"></span></div>' +
+    '<div class="cm-big" id="sd-val">0</div>' +
+    '<input type="range" id="sd-range" min="-10" max="10" step="1" aria-label="Score for ' + fl(k) + '">' +
+    '<div class="cm-scale"><span>−10 deactivates</span><span>0</span><span>+10 activates</span></div>' +
+    '<div class="k">Effect on strength</div><div class="cm-big" id="sd-pts">0</div>' +
+    '<div class="k">Behind the score</div><div class="cm-note" id="sd-note"></div>' +
+    '<div class="cm-row"><button type="button" class="cm-btn" id="sd-reset">Reset factor</button><button type="button" class="cm-btn" id="sd-close">Close</button></div>';
+  document.getElementById('sd-note').textContent = note;
+  var rng = document.getElementById('sd-range');
+  rng.addEventListener('input', function(){ setScore(k, parseInt(rng.value, 10)); });
+  document.getElementById('sd-reset').addEventListener('click', function(){ setScore(k, base[k]); });
+  document.getElementById('sd-close').addEventListener('click', function(){ selected = null; buildSide(); update(); });
+}
+
+function updateSide(){
+  if (!selected) { var d = document.getElementById('cm-drivers'); if (d) { d.innerHTML = driversHtml(); bindDrivers(); } return; }
+  var k = selected, v = cur[k], rng = document.getElementById('sd-range');
+  if (!rng) return;
+  if (document.activeElement !== rng) rng.value = v;
+  var vv = document.getElementById('sd-val');
+  vv.textContent = sgn(v); vv.className = 'cm-big ' + (v>0?'pos':(v<0?'neg':''));
+  document.getElementById('sd-model').textContent = '(model: ' + sgn(base[k]) + ')';
+  var p = pts(k, eff(k)), pe = document.getElementById('sd-pts');
+  pe.textContent = sgnf(p) + ' pts'; pe.className = 'cm-big ' + (p>0?'pos':(p<0?'neg':''));
+}
+
+function bindDrivers(){
+  var btns = side.querySelectorAll('.cm-driver');
+  for (var i=0;i<btns.length;i++) (function(b){ b.addEventListener('click', function(){ select(b.getAttribute('data-k')); }); })(btns[i]);
+}
+
+document.getElementById('cm-reset').addEventListener('click', function(){
+  FACT.forEach(function(f){ cur[f[0]] = base[f[0]]; });
+  LAYERS.forEach(function(l){ muted[l[0]] = false; });
+  update();
+});
+
+var lastLayout = null;
+function layoutKey(){ return (root.clientWidth < 640 ? 'c' : 'w') + (root.clientWidth < 900 ? 's' : 'r'); }
+// When embedded in a Streamlit iframe, size the frame to the widget.
+function fitFrame(){
+  try { if (window.frameElement && window.frameElement.tagName === 'IFRAME' && document.body === root.parentNode) window.frameElement.style.height = (root.offsetHeight + 4) + 'px'; } catch (e) {}
+}
+function init(){
+  build(); buildChips(); buildSide(); update(); lastLayout = layoutKey(); fitFrame();
+}
+init();
+var rt = null;
+window.addEventListener('resize', function(){
+  clearTimeout(rt);
+  rt = setTimeout(function(){ if (layoutKey() !== lastLayout) { build(); update(); lastLayout = layoutKey(); } fitFrame(); }, 120);
+});
+if (window.ResizeObserver) { try { new ResizeObserver(function(){ fitFrame(); }).observe(root); } catch (e) {} }
+})();
+</script>
+<!--CM-END-->
+</body>
+</html>

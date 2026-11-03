@@ -17,6 +17,7 @@ import base64
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from log_client import log_event
 from chat_bubble import render_chat_bubble
+from causal_map import render_causal_map, FACTOR_KEYS
 
 with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static', 'robot_b64.txt'), 'r') as f:
     ROBOT_IMG = f.read()
@@ -545,6 +546,13 @@ if st.session_state.result:
             bearish = [x.strip() for x in line.replace("BEARISH_FACTORS:", "").split("|") if x.strip()]
 
     st.markdown("<div style='padding:0 32px'>", unsafe_allow_html=True)
+
+    if scores:
+        st.markdown("<div class='sec-label'>Interactive causal map</div>", unsafe_allow_html=True)
+        try:
+            render_causal_map(scores, {k: smart_truncate(result.get(k, ""), 700) for k in FACTOR_KEYS})
+        except Exception as e:
+            st.caption(f"Causal map unavailable: {e}")
 
     st.markdown("<div class='sec-label'>Macro</div>", unsafe_allow_html=True)
     for label, key in [("Real Yields", "real_yields"), ("USD Index", "usd_index"), ("Fed Rate", "fed_rate"), ("Inflation Expectations", "inflation_expectations")]:

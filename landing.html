@@ -291,6 +291,135 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
 .gddt{background:#F87171;box-shadow:0 0 5px rgba(248,113,113,0.7);}
 @keyframes gscroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 </style>
+<style>
+/* ---------- minimalism + bento grid: flat tiles, one gold accent, no glow ---------- */
+:root{--bg:#131210;--tile:#1A1812;--tile-2:#201D15;--hair:rgba(245,235,208,.09);--hair-2:rgba(245,235,208,.18);--t1:#F5EBD0;--t2:#B3A584;--t3:#8F8366;--gold:#F2C230;--gold-hi:#FFD54A;}
+html{background:var(--bg);}
+body{background:var(--bg);color:var(--t1);}
+body::before{display:none;}
+.orb,.glow-ring{display:none;}
+.nav{background:rgba(19,18,16,.92);border-bottom:1px solid var(--hair);padding:14px 48px;}
+.nav-icon{background:var(--tile-2);border:1px solid var(--hair-2);box-shadow:none;border-radius:10px;font-size:15px;}
+.nav-name{color:var(--t1);}
+.nav-links a{color:var(--t2);}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta,.btn-primary,.rc-btn,.rp-ssrn-btn{background:var(--gold);color:#16130A;border:0;border-radius:10px;box-shadow:none;font-weight:600;transition:background .15s,transform .15s;}
+.nav-cta:hover,.btn-primary:hover,.rc-btn:hover,.rp-ssrn-btn:hover{background:var(--gold-hi);box-shadow:none;transform:none;}
+.btn-secondary,.rc-btn-outline,.rp-ssrn-btn-outline,.rp-back{background:transparent;border:1px solid var(--hair-2);color:var(--t1);border-radius:10px;font-weight:500;}
+.btn-secondary:hover,.rc-btn-outline:hover,.rp-ssrn-btn-outline:hover,.rp-back:hover{border-color:var(--gold);background:transparent;color:var(--gold);}
+.gticker{background:var(--bg);border-bottom:1px solid var(--hair);}
+.gti{border-right:1px solid var(--hair);}
+.gtsym{color:var(--t1);}.gtprice{color:var(--t2);}
+.gudt,.gddt{box-shadow:none;}
+
+/* type + chips */
+.badge,.section-badge{background:none;border:0;padding:0;border-radius:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+.bdot{box-shadow:none;animation:none;}
+.hero-title,.section-title,.cta-title{color:var(--t1);letter-spacing:-.03em;}
+.hero-title em,.cta-title em{background:none;-webkit-text-fill-color:var(--gold);color:var(--gold);}
+.hero-desc,.section-sub,.cta-sub,.contact-sub,.fc-desc,.step-desc,.prob-body,.rc-desc,.rp-body{color:var(--t2);}
+.step-desc strong{color:var(--t1);}
+.prob-sub,.stat-lbl,.rc-label,.footer-text,.footer-right,.contact-label,.rp-category,.rp-refs{color:var(--t3);}
+.chip,.fc-tag,.rc-tag,.rp-tag{background:transparent;border:1px solid var(--hair-2);color:var(--t2);border-radius:99px;font-weight:500;}
+.stats{border-top:1px solid var(--hair);}
+.stat-num{color:var(--t1);}
+
+/* sections */
+#hero{background:none;min-height:0;}
+.hero-inner{max-width:1180px;margin:0 auto;grid-template-columns:1fr 1fr;gap:48px;padding:72px 48px 56px;}
+#features,#howitworks,#research,#contact{background:none;border-top:0;max-width:none;}
+#cta{background:none;border-top:1px solid var(--hair);}
+footer{border-top:1px solid var(--hair);}
+.rp-nav{background:rgba(19,18,16,.94);border-bottom:1px solid var(--hair);}
+#researchpage{background:var(--bg);}
+
+/* bento tiles */
+.bt,.factor-card,.hiw-problems,.research-card,.step,.contact-grid a{background:var(--tile);border:1px solid var(--hair);border-radius:20px;box-shadow:none;transform:none;transition:border-color .2s,background .2s;}
+.factor-card:hover,.hiw-problems:hover,.research-card:hover,.step:hover,.contact-grid a:hover,.bt:hover{background:var(--tile-2);border-color:var(--hair-2);transform:none;box-shadow:none;}
+
+/* hero bento preview */
+.right{display:block;height:auto;min-height:0;}
+.bento-hero{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(112px,auto);gap:12px;}
+.bt{padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;}
+.bt-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);}
+.bt-num{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:700;line-height:1;color:var(--t1);letter-spacing:-.03em;}
+.bt-s{font-size:12.5px;color:var(--t3);}
+.bt-main{grid-column:span 2;padding:24px;}
+.bt-big{font-family:'Space Grotesk',sans-serif;font-size:3.2rem;font-weight:700;line-height:1;color:var(--gold);letter-spacing:-.03em;}
+.bt-big small{font-size:13px;font-weight:500;color:var(--t2);letter-spacing:0;margin-left:8px;}
+.bt-bar{height:6px;background:var(--hair);border-radius:99px;overflow:hidden;}
+.bt-bar i{display:block;height:100%;background:var(--gold);border-radius:99px;}
+.bt-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--t3);}
+.bt-wide{grid-column:span 2;}
+.bt-cats{display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--t2);}
+.bt-cats b{font-family:'Space Grotesk',sans-serif;color:var(--gold);margin-left:4px;font-size:15px;}
+.bt-src{font-size:14px;color:var(--t2);}
+
+/* factor bento: tile size follows the factor's weight in the score */
+.factors-grid{grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(150px,auto);gap:12px;}
+.factor-card{padding:22px 24px;display:flex;flex-direction:column;position:relative;}
+.fc-icon{display:none;}
+.fc-w{position:absolute;top:18px;right:22px;text-align:right;font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;line-height:1;color:var(--t1);letter-spacing:-.03em;}
+.fc-w small{display:block;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:4px;}
+.fc-title{color:var(--t1);font-size:1.02rem;font-weight:600;margin:0 0 6px;padding-right:70px;order:1;}
+.fc-desc{order:2;font-size:.82rem;line-height:1.65;max-width:46ch;}
+.fc-tag{order:0;align-self:flex-start;margin:0 0 14px;padding:0;border:0;border-radius:0;font-size:10.5px;letter-spacing:.12em;color:var(--gold);}
+.factor-card:nth-child(1){grid-column:1 / 7;grid-row:1 / 3;justify-content:flex-end;padding:28px;}
+.factor-card:nth-child(1) .fc-title{font-size:1.5rem;}
+.factor-card:nth-child(1) .fc-desc{font-size:.92rem;}
+.factor-card:nth-child(1) .fc-w{font-size:4.5rem;top:24px;right:28px;}
+.factor-card:nth-child(2){grid-column:7 / 10;grid-row:1;}
+.factor-card:nth-child(3){grid-column:10 / 13;grid-row:1;}
+.factor-card:nth-child(8){grid-column:7 / 13;grid-row:2;}
+.factor-card:nth-child(5){grid-column:1 / 5;grid-row:3;}
+.factor-card:nth-child(6){grid-column:5 / 9;grid-row:3;}
+.factor-card:nth-child(9){grid-column:9 / 13;grid-row:3;}
+.factor-card:nth-child(7){grid-column:1 / 7;grid-row:4;}
+.factor-card:nth-child(4){grid-column:7 / 13;grid-row:4;}
+
+/* architecture bento */
+.hiw-grid{grid-template-columns:7fr 5fr;gap:12px;margin-top:32px;align-items:stretch;}
+.hiw-steps{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.step{flex-direction:column;gap:14px;padding:22px;}
+.step-num{width:auto;height:auto;border-radius:0;background:none;box-shadow:none;color:var(--gold);font-size:12px;letter-spacing:.12em;justify-content:flex-start;}
+.step-num::before{content:'STEP\00a0';}
+.step-title{color:var(--t1);}
+.hiw-problems{padding:26px;}
+.prob-title{color:var(--t1);}.prob-head{color:var(--t1);}.prob-item{border-bottom:1px solid var(--hair);}
+.prob-icon{display:none;}
+.research-card{padding:32px;}
+.rc-title{color:var(--t1);}
+.contact-grid{background:none;border:0;gap:12px;grid-template-columns:repeat(3,1fr);max-width:1100px;}
+.contact-grid a{padding:20px 22px;}
+.contact-value{color:var(--t1);}
+.rp-highlight{background:var(--tile);border:1px solid var(--hair);border-radius:16px;}
+.rp-highlight p{color:var(--t1);}
+.rp-table-wrap{border:1px solid var(--hair);border-radius:16px;}
+.rp-table th{background:var(--tile-2);color:var(--t1);}
+.rp-table td{color:var(--t2);border-bottom:1px solid var(--hair);}
+.rp-table tr.rp-total td{color:var(--gold);}
+.rp-title,.rp-h2{color:var(--t1);}.rp-h3,.rp-section-title{color:var(--gold);}.rp-divider{background:var(--hair);}
+.chat-hint{box-shadow:none;border:1px solid var(--hair-2);}
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:1fr;padding:48px 24px 40px;}
+  .factors-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;}
+  .factor-card:nth-child(n){grid-column:auto;grid-row:auto;}
+  .factor-card:nth-child(1){grid-column:1 / 3;}
+  .hiw-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr 1fr;}
+  #features,#howitworks,#research,#contact,#cta{padding-left:24px;padding-right:24px;}
+}
+@media (max-width:600px){
+  .nav{padding:12px 16px;}
+  .factors-grid{grid-template-columns:1fr;}
+  .factor-card:nth-child(n){grid-column:auto;}
+  .hiw-steps{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .bento-hero{grid-template-columns:1fr;}
+  .bt-main,.bt-wide{grid-column:auto;}
+  .right{display:block;}
+}
+</style>
 <div class="gticker"><div class="gtape" id="gtape">Loading live prices...</div></div>
 
 <section id="hero">
@@ -321,62 +450,17 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
     </div>
 
     <div class="right">
-      <div class="gbub gbub-l1" id="gbub1">🪙 Gold: Safe Haven signal detected</div>
-      <div class="gbub gbub-l2" id="gbub2">🏛️ Central bank buying: bullish</div>
-      <div class="gbub gbub-l3" id="gbub3">📉 Real yields tracked live</div>
-      <div class="gbub gbub-l4" id="gbub7">🏦 Fed rate: FOMC monitored</div>
-      <div class="gbub gbub-r1" id="gbub4">😨 VIX: monitored in real-time</div>
-      <div class="gbub gbub-r2" id="gbub5">🌏 Geopolitical risk: elevated</div>
-      <div class="gbub gbub-r3" id="gbub6">📊 Backtested across 4 market regimes</div>
-      <div class="gbub gbub-r4" id="gbub8">💵 USD Index: tracked live</div>
-      <div class="glow-ring"></div>
-      <div class="robots-row">
-        <div class="rw rw1">
-          <div class="gold-bot">
-            <div class="gb-antenna-ball"></div>
-            <div class="gb-antenna-stick"></div>
-            <div class="gb-head"><div class="gb-visor"><div class="gb-eye"></div><div class="gb-eye"></div></div></div>
-            <div class="gb-neck"></div>
-            <div class="gb-body">
-              <div class="gb-armL"></div><div class="gb-armR"></div>
-              <div class="gb-screen"><div class="gb-bar1"></div><div class="gb-bar2"></div></div>
-            </div>
-            <div class="gb-legs"><div class="gb-leg"></div><div class="gb-leg"></div></div>
-            <div class="gb-feet"><div class="gb-foot"></div><div class="gb-foot"></div></div>
-          </div>
-          <svg width="160" height="40" viewBox="0 0 160 40" style="margin-top:3px;">
-            <defs><radialGradient id="gbg1" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.55"/><stop offset="100%" stop-color="#B8860B" stop-opacity="0"/></radialGradient></defs>
-            <ellipse cx="80" cy="24" rx="78" ry="14" fill="url(#gbg1)"/>
-            <ellipse cx="80" cy="24" rx="78" ry="14" fill="none" stroke="#FFD700" stroke-width="1.3" opacity="0.75"/>
-            <ellipse cx="80" cy="24" rx="60" ry="10" fill="none" stroke="#FFA500" stroke-width="0.9" opacity="0.5"/>
-            <ellipse cx="80" cy="24" rx="40" ry="7" fill="none" stroke="#FFD700" stroke-width="0.9" opacity="0.55"/>
-            <ellipse cx="80" cy="24" rx="22" ry="4" fill="none" stroke="#FFE066" stroke-width="1" opacity="0.9"/>
-            <circle cx="80" cy="24" r="3" fill="#FFEE99" opacity="0.95"/>
-          </svg>
-          <div class="grshadow" style="width:100px;height:12px;margin-top:-6px;"></div>
+      <div class="bento-hero">
+        <div class="bt bt-main">
+          <span class="bt-k">Output · illustrative</span>
+          <div class="bt-big">ON<small>safe-haven signal</small></div>
+          <div class="bt-bar"><i style="width:62%"></i></div>
+          <div class="bt-row"><span>Strength %</span><span>Layout only, not a live reading</span></div>
         </div>
-        <div class="rw rw2">
-          <div class="gold-bot2">
-            <div class="gb2-head"><div class="gb2-visor"><div class="gb2-eye"></div><div class="gb2-eye"></div></div></div>
-            <div class="gb2-neck"></div>
-            <div class="gb2-body">
-              <div class="gb2-armL"></div><div class="gb2-armR"></div>
-              <div class="gb2-chest"><div class="gb2-tbar"></div><div class="gb2-vbar"></div></div>
-            </div>
-            <div class="gb2-legs"><div class="gb2-leg"></div><div class="gb2-leg"></div></div>
-            <div class="gb2-feet"><div class="gb2-foot"></div><div class="gb2-foot"></div></div>
-          </div>
-          <svg width="180" height="44" viewBox="0 0 180 44" style="margin-top:3px;">
-            <defs><radialGradient id="gbg2" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.5"/><stop offset="100%" stop-color="#B8860B" stop-opacity="0"/></radialGradient></defs>
-            <ellipse cx="90" cy="26" rx="88" ry="16" fill="url(#gbg2)"/>
-            <ellipse cx="90" cy="26" rx="88" ry="16" fill="none" stroke="#FFD700" stroke-width="1.3" opacity="0.75"/>
-            <ellipse cx="90" cy="26" rx="68" ry="12" fill="none" stroke="#FFA500" stroke-width="0.9" opacity="0.5"/>
-            <ellipse cx="90" cy="26" rx="46" ry="8" fill="none" stroke="#FFD700" stroke-width="0.9" opacity="0.55"/>
-            <ellipse cx="90" cy="26" rx="25" ry="4.5" fill="none" stroke="#FFE066" stroke-width="1" opacity="0.9"/>
-            <circle cx="90" cy="26" r="3.5" fill="#FFEE99" opacity="0.95"/>
-          </svg>
-          <div class="grshadow" style="width:116px;height:13px;margin-top:-7px;"></div>
-        </div>
+        <div class="bt"><span class="bt-k">Factors</span><div class="bt-num">9</div><span class="bt-s">each scored −10 to +10</span></div>
+        <div class="bt"><span class="bt-k">Weights</span><div class="bt-num">100</div><span class="bt-s">locked, applied in Python</span></div>
+        <div class="bt bt-wide"><span class="bt-k">Categories</span><div class="bt-cats"><span>Macro<b>4</b></span><span>Safe haven<b>3</b></span><span>Geopolitical<b>2</b></span></div></div>
+        <div class="bt bt-wide"><span class="bt-k">Live data</span><div class="bt-src">FRED · yfinance · Tavily MCP</div></div>
       </div>
     </div>
   </div>
@@ -388,15 +472,15 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
     <h2 class="section-title">Every signal that moves gold's safe-haven status</h2>
     <p class="section-sub">GoldBot analyses gold across 3 categories of causal factors — each scored by the LLM using RAG-retrieved historical context, weighted by domain-expert rules, and combined deterministically.</p>
     <div class="factors-grid">
-      <div class="factor-card"><div class="fc-icon">📈</div><div class="fc-title">Real Yields (TIPS)</div><div class="fc-desc">Gold's single most established macro driver — rising real yields increase the opportunity cost of holding a non-yielding asset.</div><span class="fc-tag">MACRO</span></div>
-      <div class="factor-card"><div class="fc-icon">💵</div><div class="fc-title">USD Index</div><div class="fc-desc">Gold is priced in dollars globally — dollar strength mechanically pressures gold lower for non-dollar buyers.</div><span class="fc-tag">MACRO</span></div>
-      <div class="factor-card"><div class="fc-icon">🏦</div><div class="fc-title">Fed Rate / FOMC</div><div class="fc-desc">The root trigger — hawkish Fed policy compounds through both real yields and dollar strength simultaneously.</div><span class="fc-tag">MACRO</span></div>
-      <div class="factor-card"><div class="fc-icon">📊</div><div class="fc-title">Inflation Expectations</div><div class="fc-desc">5-Year breakeven rate — a forward-looking, market-based inflation signal, tested against gold's inconsistent inflation-hedge reputation.</div><span class="fc-tag">MACRO</span></div>
-      <div class="factor-card"><div class="fc-icon">📉</div><div class="fc-title">2-Year Treasury Yield</div><div class="fc-desc">The fastest-reacting proxy for near-term Fed policy expectations, distinct from long-run real yields.</div><span class="fc-tag">SAFE HAVEN</span></div>
-      <div class="factor-card"><div class="fc-icon">😨</div><div class="fc-title">VIX</div><div class="fc-desc">Market fear gauge — spikes in equity volatility typically drive flight-to-safety flows into gold.</div><span class="fc-tag">SAFE HAVEN</span></div>
-      <div class="factor-card"><div class="fc-icon">📈</div><div class="fc-title">S&P 500 Growth %</div><div class="fc-desc">Captures the risk-on/risk-off rotation between equities and defensive assets like gold.</div><span class="fc-tag">SAFE HAVEN</span></div>
-      <div class="factor-card"><div class="fc-icon">🏛️</div><div class="fc-title">Central Bank Buying</div><div class="fc-desc">A genuinely new structural demand driver since 2022 — central banks diversifying away from dollar reserves.</div><span class="fc-tag">GEOPOLITICAL</span></div>
-      <div class="factor-card"><div class="fc-icon">🌏</div><div class="fc-title">Geopolitical Risk</div><div class="fc-desc">Real-time conflict and war-risk signals via live web search — event-driven safe-haven demand spikes.</div><span class="fc-tag">GEOPOLITICAL</span></div>
+      <div class="factor-card"><span class="fc-w">14<small>weight</small></span><div class="fc-icon">📈</div><div class="fc-title">Real Yields (TIPS)</div><div class="fc-desc">Gold's single most established macro driver — rising real yields increase the opportunity cost of holding a non-yielding asset.</div><span class="fc-tag">MACRO</span></div>
+      <div class="factor-card"><span class="fc-w">13<small>weight</small></span><div class="fc-icon">💵</div><div class="fc-title">USD Index</div><div class="fc-desc">Gold is priced in dollars globally — dollar strength mechanically pressures gold lower for non-dollar buyers.</div><span class="fc-tag">MACRO</span></div>
+      <div class="factor-card"><span class="fc-w">12<small>weight</small></span><div class="fc-icon">🏦</div><div class="fc-title">Fed Rate / FOMC</div><div class="fc-desc">The root trigger — hawkish Fed policy compounds through both real yields and dollar strength simultaneously.</div><span class="fc-tag">MACRO</span></div>
+      <div class="factor-card"><span class="fc-w">9<small>weight</small></span><div class="fc-icon">📊</div><div class="fc-title">Inflation Expectations</div><div class="fc-desc">5-Year breakeven rate — a forward-looking, market-based inflation signal, tested against gold's inconsistent inflation-hedge reputation.</div><span class="fc-tag">MACRO</span></div>
+      <div class="factor-card"><span class="fc-w">11<small>weight</small></span><div class="fc-icon">📉</div><div class="fc-title">2-Year Treasury Yield</div><div class="fc-desc">The fastest-reacting proxy for near-term Fed policy expectations, distinct from long-run real yields.</div><span class="fc-tag">SAFE HAVEN</span></div>
+      <div class="factor-card"><span class="fc-w">10<small>weight</small></span><div class="fc-icon">😨</div><div class="fc-title">VIX</div><div class="fc-desc">Market fear gauge — spikes in equity volatility typically drive flight-to-safety flows into gold.</div><span class="fc-tag">SAFE HAVEN</span></div>
+      <div class="factor-card"><span class="fc-w">9<small>weight</small></span><div class="fc-icon">📈</div><div class="fc-title">S&P 500 Growth %</div><div class="fc-desc">Captures the risk-on/risk-off rotation between equities and defensive assets like gold.</div><span class="fc-tag">SAFE HAVEN</span></div>
+      <div class="factor-card"><span class="fc-w">12<small>weight</small></span><div class="fc-icon">🏛️</div><div class="fc-title">Central Bank Buying</div><div class="fc-desc">A genuinely new structural demand driver since 2022 — central banks diversifying away from dollar reserves.</div><span class="fc-tag">GEOPOLITICAL</span></div>
+      <div class="factor-card"><span class="fc-w">10<small>weight</small></span><div class="fc-icon">🌏</div><div class="fc-title">Geopolitical Risk</div><div class="fc-desc">Real-time conflict and war-risk signals via live web search — event-driven safe-haven demand spikes.</div><span class="fc-tag">GEOPOLITICAL</span></div>
     </div>
   </div>
 </section>

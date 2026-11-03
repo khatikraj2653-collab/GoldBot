@@ -95,7 +95,7 @@ st.markdown("""
 [data-testid="stSidebarNav"] { display: none !important; }
 .block-container { padding: 0 !important; max-width: 100% !important; }
 [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-    background: #1A1712 !important;
+    background: #131210 !important;
 }
 
 [data-testid="stPageLink"] {
@@ -107,7 +107,7 @@ st.markdown("""
 }
 [data-testid="stPageLink"] a {
     background: linear-gradient(135deg, #B8860B, #FFD700) !important;
-    color: #1A1712 !important;
+    color: #131210 !important;
     border: none !important;
     border-radius: 9px !important;
     padding: 9px 22px !important;
@@ -122,6 +122,8 @@ st.markdown("""
     box-shadow: 0 0 30px rgba(255,215,0,0.6) !important;
     transform: translateY(-1px) !important;
 }
+[data-testid="stPageLink"] a { background: #F2C230 !important; border-radius: 10px !important; box-shadow: none !important; }
+[data-testid="stPageLink"] a:hover { background: #FFD54A !important; box-shadow: none !important; transform: none !important; }
 [data-testid="stPageLink"] svg { display: none !important; }
 
 iframe[title="streamlit_component"] {
@@ -143,7 +145,7 @@ with open(landing_path, 'r', encoding='utf-8') as f:
 iframe_fixes = """
 <style>
 #welcomeModal { display: none !important; }
-body { background: #1A1712 !important; }
+body { background: #131210 !important; }
 #hero { min-height: 650px !important; padding-top: 40px !important; }
 .nav-cta { display: none !important; }
 .nav { justify-content: center !important; gap: 60px !important; }

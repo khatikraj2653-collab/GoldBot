@@ -266,6 +266,59 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     border-radius: 0 10px 10px 0; padding: 12px 16px;
     font-size: 0.8rem; color: #D4C094; line-height: 1.75; margin-top: 8px;
 }
+
+/* ---------- minimalism + bento: flat tiles, one gold accent, no glow ---------- */
+:root { --bg:#131210; --tile:#1A1812; --tile-2:#201D15; --hair:rgba(245,235,208,.09); --hair-2:rgba(245,235,208,.18); --t1:#F5EBD0; --t2:#B3A584; --t3:#8F8366; --gold:#F2C230; --gold-hi:#FFD54A; }
+html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] { background: var(--bg) !important; }
+[data-testid="stAppViewContainer"]::before { display: none !important; }
+[data-testid="stSidebar"] { background: var(--bg) !important; border-right: 1px solid var(--hair) !important; }
+.stButton > button {
+    border-radius: 10px !important;
+    background: var(--gold) !important;
+    color: #16130A !important;
+    box-shadow: none !important;
+    transition: background .15s !important;
+}
+.stButton > button:hover { background: var(--gold-hi) !important; opacity: 1 !important; transform: none !important; }
+.stButton > button p, .stButton > button * { color: #16130A !important; }
+[data-testid="stSidebar"] .stButton > button { background: transparent !important; border: 1px solid var(--hair-2) !important; }
+[data-testid="stSidebar"] .stButton > button:hover { background: transparent !important; border-color: var(--gold) !important; }
+[data-testid="stSidebar"] .stButton > button p, [data-testid="stSidebar"] .stButton > button * { color: var(--t1) !important; }
+.stTextInput [data-baseweb="base-input"],
+.stTextInput [data-baseweb="input"],
+[data-baseweb="select"] > div {
+    background: var(--tile) !important;
+    border: 1px solid var(--hair-2) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+.stTextInput input { background: transparent !important; border: 0 !important; }
+.stTextInput [data-baseweb="base-input"]:focus-within,
+[data-baseweb="select"] > div:focus-within { border-color: var(--gold) !important; }
+[data-baseweb="popover"] ul, [data-baseweb="menu"] { background: var(--tile) !important; border: 1px solid var(--hair-2) !important; border-radius: 12px !important; }
+.semi-card, .metric-card, .reasoning-card {
+    background: var(--tile) !important;
+    border: 1px solid var(--hair) !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    transition: border-color .2s, background .2s;
+}
+.semi-card:hover, .metric-card:hover { background: var(--tile-2) !important; border-color: var(--hair-2) !important; }
+.reasoning-card { border-left: 1px solid var(--hair) !important; color: var(--t2); }
+.card-key, .sec-label { color: var(--gold); }
+.card-val { color: var(--t2); }
+.sec-label::after { background: var(--hair); }
+.metric-lbl { color: var(--t3); }
+.bar-track { background: var(--hair); }
+.bar-fill { background: var(--gold); }
+.hero-badge { background: none; border: 0; padding: 0; color: var(--gold); letter-spacing: .14em; text-transform: uppercase; }
+.bdot { box-shadow: none; animation: none; }
+.hero-greeting em { background: none; -webkit-text-fill-color: var(--gold); color: var(--gold); }
+.hero-sub { color: var(--t2); }
+.gold-icon, .robot-img { filter: none; animation: none; }
+.robot-wrap-outer::before { display: none; }
+.robot-cloud { background: var(--tile); border: 1px solid var(--hair-2); }
+.robot-cloud::before, .robot-cloud::after { display: none; }
 </style>
 """, unsafe_allow_html=True)
 

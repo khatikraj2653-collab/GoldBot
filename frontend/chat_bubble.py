@@ -124,6 +124,19 @@ BUBBLE_CSS = """
     color: #8A7A50 !important;
     opacity: 1 !important;
 }
+
+/* minimalism */
+.st-key-goldbot_bubble_toggle button { background: #F2C230 !important; box-shadow: none !important; }
+.st-key-goldbot_bubble_toggle button:hover { background: #FFD54A !important; box-shadow: none !important; transform: none; }
+.st-key-goldbot_bubble_panel { background: #1A1812 !important; border: 1px solid rgba(245,235,208,.18) !important; border-radius: 20px !important; box-shadow: none !important; }
+.st-key-goldbot_bubble_header { border-bottom: 1px solid rgba(245,235,208,.09) !important; }
+.goldbot-bubble-sub, .goldbot-bubble-typing { color: #8F8366; }
+.goldbot-bubble-user { background: #F2C230; border: 0; color: #16130A; border-radius: 16px 16px 4px 16px; }
+.goldbot-bubble-bot { background: #201D15; border: 1px solid rgba(245,235,208,.09); border-radius: 16px 16px 16px 4px; }
+.st-key-goldbot_bubble_inputrow { border-top: 1px solid rgba(245,235,208,.09) !important; }
+.st-key-goldbot_bubble_panel [data-baseweb="base-input"],
+.st-key-goldbot_bubble_panel [data-baseweb="input"] { background: #131210 !important; border: 1px solid rgba(245,235,208,.18) !important; border-radius: 12px !important; }
+.st-key-goldbot_bubble_panel .stTextInput input { background: transparent !important; }
 </style>
 """
 

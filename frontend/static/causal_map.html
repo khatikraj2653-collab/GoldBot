@@ -38,6 +38,15 @@
 .cm-meter{height:6px;background:var(--hair);border-radius:99px;overflow:hidden;margin:8px 0 2px;}
 .cm-meter i{display:block;height:100%;background:var(--gold);border-radius:99px;}
 .cm input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0;height:24px;cursor:pointer;}
+/* 3D scene: floor (orbit + links), nodes and orb sit on separate depth layers; the whole stack tilts with the pointer */
+.cm-stage{perspective:1100px;perspective-origin:50% 40%;overflow:hidden;}
+.cm-scene{position:relative;transform-style:preserve-3d;transform:rotateX(14deg) scale(.95);will-change:transform;}
+.cm-scene svg{pointer-events:none;overflow:visible;}
+#cm-svg2,#cm-svg3{position:absolute;left:0;top:0;}
+#cm-svg2{transform:translateZ(38px);}
+#cm-svg3{transform:translateZ(84px);}
+#cm-svg2 .node{pointer-events:auto;}
+.cm.compact .cm-scene{transform:rotateX(8deg) scale(.97);}
 .cm-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);}
 .cm-note{font-size:13px;line-height:1.65;color:var(--text-2);max-height:190px;overflow:auto;border-left:2px solid var(--hair-2);padding-left:10px;}
 .cm-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
@@ -83,7 +92,11 @@
   <div class="cm-chips" id="cm-chips"></div>
   <div class="cm-body">
     <div class="cm-stage" id="cm-stage">
-      <svg id="cm-svg" role="group" aria-label="Causal map of 9 factors feeding gold's safe-haven strength"></svg>
+      <div class="cm-scene" id="cm-scene">
+        <svg id="cm-svg" role="group" aria-label="Causal map of 9 factors feeding gold's safe-haven strength"></svg>
+        <svg id="cm-svg2"></svg>
+        <svg id="cm-svg3" aria-hidden="true"></svg>
+      </div>
       <div class="cm-tip" id="cm-tip" role="tooltip"></div>
     </div>
     <aside class="cm-side" id="cm-side"></aside>
@@ -105,7 +118,7 @@ var NS = 'http://www.w3.org/2000/svg';
 var UP = '#34D399', DOWN = '#F87171', NEUTRAL = '#6B6048', GOLD = '#F2C230';
 
 var root = document.getElementById('cm');
-var svg = document.getElementById('cm-svg');
+var svg = document.getElementById('cm-svg'), svg2 = document.getElementById('cm-svg2'), svg3 = document.getElementById('cm-svg3'), scene = document.getElementById('cm-scene');
 var stage = document.getElementById('cm-stage');
 var tip = document.getElementById('cm-tip');
 var side = document.getElementById('cm-side');
@@ -148,11 +161,15 @@ function geometry(){
 }
 
 function build(){
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  [svg, svg2, svg3].forEach(function(x){ while (x.firstChild) x.removeChild(x.firstChild); });
   nodes = {}; links = {}; orb = {};
   G = geometry();
-  svg.setAttribute('viewBox', '0 0 ' + G.W + ' ' + G.H);
-  var gl = el('g', {}, svg), gn = el('g', {}, svg), go = el('g', {}, svg);
+  [svg, svg2, svg3].forEach(function(x){ x.setAttribute('viewBox', '0 0 ' + G.W + ' ' + G.H); });
+  var defsA = el('defs', {}, svg);
+  var sh = el('radialGradient', {id:'cmsh'}, defsA); el('stop', {offset:'0%', 'stop-color':'#000', 'stop-opacity':.6}, sh); el('stop', {offset:'100%', 'stop-color':'#000', 'stop-opacity':0}, sh);
+  var defs2 = el('defs', {}, svg2), hl = el('radialGradient', {id:'cmhl', cx:'35%', cy:'30%', r:'70%'}, defs2);
+  el('stop', {offset:'0%', 'stop-color':'#fff', 'stop-opacity':.55}, hl); el('stop', {offset:'100%', 'stop-color':'#fff', 'stop-opacity':0}, hl);
+  var gl = el('g', {}, svg), gn = el('g', {}, svg2), go = el('g', {}, svg3);
   // slot angles: 9 factors + a gap after every layer
   var slot = 0, total = FACT.length + LAYERS.length, pos = {}, lowN = 0;
   LAYERS.forEach(function(l){
@@ -170,9 +187,12 @@ function build(){
     var ex = G.cx - dx/d*(G.orbR+14), ey = G.cy - dy/d*(G.orbR+14);
     var sx = p.x + dx/d*r, sy = p.y + dy/d*r;
     links[k] = el('line', {x1:sx, y1:sy, x2:ex, y2:ey, 'class':'link', 'stroke-linecap':'round'}, gl);
+    el('ellipse', {cx:p.x + 6, cy:p.y + 4, rx:r*1.5, ry:r*0.85, fill:'url(#cmsh)'}, gl);
     var g = el('g', {'class':'node', tabindex:0, role:'button', transform:'translate(' + p.x + ',' + p.y + ')'}, gn);
     el('circle', {'class':'ring', r:r+6}, g);
+    el('circle', {cy:5, r:r, fill:'#05070A', opacity:.7}, g);
     var body = el('circle', {'class':'body', r:r, 'stroke-width':2.5}, g);
+    el('circle', {cx:-r*0.28, cy:-r*0.32, r:r*0.55, fill:'url(#cmhl)', 'pointer-events':'none'}, g);
     var num = el('text', {'class':'snum', 'text-anchor':'middle', y:4}, g);
     var low = p.s > 0.85, anchor = low ? "middle" : (p.c > 0.1 ? "start" : (p.c < -0.1 ? "end" : "middle"));
     var lx = anchor==="start" ? r+9 : (anchor==="end" ? -(r+9) : 0);
@@ -194,6 +214,8 @@ function build(){
   // centre gauge: gold arc = strength, tick at the 50% ON threshold
   var C = 2*Math.PI*(G.orbR+8);
   orb.C = C;
+  el('circle', {cx:G.cx, cy:G.cy + 16, r:G.orbR + 12, fill:'#060504', opacity:.85}, go);
+  el('circle', {cx:G.cx, cy:G.cy + 8, r:G.orbR + 12, fill:'#221E14', stroke:'#3A3322', 'stroke-width':1}, go);
   el('circle', {cx:G.cx, cy:G.cy, r:G.orbR, fill:'#1A1812', stroke:'rgba(245,235,208,.18)', 'stroke-width':1}, go);
   el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:'#2C281D', 'stroke-width':8}, go);
   orb.gauge = el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:GOLD, 'stroke-width':8, 'class':'gauge', transform:'rotate(-90 ' + G.cx + ' ' + G.cy + ')', 'stroke-dasharray':'0 ' + C}, go);
@@ -203,6 +225,7 @@ function build(){
   orb.lab.textContent = 'Safe-haven strength';
   orb.stat = el('text', {'class':'orbstat', x:G.cx, y:G.cy + G.orbR*0.5, 'text-anchor':'middle'}, go);
   orb.sub = el('text', {'class':'orbsub', x:G.cx, y:G.cy + G.orbR + 40, 'text-anchor':'middle', 'font-size':13}, go);
+  el('ellipse', {cx:G.cx - G.orbR*0.28, cy:G.cy - G.orbR*0.62, rx:G.orbR*0.6, ry:G.orbR*0.22, fill:'url(#cmhl)', opacity:.5, transform:'rotate(-16 ' + (G.cx - G.orbR*0.28) + ' ' + (G.cy - G.orbR*0.62) + ')', 'pointer-events':'none'}, go);
   orb.shown = null;
 }
 
@@ -362,6 +385,27 @@ function init(){
   build(); buildChips(); buildSide(); update(); lastLayout = layoutKey(); fitFrame();
 }
 init();
+// pointer-driven tilt of the 3D stack (gentle idle sway when the pointer is away)
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var t = {rx:14, ry:0, trx:14, try_:0, hover:false};
+  stage.addEventListener('pointermove', function(e){
+    if (e.pointerType === 'touch') return;
+    var r = stage.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    t.hover = true; t.try_ = (px - 0.5) * 26; t.trx = (compact ? 8 : 14) + (0.5 - py) * 14;
+  });
+  stage.addEventListener('pointerleave', function(){ t.hover = false; });
+  function loop(ts){
+    requestAnimationFrame(loop);
+    if (document.hidden) return;
+    var base = compact ? 8 : 14;
+    if (!t.hover) { t.trx = base + Math.sin(ts / 2600) * 2; t.try_ = Math.sin(ts / 3200) * 7; }
+    t.rx += (t.trx - t.rx) * 0.08; t.ry += (t.try_ - t.ry) * 0.08;
+    scene.style.transform = 'rotateX(' + t.rx.toFixed(2) + 'deg) rotateY(' + t.ry.toFixed(2) + 'deg) scale(' + (compact ? 0.97 : 0.95) + ')';
+  }
+  requestAnimationFrame(loop);
+})();
 var rt = null;
 window.addEventListener('resize', function(){
   clearTimeout(rt);

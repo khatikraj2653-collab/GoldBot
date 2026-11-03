@@ -262,6 +262,44 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
 .chat-hint-close{position:absolute;top:5px;right:8px;background:none;border:none;font-size:15px;cursor:pointer;color:#8A7A50;line-height:1;padding:0;}
 .chat-hint::after{content:'';position:absolute;bottom:-8px;right:18px;border:8px solid transparent;border-top-color:#FFF9E6;border-bottom:none;}
 </style>
+<!--TD3D--><style>
+/* ---------- 3D layer: WebGL bullion scene, pointer-driven depth on panels, extruded keys, perspective floor ---------- */
+#hero{overflow:hidden;}
+.hero-inner{position:relative;z-index:6;}
+.floorgrid{position:absolute;left:-10%;right:-10%;bottom:0;height:46%;pointer-events:none;z-index:1;
+  background-image:linear-gradient(rgba(242,194,48,.20) 1px,transparent 1px),linear-gradient(90deg,rgba(242,194,48,.20) 1px,transparent 1px);
+  background-size:56px 56px;transform:perspective(420px) rotateX(62deg);transform-origin:50% 100%;
+  -webkit-mask-image:linear-gradient(to top,#000,transparent 88%);mask-image:linear-gradient(to top,#000,transparent 88%);
+  animation:floorscroll 7s linear infinite;}
+@keyframes floorscroll{to{background-position:0 56px,0 0;}}
+.right{display:block !important;height:auto !important;}
+.stage3d{position:relative;height:380px;border-radius:28px;margin-bottom:18px;overflow:hidden;
+  background:radial-gradient(60% 55% at 50% 42%,rgba(242,194,48,.18),transparent 70%),linear-gradient(180deg,#1D1910,#0E0C08);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 2px 12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.14),0 26px 60px -28px rgba(0,0,0,.85);}
+#chip3d{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y;}
+#chip3d:active{cursor:grabbing;}
+.s3-hint{position:absolute;top:14px;left:18px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);pointer-events:none;}
+.s3-legend{position:absolute;left:18px;right:18px;bottom:12px;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:11.5px;color:rgba(255,255,255,.78);pointer-events:none;}
+.s3-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;box-shadow:0 0 8px currentColor;}
+
+.tilt{position:relative;transform-style:preserve-3d;transform:perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform;}
+.tilt.hot{transition:transform .08s linear;}
+.glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;z-index:3;
+  background:radial-gradient(260px circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.16),transparent 62%);}
+.tilt.hot .glare{opacity:1;}
+.tilt .fc-title,.tilt .step-num,.tilt .rc-title,.tilt .contact-value,.tilt .prob-title,.tilt .reg-name,.tilt .bt-big,.tilt .bt-num,.tilt .fc-w{transform:translateZ(26px);}
+
+.nav-cta,.btn-primary,.rc-btn{box-shadow:0 5px 0 #A87F0E,0 12px 22px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.5) !important;transform:translateY(0);transition:transform .12s,box-shadow .12s,background .15s;}
+.nav-cta:hover,.btn-primary:hover,.rc-btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 #A87F0E,0 16px 26px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.6) !important;}
+.nav-cta:active,.btn-primary:active,.rc-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #A87F0E,0 4px 8px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4) !important;}
+
+@media (max-width:900px){.stage3d{height:330px;}.floorgrid{height:34%;}}
+@media (hover:none){.tilt{transform:none;}.glare{display:none;}}
+@media (prefers-reduced-motion:reduce){.floorgrid{animation:none;}.tilt{transform:none;}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 <body>
 <nav class="nav">
@@ -425,6 +463,7 @@ footer{border-top:1px solid var(--hair);}
 <div class="gticker"><div class="gtape" id="gtape">Loading live prices...</div></div>
 
 <section id="hero">
+  <div class="floorgrid" aria-hidden="true"></div>
   <div class="orb o1"></div><div class="orb o2"></div>
   <div class="hero-inner">
     <div class="left">
@@ -452,6 +491,11 @@ footer{border-top:1px solid var(--hair);}
     </div>
 
     <div class="right">
+      <div class="stage3d" id="chip3d-stage">
+        <canvas id="chip3d" aria-label="Interactive 3D gold bullion: 9 causal factors orbit it in three layers. Drag to rotate." role="img"></canvas>
+        <div class="s3-hint">Drag to rotate</div>
+        <div class="s3-legend"><span><i style="background:#F2C230;color:#F2C230"></i>Macro 4</span><span><i style="background:#9CC4E8;color:#9CC4E8"></i>Safe haven 3</span><span><i style="background:#E0875A;color:#E0875A"></i>Geopolitical 2</span></div>
+      </div>
       <div class="bento-hero">
         <div class="bt bt-main">
           <span class="bt-k">Output · illustrative</span>
@@ -518,6 +562,15 @@ footer{border-top:1px solid var(--hair);}
 .cm-meter{height:6px;background:var(--hair);border-radius:99px;overflow:hidden;margin:8px 0 2px;}
 .cm-meter i{display:block;height:100%;background:var(--gold);border-radius:99px;}
 .cm input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0;height:24px;cursor:pointer;}
+/* 3D scene: floor (orbit + links), nodes and orb sit on separate depth layers; the whole stack tilts with the pointer */
+.cm-stage{perspective:1100px;perspective-origin:50% 40%;overflow:hidden;}
+.cm-scene{position:relative;transform-style:preserve-3d;transform:rotateX(14deg) scale(.95);will-change:transform;}
+.cm-scene svg{pointer-events:none;overflow:visible;}
+#cm-svg2,#cm-svg3{position:absolute;left:0;top:0;}
+#cm-svg2{transform:translateZ(38px);}
+#cm-svg3{transform:translateZ(84px);}
+#cm-svg2 .node{pointer-events:auto;}
+.cm.compact .cm-scene{transform:rotateX(8deg) scale(.97);}
 .cm-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);}
 .cm-note{font-size:13px;line-height:1.65;color:var(--text-2);max-height:190px;overflow:auto;border-left:2px solid var(--hair-2);padding-left:10px;}
 .cm-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
@@ -563,7 +616,11 @@ footer{border-top:1px solid var(--hair);}
   <div class="cm-chips" id="cm-chips"></div>
   <div class="cm-body">
     <div class="cm-stage" id="cm-stage">
-      <svg id="cm-svg" role="group" aria-label="Causal map of 9 factors feeding gold's safe-haven strength"></svg>
+      <div class="cm-scene" id="cm-scene">
+        <svg id="cm-svg" role="group" aria-label="Causal map of 9 factors feeding gold's safe-haven strength"></svg>
+        <svg id="cm-svg2"></svg>
+        <svg id="cm-svg3" aria-hidden="true"></svg>
+      </div>
       <div class="cm-tip" id="cm-tip" role="tooltip"></div>
     </div>
     <aside class="cm-side" id="cm-side"></aside>
@@ -585,7 +642,7 @@ var NS = 'http://www.w3.org/2000/svg';
 var UP = '#34D399', DOWN = '#F87171', NEUTRAL = '#6B6048', GOLD = '#F2C230';
 
 var root = document.getElementById('cm');
-var svg = document.getElementById('cm-svg');
+var svg = document.getElementById('cm-svg'), svg2 = document.getElementById('cm-svg2'), svg3 = document.getElementById('cm-svg3'), scene = document.getElementById('cm-scene');
 var stage = document.getElementById('cm-stage');
 var tip = document.getElementById('cm-tip');
 var side = document.getElementById('cm-side');
@@ -628,11 +685,15 @@ function geometry(){
 }
 
 function build(){
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  [svg, svg2, svg3].forEach(function(x){ while (x.firstChild) x.removeChild(x.firstChild); });
   nodes = {}; links = {}; orb = {};
   G = geometry();
-  svg.setAttribute('viewBox', '0 0 ' + G.W + ' ' + G.H);
-  var gl = el('g', {}, svg), gn = el('g', {}, svg), go = el('g', {}, svg);
+  [svg, svg2, svg3].forEach(function(x){ x.setAttribute('viewBox', '0 0 ' + G.W + ' ' + G.H); });
+  var defsA = el('defs', {}, svg);
+  var sh = el('radialGradient', {id:'cmsh'}, defsA); el('stop', {offset:'0%', 'stop-color':'#000', 'stop-opacity':.6}, sh); el('stop', {offset:'100%', 'stop-color':'#000', 'stop-opacity':0}, sh);
+  var defs2 = el('defs', {}, svg2), hl = el('radialGradient', {id:'cmhl', cx:'35%', cy:'30%', r:'70%'}, defs2);
+  el('stop', {offset:'0%', 'stop-color':'#fff', 'stop-opacity':.55}, hl); el('stop', {offset:'100%', 'stop-color':'#fff', 'stop-opacity':0}, hl);
+  var gl = el('g', {}, svg), gn = el('g', {}, svg2), go = el('g', {}, svg3);
   // slot angles: 9 factors + a gap after every layer
   var slot = 0, total = FACT.length + LAYERS.length, pos = {}, lowN = 0;
   LAYERS.forEach(function(l){
@@ -650,9 +711,12 @@ function build(){
     var ex = G.cx - dx/d*(G.orbR+14), ey = G.cy - dy/d*(G.orbR+14);
     var sx = p.x + dx/d*r, sy = p.y + dy/d*r;
     links[k] = el('line', {x1:sx, y1:sy, x2:ex, y2:ey, 'class':'link', 'stroke-linecap':'round'}, gl);
+    el('ellipse', {cx:p.x + 6, cy:p.y + 4, rx:r*1.5, ry:r*0.85, fill:'url(#cmsh)'}, gl);
     var g = el('g', {'class':'node', tabindex:0, role:'button', transform:'translate(' + p.x + ',' + p.y + ')'}, gn);
     el('circle', {'class':'ring', r:r+6}, g);
+    el('circle', {cy:5, r:r, fill:'#05070A', opacity:.7}, g);
     var body = el('circle', {'class':'body', r:r, 'stroke-width':2.5}, g);
+    el('circle', {cx:-r*0.28, cy:-r*0.32, r:r*0.55, fill:'url(#cmhl)', 'pointer-events':'none'}, g);
     var num = el('text', {'class':'snum', 'text-anchor':'middle', y:4}, g);
     var low = p.s > 0.85, anchor = low ? "middle" : (p.c > 0.1 ? "start" : (p.c < -0.1 ? "end" : "middle"));
     var lx = anchor==="start" ? r+9 : (anchor==="end" ? -(r+9) : 0);
@@ -674,6 +738,8 @@ function build(){
   // centre gauge: gold arc = strength, tick at the 50% ON threshold
   var C = 2*Math.PI*(G.orbR+8);
   orb.C = C;
+  el('circle', {cx:G.cx, cy:G.cy + 16, r:G.orbR + 12, fill:'#060504', opacity:.85}, go);
+  el('circle', {cx:G.cx, cy:G.cy + 8, r:G.orbR + 12, fill:'#221E14', stroke:'#3A3322', 'stroke-width':1}, go);
   el('circle', {cx:G.cx, cy:G.cy, r:G.orbR, fill:'#1A1812', stroke:'rgba(245,235,208,.18)', 'stroke-width':1}, go);
   el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:'#2C281D', 'stroke-width':8}, go);
   orb.gauge = el('circle', {cx:G.cx, cy:G.cy, r:G.orbR+8, fill:'none', stroke:GOLD, 'stroke-width':8, 'class':'gauge', transform:'rotate(-90 ' + G.cx + ' ' + G.cy + ')', 'stroke-dasharray':'0 ' + C}, go);
@@ -683,6 +749,7 @@ function build(){
   orb.lab.textContent = 'Safe-haven strength';
   orb.stat = el('text', {'class':'orbstat', x:G.cx, y:G.cy + G.orbR*0.5, 'text-anchor':'middle'}, go);
   orb.sub = el('text', {'class':'orbsub', x:G.cx, y:G.cy + G.orbR + 40, 'text-anchor':'middle', 'font-size':13}, go);
+  el('ellipse', {cx:G.cx - G.orbR*0.28, cy:G.cy - G.orbR*0.62, rx:G.orbR*0.6, ry:G.orbR*0.22, fill:'url(#cmhl)', opacity:.5, transform:'rotate(-16 ' + (G.cx - G.orbR*0.28) + ' ' + (G.cy - G.orbR*0.62) + ')', 'pointer-events':'none'}, go);
   orb.shown = null;
 }
 
@@ -842,6 +909,27 @@ function init(){
   build(); buildChips(); buildSide(); update(); lastLayout = layoutKey(); fitFrame();
 }
 init();
+// pointer-driven tilt of the 3D stack (gentle idle sway when the pointer is away)
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var t = {rx:14, ry:0, trx:14, try_:0, hover:false};
+  stage.addEventListener('pointermove', function(e){
+    if (e.pointerType === 'touch') return;
+    var r = stage.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    t.hover = true; t.try_ = (px - 0.5) * 26; t.trx = (compact ? 8 : 14) + (0.5 - py) * 14;
+  });
+  stage.addEventListener('pointerleave', function(){ t.hover = false; });
+  function loop(ts){
+    requestAnimationFrame(loop);
+    if (document.hidden) return;
+    var base = compact ? 8 : 14;
+    if (!t.hover) { t.trx = base + Math.sin(ts / 2600) * 2; t.try_ = Math.sin(ts / 3200) * 7; }
+    t.rx += (t.trx - t.rx) * 0.08; t.ry += (t.try_ - t.ry) * 0.08;
+    scene.style.transform = 'rotateX(' + t.rx.toFixed(2) + 'deg) rotateY(' + t.ry.toFixed(2) + 'deg) scale(' + (compact ? 0.97 : 0.95) + ')';
+  }
+  requestAnimationFrame(loop);
+})();
 var rt = null;
 window.addEventListener('resize', function(){
   clearTimeout(rt);
@@ -852,6 +940,7 @@ if (window.ResizeObserver) { try { new ResizeObserver(function(){ fitFrame(); })
 </script>
   </div>
 </section>
+
 
 
 
@@ -1221,5 +1310,182 @@ if(chatHint){hintT.push(setTimeout(()=>chatHint.classList.add('is-visible'),1500
 </script>
 
 <div id="chatHint" class="chat-hint"><button id="chatHintClose" class="chat-hint-close">&#215;</button>&#128075; Is gold a safe haven right now?<br>Hit <strong>Get Started &#8594;</strong> to find out</div>
+<script>window.__TD={"theme":"gold","symbol":"Au","accent":15909424,"ambient":14207136,"light1":15909424,"light2":10274024,"boardBg":"#15120B","grid":"rgba(245,225,160,.2)","boardEdge":3813920,"metal":15909424,"coinFace":"E8B923","envSide":["#E9DDBB","#1B1608"],"sel":".factor-card,.step,.research-card,.contact-grid a,.hiw-problems,.bt","layers":[{"n":4,"c":15909424,"h":"rgba(242,194,48,.9)","R":2.75,"y":1.2,"sp":0.28},{"n":3,"c":10274024,"h":"rgba(156,196,232,.9)","R":3.2,"y":1.55,"sp":-0.22},{"n":2,"c":14714714,"h":"rgba(224,135,90,.9)","R":3.65,"y":1.9,"sp":0.17}]};</script>
+<script>
+/* 3D layer (gold / silver): pointer-driven panel tilt + WebGL bullion scene with orbiting factor nodes */
+(function(){
+  var CFG = window.__TD || {};
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = window.matchMedia && window.matchMedia('(hover: none)').matches;
+
+  /* ---------- panel tilt ---------- */
+  if (!reduce && !coarse && CFG.sel) {
+    [].forEach.call(document.querySelectorAll(CFG.sel), function(el){
+      el.classList.add('tilt');
+      var g = document.createElement('div'); g.className = 'glare'; el.appendChild(g);
+      el.addEventListener('pointermove', function(e){
+        if (e.pointerType === 'touch') return;
+        var r = el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        var max = Math.max(1.5, Math.min(8, 2400 / el.offsetWidth));
+        el.style.setProperty('--ry', ((px - 0.5) * 2 * max).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((0.5 - py) * 2 * max).toFixed(2) + 'deg');
+        el.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+        el.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+        el.classList.add('hot');
+      });
+      el.addEventListener('pointerleave', function(){
+        el.classList.remove('hot'); el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+
+  /* ---------- WebGL scene ---------- */
+  var stage = document.getElementById('chip3d-stage'), cv = document.getElementById('chip3d');
+  if (!stage || !cv) return;
+  function bail(){ stage.style.display = 'none'; }
+  function start(){
+    var T = window.THREE, renderer;
+    if (!T) return bail();
+    try { renderer = new T.WebGLRenderer({canvas: cv, antialias: true, alpha: true}); } catch (e) { return bail(); }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputEncoding = T.sRGBEncoding;
+
+    var ACC = CFG.accent, scene = new T.Scene();
+    var camera = new T.PerspectiveCamera(34, 1, 0.1, 100), baseCam = new T.Vector3(0, 4.9, 8.9);
+    scene.add(new T.AmbientLight(CFG.ambient || 0xbbbbbb, 0.6));
+    var key = new T.DirectionalLight(0xffffff, 1.0); key.position.set(4, 8, 5); scene.add(key);
+    var l1 = new T.PointLight(CFG.light1, 1.5, 24); l1.position.set(-5, 3, 4); scene.add(l1);
+    var l2 = new T.PointLight(CFG.light2, 1.0, 24); l2.position.set(5, 2.5, -4); scene.add(l2);
+    var root = new T.Group(); scene.add(root);
+
+    var seed = 11; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    function tex(size, draw){
+      var c = document.createElement('canvas'); c.width = c.height = size;
+      draw(c.getContext('2d'), size);
+      var t = new T.CanvasTexture(c); t.encoding = T.sRGBEncoding; t.anisotropy = 4; return t;
+    }
+
+    /* fake studio environment so the metals have something to reflect */
+    function face(top, bot, band){
+      var c = document.createElement('canvas'); c.width = c.height = 128; var x = c.getContext('2d');
+      var g = x.createLinearGradient(0, 0, 0, 128); g.addColorStop(0, top); g.addColorStop(1, bot); x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+      if (band) { x.fillStyle = 'rgba(255,255,255,.85)'; x.fillRect(10, 30, 108, 14); x.fillStyle = 'rgba(255,255,255,.35)'; x.fillRect(10, 62, 108, 6); }
+      return c;
+    }
+    var side = CFG.envSide || ['#C9D2E0', '#1A2030'];
+    var env = new T.CubeTexture([face(side[0], side[1], 1), face(side[0], side[1], 0), face('#FFFFFF', '#DDE6F2'), face('#0A0E16', '#05070B'), face(side[0], side[1], 1), face(side[0], side[1], 0)]);
+    env.needsUpdate = true; env.encoding = T.sRGBEncoding;
+    function metal(color, rough){ return new T.MeshStandardMaterial({color: color, metalness: 1, roughness: rough, envMap: env, envMapIntensity: 1.25}); }
+
+    /* dial-style base: concentric rings + radial ticks */
+    var boardTex = tex(1024, function(x, s){
+      x.fillStyle = CFG.boardBg; x.fillRect(0, 0, s, s);
+      x.translate(s / 2, s / 2); x.strokeStyle = CFG.grid; x.lineWidth = 2;
+      for (var r = 90; r < 520; r += 72) { x.beginPath(); x.arc(0, 0, r, 0, 7); x.stroke(); }
+      for (var a = 0; a < 72; a++) { var an = a / 72 * 6.2832, long = a % 6 === 0; x.beginPath(); x.moveTo(Math.cos(an) * (long ? 440 : 470), Math.sin(an) * (long ? 440 : 470)); x.lineTo(Math.cos(an) * 505, Math.sin(an) * 505); x.stroke(); }
+      for (var i = 0; i < 900; i++) { x.fillStyle = 'rgba(255,255,255,' + rnd() * 0.04 + ')'; x.fillRect((rnd() - 0.5) * s, (rnd() - 0.5) * s, 2, 2); }
+    });
+    var board = new T.Mesh(new T.CylinderGeometry(4.7, 4.7, 0.18, 96),
+      [metal(CFG.boardEdge, 0.35), new T.MeshStandardMaterial({map: boardTex, metalness: 0.5, roughness: 0.5}), new T.MeshStandardMaterial({color: 0x0C0E12, metalness: 0.8, roughness: 0.5})]);
+    root.add(board);
+    var rim = new T.Mesh(new T.TorusGeometry(4.72, 0.035, 8, 128), new T.MeshBasicMaterial({color: ACC, transparent: true, opacity: 0.75}));
+    rim.rotation.x = Math.PI / 2; rim.position.y = 0.09; root.add(rim);
+
+    /* centerpiece */
+    function coinTex(label){
+      return tex(256, function(x, s){
+        x.fillStyle = '#' + CFG.coinFace; x.fillRect(0, 0, s, s);
+        x.strokeStyle = 'rgba(0,0,0,.28)'; x.lineWidth = 6; x.beginPath(); x.arc(s / 2, s / 2, s * 0.43, 0, 7); x.stroke();
+        x.lineWidth = 2; x.beginPath(); x.arc(s / 2, s / 2, s * 0.37, 0, 7); x.stroke();
+        x.fillStyle = 'rgba(0,0,0,.45)'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = '700 92px "Space Grotesk",Arial,sans-serif'; x.fillText(label, s / 2, s / 2 + 4);
+      });
+    }
+    var bullion = new T.Group(); root.add(bullion);
+    var coinFaceTex = coinTex(CFG.symbol);
+    if (CFG.theme === 'gold') {
+      for (var c = 0; c < 5; c++) {
+        var coinMat = metal(CFG.metal, 0.22);
+        var cyl = new T.Mesh(new T.CylinderGeometry(1.15, 1.15, 0.2, 64), [coinMat, new T.MeshStandardMaterial({map: coinFaceTex, metalness: 1, roughness: 0.25, envMap: env}), coinMat]);
+        cyl.position.set((c % 2 ? 0.06 : -0.05), 0.19 + c * 0.215, (c % 3 - 1) * 0.05); cyl.rotation.y = c * 0.7; bullion.add(cyl);
+      }
+      var bar = new T.Mesh(new T.CylinderGeometry(0.5, 0.72, 0.4, 4), metal(CFG.metal, 0.2));
+      bar.scale.set(1.8, 1, 1); bar.rotation.y = Math.PI / 4; bar.position.set(1.95, 0.29, 0.7); bullion.add(bar);
+    } else {
+      var ing = new T.Mesh(new T.CylinderGeometry(0.85, 1.25, 0.62, 4), metal(CFG.metal, 0.2));
+      ing.scale.set(1.55, 1, 0.9); ing.rotation.y = Math.PI / 4; ing.position.set(-0.2, 0.4, 0); bullion.add(ing);
+      var coin = new T.Mesh(new T.CylinderGeometry(0.95, 0.95, 0.16, 64), [metal(CFG.metal, 0.22), new T.MeshStandardMaterial({map: coinFaceTex, metalness: 1, roughness: 0.25, envMap: env}), metal(CFG.metal, 0.22)]);
+      coin.rotation.x = Math.PI / 2 - 0.35; coin.position.set(1.75, 0.95, 0.6); bullion.add(coin);
+      var coin2 = new T.Mesh(new T.CylinderGeometry(0.7, 0.7, 0.12, 48), metal(CFG.metal2 || CFG.metal, 0.25));
+      coin2.position.set(-1.9, 0.15 + 0.06, 0.9); bullion.add(coin2);
+    }
+    var glow = new T.PointLight(ACC, 1.2, 7); glow.position.set(0, 1.4, 0); root.add(glow);
+
+    /* orbiting factor nodes */
+    function halo(color){
+      var t = tex(64, function(x, s){ var g = x.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2); g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, s, s); });
+      return new T.Sprite(new T.SpriteMaterial({map: t, blending: T.AdditiveBlending, transparent: true, depthWrite: false, opacity: 0.8}));
+    }
+    var rings = CFG.layers.map(function(L, li){
+      var g = new T.Group(); g.position.y = L.y; g.rotation.z = (li % 2 ? 1 : -1) * 0.1; g.rotation.x = 0.05 * li; root.add(g);
+      var pts = []; for (var a = 0; a <= 128; a++) pts.push(new T.Vector3(Math.cos(a / 128 * 6.2832) * L.R, 0, Math.sin(a / 128 * 6.2832) * L.R));
+      g.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({color: L.c, transparent: true, opacity: 0.34})));
+      var nodes = [];
+      for (var i = 0; i < L.n; i++) {
+        var n = new T.Group();
+        n.add(new T.Mesh(new T.SphereGeometry(0.14, 20, 16), new T.MeshStandardMaterial({color: L.c, emissive: L.c, emissiveIntensity: 0.9, roughness: 0.25, metalness: 0.2})));
+        var h = halo(L.h); h.scale.set(0.85, 0.85, 1); n.add(h); g.add(n); nodes.push(n);
+      }
+      return {g: g, L: L, nodes: nodes, a: li * 1.3};
+    });
+
+    function resize(){
+      var w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
+      renderer.setSize(w, h, false); camera.aspect = w / h;
+      camera.position.copy(baseCam).multiplyScalar(Math.max(1, 1.5 / camera.aspect)); camera.lookAt(0, 0.6, 0); camera.updateProjectionMatrix();
+    }
+    resize();
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(stage); else window.addEventListener('resize', resize);
+
+    var yaw = 0.5, pitch = 0.0, vel = 0, drag = false, lx = 0, lastY = 0, hoverY = 0;
+    cv.addEventListener('pointerdown', function(e){ drag = true; lx = e.clientX; lastY = e.clientY; vel = 0; try { cv.setPointerCapture(e.pointerId); } catch (x) {} });
+    cv.addEventListener('pointermove', function(e){
+      var r = cv.getBoundingClientRect(); hoverY = (e.clientY - r.top) / r.height - 0.5;
+      if (!drag) return;
+      var dx = e.clientX - lx; lx = e.clientX; yaw += dx * 0.009; vel = dx * 0.009;
+      pitch = Math.max(-0.25, Math.min(0.45, pitch + (e.clientY - lastY) * 0.004)); lastY = e.clientY;
+    });
+    function up(){ drag = false; }
+    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up); cv.addEventListener('pointerleave', function(){ hoverY = 0; });
+
+    var visible = true;
+    if (window.IntersectionObserver) new IntersectionObserver(function(en){ visible = en[0].isIntersecting; }).observe(stage);
+    var clock = new T.Clock(), tNow = 0, placed = false;
+    function place(animate){
+      rings.forEach(function(r){
+        r.nodes.forEach(function(n, i){ var a = r.a + i / r.L.n * 6.2832; n.position.set(Math.cos(a) * r.L.R, animate ? Math.sin(tNow * 1.4 + i + r.L.y * 3) * 0.06 : 0, Math.sin(a) * r.L.R); });
+      });
+    }
+    function frame(){
+      requestAnimationFrame(frame);
+      if (!visible || document.hidden) return;
+      var dt = Math.min(clock.getDelta(), 0.05); tNow += dt;
+      if (!drag) { yaw += vel; vel *= 0.94; if (!reduce) yaw += dt * 0.14; }
+      root.rotation.y = yaw;
+      root.rotation.x += ((pitch + hoverY * 0.18) - root.rotation.x) * 0.08;
+      if (!reduce) {
+        rings.forEach(function(r){ r.a += r.L.sp * dt; });
+        place(true);
+        bullion.rotation.y += dt * 0.25;
+        glow.intensity = 1.0 + Math.sin(tNow * 2) * 0.3;
+      } else if (!placed) { place(false); placed = true; }
+      renderer.render(scene, camera);
+      cv.dataset.ready = '1';
+    }
+    frame();
+  }
+  if (window.THREE) start(); else window.addEventListener('load', start);
+})();
+
+</script>
 </body>
 </html>

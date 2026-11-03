@@ -291,83 +291,6 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
 .gddt{background:#F87171;box-shadow:0 0 5px rgba(248,113,113,0.7);}
 @keyframes gscroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 </style>
-<style>
-/* ---------- spatial UI: frosted glass windows floating in layered space ---------- */
-@property --spec{syntax:'<number>';inherits:false;initial-value:0;}
-:root{
-  --px:0;--py:0;
-  --g-fill:linear-gradient(135deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,.045) 60%,rgba(255,255,255,.075) 100%);
-  --g-edge:rgba(255,255,255,.16);
-  --g-rim:inset 1px 1px 0 rgba(255,255,255,.34),inset -1px -1px 0 rgba(255,255,255,.07),inset 0 0 22px rgba(255,200,90,.045);
-  --g-lift:0 2px 6px rgba(0,0,0,.25),0 24px 60px -12px rgba(0,0,0,.6);
-  --g-blur:blur(28px) saturate(170%);
-  --spot:radial-gradient(380px circle at var(--mx,50%) var(--my,0%),rgba(255,226,150,calc(var(--spec) * .24)),transparent 55%);
-}
-html{background:#14110C;}
-body{background:transparent;}
-body::before{inset:-10%;background:
-  radial-gradient(46% 38% at 18% 14%,rgba(255,176,40,.30),transparent 70%),
-  radial-gradient(40% 36% at 86% 22%,rgba(255,120,64,.20),transparent 70%),
-  radial-gradient(52% 44% at 70% 92%,rgba(212,160,23,.24),transparent 70%),
-  radial-gradient(34% 30% at 8% 80%,rgba(70,150,160,.14),transparent 70%),
-  linear-gradient(180deg,#1C1710,#120F0A);
-  background-size:auto;translate:calc(var(--px) * -22px) calc(var(--py) * -16px);transition:translate .5s cubic-bezier(.2,.7,.2,1);}
-.orb{translate:calc(var(--px) * var(--d,30) * 1px) calc(var(--py) * var(--d,30) * .7px);transition:translate .6s cubic-bezier(.2,.7,.2,1);}
-.o1{--d:-46;}.o2{--d:60;}
-
-/* floating glass island nav */
-.nav{top:12px;left:16px;right:16px;border:1px solid var(--g-edge);border-radius:24px;background:var(--g-fill),rgba(30,24,14,.38);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim),var(--g-lift);padding:11px 22px;}
-.nav-icon{border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 22px rgba(255,190,60,.45);}
-.nav-links a{color:#CDBB8A;padding:7px 14px;border-radius:99px;transition:background .2s,color .2s;}
-.nav-links a:hover{background:rgba(255,255,255,.1);color:#FFE9A8;}
-.gticker{margin:78px 16px 0;border:1px solid var(--g-edge);border-radius:99px;background:var(--g-fill),rgba(30,24,14,.3);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim),0 10px 30px -10px rgba(0,0,0,.5);}
-.gti{border-right:1px solid rgba(255,255,255,.07);}
-
-/* hero */
-#hero{background:none;}
-.right{perspective:900px;}
-.robots-row{translate:calc(var(--px) * 16px) calc(var(--py) * 10px);transition:translate .5s cubic-bezier(.2,.7,.2,1);}
-.glow-ring{filter:blur(6px);}
-.badge,.section-badge{background:var(--g-fill),rgba(255,190,60,.08);border:1px solid var(--g-edge);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim);}
-.hero-title,.section-title,.cta-title{text-shadow:0 2px 30px rgba(255,170,40,.18);}
-.chip,.fc-tag,.rc-tag,.rp-tag{background:var(--g-fill),rgba(255,190,60,.06);border:1px solid var(--g-edge);color:#F1D58A;border-radius:99px;box-shadow:var(--g-rim);}
-.chip{padding:5px 14px;}
-.btn-primary,.nav-cta,.rc-btn,.rp-ssrn-btn{border-radius:99px;background:linear-gradient(180deg,#FFE48A 0%,#FFC93C 48%,#E3A21A 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 6px rgba(150,90,0,.3),0 8px 24px -4px rgba(255,170,30,.55);border:1px solid rgba(255,235,170,.5);}
-.btn-primary:hover,.nav-cta:hover,.rc-btn:hover,.rp-ssrn-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -2px 6px rgba(150,90,0,.3),0 16px 36px -4px rgba(255,170,30,.7);}
-.btn-primary:active,.rc-btn:active{transform:translateY(0) scale(.98);}
-.btn-secondary,.rc-btn-outline,.rp-ssrn-btn-outline,.rp-back{border-radius:99px;background:var(--g-fill);border:1px solid var(--g-edge);color:#FFE9A8;backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim),0 8px 22px -8px rgba(0,0,0,.5);}
-.btn-secondary:hover,.rc-btn-outline:hover,.rp-ssrn-btn-outline:hover,.rp-back:hover{background:var(--g-fill),rgba(255,255,255,.07);border-color:rgba(255,255,255,.3);color:#FFF3D6;transform:translateY(-2px);}
-.stats{border-top:1px solid rgba(255,255,255,.1);}
-.fc-desc,.step-desc,.section-sub,.prob-body,.rc-desc,.hero-desc,.cta-sub,.contact-sub,.rp-body{color:#C9B889;}
-.prob-sub,.stat-lbl,.rc-label,.footer-text,.footer-right,.contact-label,.rp-category,.rp-refs{color:#9C8A5C;}
-.gbub{background:var(--g-fill),rgba(30,24,14,.4);border:1px solid var(--g-edge);border-radius:99px;color:#FFE9A8;backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim),0 14px 30px -10px rgba(0,0,0,.55);translate:calc(var(--px) * var(--d,20) * 1px) calc(var(--py) * var(--d,20) * .6px);transition:translate .5s cubic-bezier(.2,.7,.2,1),opacity .4s ease;}
-.gbub-l1,.gbub-r3{--d:38;}.gbub-l2,.gbub-r4{--d:26;}.gbub-l3,.gbub-r1{--d:44;}.gbub-l4,.gbub-r2{--d:30;}
-
-/* sections float on the environment */
-#features,#howitworks,#research,#contact{background:none;border-top:0;}
-#cta{background:radial-gradient(ellipse at 50% 50%,rgba(255,176,40,.14),transparent 70%);}
-footer{border-top:1px solid rgba(255,255,255,.08);}
-
-/* glass windows */
-.factor-card,.hiw-problems,.research-card,.contact-grid a{position:relative;background:var(--spot),var(--g-fill),rgba(30,24,14,.34);border:1px solid var(--g-edge);border-radius:26px;backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);box-shadow:var(--g-rim),var(--g-lift);transition:--spec .35s ease,transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s;transform-style:preserve-3d;will-change:transform;}
-.factor-card{padding:24px;}
-.factor-card:hover,.hiw-problems:hover,.research-card:hover,.contact-grid a:hover{--spec:1;border-color:rgba(255,255,255,.3);box-shadow:var(--g-rim),0 2px 8px rgba(0,0,0,.3),0 34px 70px -12px rgba(0,0,0,.7),0 0 40px -10px rgba(255,180,50,.3);transform:translateY(-6px);}
-.fc-icon{transform:translateZ(34px);display:inline-block;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4));}
-.fc-title,.rc-title{transform:translateZ(18px);}
-.step-num{background:linear-gradient(180deg,#FFE48A,#E3A21A);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 8px 20px -4px rgba(255,170,30,.6);border:1px solid rgba(255,235,170,.5);}
-.prob-item{border-bottom:1px solid rgba(255,255,255,.08);}
-.contact-grid{background:transparent;border:0;gap:16px;}
-.contact-grid a{background:var(--spot),var(--g-fill),rgba(30,24,14,.34);}
-.rp-nav{border-bottom:1px solid var(--g-edge);background:var(--g-fill),rgba(24,19,11,.7);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);}
-#researchpage{background:linear-gradient(180deg,#1C1710,#120F0A);}
-.rp-highlight{background:var(--g-fill),rgba(255,190,60,.05);border:1px solid var(--g-edge);border-radius:20px;box-shadow:var(--g-rim);}
-.rp-table-wrap{border:1px solid var(--g-edge);border-radius:20px;background:var(--g-fill);backdrop-filter:var(--g-blur);-webkit-backdrop-filter:var(--g-blur);}
-.rp-table th{background:rgba(255,255,255,.06);}
-.rp-divider{background:rgba(255,255,255,.1);}
-.chat-hint{border-radius:22px;background:rgba(255,249,230,.92);backdrop-filter:blur(16px);box-shadow:0 18px 40px -8px rgba(0,0,0,.5),inset 0 1px 0 #fff;}
-@media (max-width:600px){.nav{left:8px;right:8px;top:8px;border-radius:18px;}.gticker{margin:68px 8px 0;}}
-@media (prefers-reduced-motion:reduce){body::before,.orb,.robots-row,.gbub{translate:none !important;}.factor-card:hover,.hiw-problems:hover,.research-card:hover,.contact-grid a:hover{transform:none;}}
-</style>
 <div class="gticker"><div class="gtape" id="gtape">Loading live prices...</div></div>
 
 <section id="hero">
@@ -843,29 +766,5 @@ if(chatHint){hintT.push(setTimeout(()=>chatHint.classList.add('is-visible'),1500
 </script>
 
 <div id="chatHint" class="chat-hint"><button id="chatHintClose" class="chat-hint-close">&#215;</button>&#128075; Is gold a safe haven right now?<br>Hit <strong>Get Started &#8594;</strong> to find out</div>
-<script>
-/* spatial UI: pointer-driven parallax for the environment and tilt + specular light on glass windows */
-(function(){
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var root=document.documentElement;
-  if(!reduce){
-    var raf=0,tx=0,ty=0;
-    window.addEventListener('pointermove',function(e){
-      tx=(e.clientX/window.innerWidth-.5)*2;ty=(e.clientY/window.innerHeight-.5)*2;
-      if(!raf)raf=requestAnimationFrame(function(){raf=0;root.style.setProperty('--px',tx.toFixed(3));root.style.setProperty('--py',ty.toFixed(3));});
-    },{passive:true});
-  }
-  var sel='.factor-card,.hiw-problems,.research-card,.contact-grid a';
-  function bind(el){
-    el.addEventListener('pointermove',function(e){
-      var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
-      el.style.setProperty('--mx',(x*100).toFixed(1)+'%');el.style.setProperty('--my',(y*100).toFixed(1)+'%');
-      if(!reduce)el.style.transform='perspective(900px) rotateX('+((.5-y)*7).toFixed(2)+'deg) rotateY('+((x-.5)*9).toFixed(2)+'deg) translateY(-6px)';
-    });
-    el.addEventListener('pointerleave',function(){el.style.transform='';});
-  }
-  Array.prototype.forEach.call(document.querySelectorAll(sel),bind);
-})();
-</script>
 </body>
 </html>

@@ -124,44 +124,6 @@ BUBBLE_CSS = """
     color: #8A7A50 !important;
     opacity: 1 !important;
 }
-
-/* spatial UI */
-.st-key-goldbot_bubble_toggle button {
-    background: linear-gradient(180deg,#FFE48A 0%,#FFC93C 48%,#E3A21A 100%) !important;
-    border: 1px solid rgba(255,235,170,.55) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -3px 8px rgba(150,90,0,.35), 0 12px 30px -4px rgba(255,170,30,.6) !important;
-}
-.st-key-goldbot_bubble_toggle button:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.8), inset 0 -3px 8px rgba(150,90,0,.35), 0 18px 40px -4px rgba(255,170,30,.75) !important; transform: translateY(-3px) scale(1.04); }
-.st-key-goldbot_bubble_panel {
-    background: linear-gradient(135deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,.045) 60%,rgba(255,255,255,.075) 100%), rgba(24,19,11,.62) !important;
-    backdrop-filter: blur(28px) saturate(170%); -webkit-backdrop-filter: blur(28px) saturate(170%);
-    border: 1px solid rgba(255,255,255,.16) !important;
-    border-radius: 28px !important;
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,.34), inset -1px -1px 0 rgba(255,255,255,.07), 0 2px 6px rgba(0,0,0,.25), 0 30px 70px -12px rgba(0,0,0,.7) !important;
-}
-.st-key-goldbot_bubble_header { border-bottom: 1px solid rgba(255,255,255,.1) !important; }
-.goldbot-bubble-sub, .goldbot-bubble-typing { color: #B5A375; }
-.goldbot-bubble-user {
-    background: linear-gradient(180deg,rgba(255,214,110,.42),rgba(227,162,26,.28));
-    border: 1px solid rgba(255,235,170,.35);
-    border-radius: 20px 20px 6px 20px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 18px -8px rgba(0,0,0,.5);
-}
-.goldbot-bubble-bot {
-    background: linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.05));
-    border: 1px solid rgba(255,255,255,.14);
-    border-radius: 20px 20px 20px 6px;
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,.25), 0 8px 18px -8px rgba(0,0,0,.5);
-}
-.st-key-goldbot_bubble_inputrow { border-top: 1px solid rgba(255,255,255,.1) !important; }
-.st-key-goldbot_bubble_panel [data-baseweb="base-input"],
-.st-key-goldbot_bubble_panel [data-baseweb="input"] {
-    background: rgba(255,255,255,.07) !important;
-    border: 1px solid rgba(255,255,255,.16) !important;
-    border-radius: 99px !important;
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,.2) !important;
-}
-.st-key-goldbot_bubble_panel .stTextInput input { background: transparent !important; }
 </style>
 """
 

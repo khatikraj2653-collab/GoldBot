@@ -300,6 +300,14 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
 @media (prefers-reduced-motion:reduce){.floorgrid{animation:none;}.tilt{transform:none;}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<style id="skills-css">
+/* Skills: outlined mono chips */
+#skills{position:relative;z-index:5;padding:72px 48px;background:none;}
+.sk-chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+.sk-chip{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.2;color:var(--t2);border:1px solid var(--hair-2);border-radius:4px;padding:12px 22px;background:transparent;transition:border-color .18s,color .18s,transform .18s,box-shadow .18s;}
+.sk-chip:hover{border-color:var(--gold);color:var(--t1);transform:translateY(-2px);box-shadow:0 8px 18px -10px var(--gold);}
+@media (max-width:700px){#skills{padding:40px 16px;}.sk-chips{gap:10px;}.sk-chip{font-size:12px;padding:9px 14px;}}
+</style>
 </head>
 <body>
 <nav class="nav">
@@ -312,6 +320,7 @@ footer{position:relative;z-index:5;padding:28px 48px;border-top:1px solid rgba(2
     <a href="#playground" onclick="document.getElementById('playground').scrollIntoView({behavior:'smooth'});return false;">Playground</a>
     <a href="#howitworks" onclick="document.getElementById('howitworks').scrollIntoView({behavior:'smooth'});return false;">How it works</a>
     <a href="#research" onclick="document.getElementById('research').scrollIntoView({behavior:'smooth'});return false;">Research</a>
+    <a href="#skills" onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'});return false;">Skills</a>
   </div>
   <button class="nav-cta" onclick="goApp()">Get Started →</button>
 </nav>
@@ -984,6 +993,42 @@ if (window.ResizeObserver) { try { new ResizeObserver(function(){ fitFrame(); })
         <button class="rc-btn" onclick="showResearch()">Read Full Paper →</button>
         <a class="rc-btn-outline" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7200198" target="_blank" rel="noopener">View on SSRN ↗</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-badge">§ Skills</div>
+    <h2 class="section-title">Skills</h2>
+    <p class="section-sub">The stack behind GoldBot: agents, retrieval, memory and data.</p>
+    <div class="sk-chips">
+      <span class="sk-chip">LangGraph</span>
+      <span class="sk-chip">LangChain</span>
+      <span class="sk-chip">Agentic AI</span>
+      <span class="sk-chip">GenAI</span>
+      <span class="sk-chip">RAG</span>
+      <span class="sk-chip">FAISS</span>
+      <span class="sk-chip">Prompt Engineering</span>
+      <span class="sk-chip">OpenAI GPT-4o-mini</span>
+      <span class="sk-chip">HuggingFace Embeddings</span>
+      <span class="sk-chip">MCP (Model Context Protocol)</span>
+      <span class="sk-chip">Tavily Search</span>
+      <span class="sk-chip">Short-Term Memory</span>
+      <span class="sk-chip">Long-Term Memory</span>
+      <span class="sk-chip">Python</span>
+      <span class="sk-chip">Streamlit</span>
+      <span class="sk-chip">SQLite</span>
+      <span class="sk-chip">FRED API</span>
+      <span class="sk-chip">yfinance</span>
+      <span class="sk-chip">GDELT</span>
+      <span class="sk-chip">Backtesting</span>
+      <span class="sk-chip">McNemar's Test</span>
+      <span class="sk-chip">Statistical Testing</span>
+      <span class="sk-chip">HTML / CSS / JS</span>
+      <span class="sk-chip">three.js / WebGL</span>
+      <span class="sk-chip">Streamlit Community Cloud</span>
+      <span class="sk-chip">Git / GitHub</span>
     </div>
   </div>
 </section>

@@ -10,7 +10,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden;font-famil
 #wrap{position:relative;width:100%;height:100%;min-height:320px;}
 canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y;}
 canvas:active{cursor:grabbing;}
-.cloud{position:absolute;top:8%;left:calc(50% + 215px);background:rgba(40,30,10,.95);border:1px solid rgba(255,190,60,.4);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;color:#FFF3D6;white-space:nowrap;opacity:0;pointer-events:none;animation:cloudcycle 45s ease-in-out infinite;box-shadow:0 10px 24px -8px rgba(0,0,0,.7);}
+.cloud{position:absolute;top:13%;left:calc(50% + 118px);background:rgba(40,30,10,.95);border:1px solid rgba(255,190,60,.4);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;color:#FFF3D6;white-space:nowrap;opacity:0;pointer-events:none;animation:cloudcycle 45s ease-in-out infinite;box-shadow:0 10px 24px -8px rgba(0,0,0,.7);}
 @keyframes cloudcycle{0%{opacity:0;transform:translateY(6px);}1.2%{opacity:1;transform:translateY(0);}6%{opacity:1;transform:translateY(0);}7.2%{opacity:0;transform:translateY(-6px);}100%{opacity:0;}}
 .hint{position:absolute;left:0;right:0;bottom:4px;text-align:center;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,243,214,.4);pointer-events:none;}
 @media (max-width:520px){.cloud{left:50%;top:2%;transform:translateX(-50%);}@keyframes cloudcycle{0%{opacity:0;}1.2%{opacity:1;}6%{opacity:1;}7.2%{opacity:0;}100%{opacity:0;}}}
@@ -38,7 +38,7 @@ function start(){
   renderer.outputEncoding = T.sRGBEncoding;
   var scene = new T.Scene(), camera = new T.PerspectiveCamera(30, 1, 0.1, 100);
 
-  scene.add(new T.AmbientLight(0xd8c8a0, 0.7));
+  scene.add(new T.AmbientLight(0xd8c8a0, 0.65));
   var key = new T.DirectionalLight(0xffffff, 1.0); key.position.set(3, 6, 6); scene.add(key);
   var gl1 = new T.PointLight(0xF2C230, 1.6, 20); gl1.position.set(-3.5, 2.5, 3.5); scene.add(gl1);
   var rim = new T.PointLight(0x9CC4E8, 1.1, 20); rim.position.set(4, 3, -3); scene.add(rim);
@@ -52,78 +52,82 @@ function start(){
   var s0 = '#E9DDBB', s1 = '#1B1608';
   var env = new T.CubeTexture([face(s0, s1, 1), face(s0, s1, 0), face('#FFFFFF', '#E8DDBF'), face('#0A0806', '#050402'), face(s0, s1, 1), face(s0, s1, 0)]);
   env.needsUpdate = true; env.encoding = T.sRGBEncoding;
-  var gold = new T.MeshStandardMaterial({color: 0xF2C230, metalness: 0.85, roughness: 0.3, envMap: env, envMapIntensity: 1.15});
-  var goldDark = new T.MeshStandardMaterial({color: 0xC99A1A, metalness: 0.9, roughness: 0.38, envMap: env, envMapIntensity: 1.0});
-  var glass = new T.MeshStandardMaterial({color: 0x0B0906, metalness: 0.5, roughness: 0.12, envMap: env, envMapIntensity: 0.8});
-  var visorMat = new T.MeshStandardMaterial({color: 0x040302, metalness: 0.2, roughness: 0.35, envMap: env, envMapIntensity: 0.12});
-  var glowMat = new T.MeshBasicMaterial({color: 0xFFD84A, side: T.DoubleSide});
+  var gold = new T.MeshStandardMaterial({color: 0xF2C230, metalness: 1, roughness: 0.24, envMap: env, envMapIntensity: 1.25});
+  var goldDark = new T.MeshStandardMaterial({color: 0xC99A1A, metalness: 1, roughness: 0.32, envMap: env, envMapIntensity: 1.0});
+  var glass = new T.MeshStandardMaterial({color: 0x0B0906, metalness: 0.6, roughness: 0.1, envMap: env, envMapIntensity: 0.9});
+  var glowMat = new T.MeshBasicMaterial({color: 0xFFD84A});
 
   function mesh(geo, mat, x, y, z, parent){ var m = new T.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0); if (parent) parent.add(m); return m; }
-  function ell(r, sx, sy, sz, mat){ var m = new T.Mesh(new T.SphereGeometry(r, 40, 30), mat); m.scale.set(sx, sy, sz); return m; }
-  function glowTex(c0, c1){ var c = document.createElement('canvas'); c.width = c.height = 128; var x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, c0); g.addColorStop(1, c1); x.fillStyle = g; x.fillRect(0, 0, 128, 128); return new T.CanvasTexture(c); }
+  function ell(r, sx, sy, sz, mat){ var m = new T.Mesh(new T.SphereGeometry(r, 36, 28), mat); m.scale.set(sx, sy, sz); return m; }
 
   var stageG = new T.Group(); scene.add(stageG);
   var bot = new T.Group(); stageG.add(bot);
-  var HOVER = 1.5;
 
-  /* torso: chubby floating body with a bowl underneath and a glass chest screen */
-  var torso = new T.Group(); bot.add(torso);
-  var bowl = ell(0.55, 1.0, 0.8, 0.85, goldDark); bowl.position.y = -0.8; torso.add(bowl);
-  var body = ell(0.78, 1.0, 1.05, 0.88, gold); torso.add(body);
-  mesh(new T.TorusGeometry(0.7, 0.035, 10, 60), goldDark, 0, -0.5, 0, torso).rotation.x = Math.PI / 2;
-  mesh(new T.BoxGeometry(0.62, 0.4, 0.06), glass, 0, 0.12, 0.66, torso);
-  var coin = mesh(new T.TorusGeometry(0.13, 0.03, 12, 36), glowMat, 0, 0.12, 0.7, torso);
-  mesh(new T.CircleGeometry(0.06, 20), glowMat, 0, 0.12, 0.703, torso);
-  mesh(new T.CylinderGeometry(0.2, 0.28, 0.24, 24), goldDark, 0, 0.9, 0, torso);
+  /* legs */
+  function leg(side){
+    var hip = new T.Group(); hip.position.set(side * 0.3, 1.02, 0); bot.add(hip);
+    mesh(new T.SphereGeometry(0.15, 20, 16), goldDark, 0, 0, 0, hip);
+    mesh(new T.CylinderGeometry(0.13, 0.12, 0.5, 20), gold, 0, -0.25, 0, hip);
+    var knee = new T.Group(); knee.position.y = -0.5; hip.add(knee);
+    mesh(new T.SphereGeometry(0.13, 20, 16), goldDark, 0, 0, 0, knee);
+    mesh(new T.CylinderGeometry(0.12, 0.105, 0.42, 20), gold, 0, -0.21, 0, knee);
+    var foot = ell(0.2, 1, 0.55, 1.6, gold); foot.position.set(0, -0.45, 0.1); knee.add(foot);
+    return {hip: hip, knee: knee};
+  }
+  var legL = leg(-1), legR = leg(1);
 
-  /* arms: chunky capsules hanging from the shoulders, with elbow joints and round hands */
+  /* torso */
+  var torso = new T.Group(); torso.position.y = 1.02; bot.add(torso);
+  var body = ell(0.64, 1.0, 1.05, 0.82, gold); body.position.y = 0.66; torso.add(body);
+  mesh(new T.BoxGeometry(0.6, 0.42, 0.06), glass, 0, 0.66, 0.5, torso);
+  var coin = mesh(new T.TorusGeometry(0.13, 0.03, 12, 36), glowMat, 0, 0.66, 0.545, torso);
+  mesh(new T.CircleGeometry(0.06, 20), glowMat, 0, 0.66, 0.548, torso);
+  mesh(new T.CylinderGeometry(0.13, 0.15, 0.2, 20), goldDark, 0, 1.36, 0, torso);
+
+  /* arms */
   function arm(side){
-    var sh = new T.Group(); sh.position.set(side * 1.02, 0.45, 0); torso.add(sh);
-    mesh(new T.SphereGeometry(0.2, 24, 18), goldDark, 0, 0, 0, sh);
-    mesh(new T.CylinderGeometry(0.17, 0.15, 0.5, 22), gold, 0, -0.27, 0, sh);
-    var el = new T.Group(); el.position.y = -0.54; sh.add(el);
-    mesh(new T.SphereGeometry(0.15, 20, 16), goldDark, 0, 0, 0, el);
-    mesh(new T.CylinderGeometry(0.15, 0.14, 0.42, 22), gold, 0, -0.24, 0, el);
-    mesh(new T.SphereGeometry(0.2, 24, 18), gold, 0, -0.55, 0, el);
+    var sh = new T.Group(); sh.position.set(side * 0.78, 1.08, 0); torso.add(sh);
+    mesh(new T.SphereGeometry(0.17, 24, 18), goldDark, 0, 0, 0, sh);
+    mesh(new T.CylinderGeometry(0.1, 0.09, 0.5, 18), gold, 0, -0.26, 0, sh);
+    var el = new T.Group(); el.position.y = -0.52; sh.add(el);
+    mesh(new T.SphereGeometry(0.11, 18, 14), goldDark, 0, 0, 0, el);
+    mesh(new T.CylinderGeometry(0.09, 0.085, 0.42, 18), gold, 0, -0.22, 0, el);
+    mesh(new T.SphereGeometry(0.14, 20, 16), gold, 0, -0.5, 0, el);
     return {sh: sh, el: el};
   }
   var armL = arm(-1), armR = arm(1);
 
-  /* head: wide shell with a dark visor, dome eyes and a small smile */
-  var head = new T.Group(); head.position.y = 1.62; torso.add(head);
-  var skull = ell(0.82, 1.2, 0.86, 0.92, gold); head.add(skull);
-  var visor = ell(0.7, 1.12, 0.7, 0.5, visorMat); visor.position.set(0, 0.0, 0.5); head.add(visor);
-  var eyeL = new T.Mesh(new T.CircleGeometry(0.15, 28, 0, Math.PI), glowMat), eyeR = eyeL.clone();
-  eyeL.position.set(-0.4, 0.02, 0.82); eyeR.position.set(0.4, 0.02, 0.82); head.add(eyeL); head.add(eyeR);
-  var mouth = new T.Mesh(new T.CircleGeometry(0.11, 24, Math.PI, Math.PI), glowMat); mouth.position.set(0, -0.22, 0.85); head.add(mouth);
-  var eyeGlow = new T.Sprite(new T.SpriteMaterial({map: glowTex('rgba(255,216,74,.16)', 'rgba(255,216,74,0)'), blending: T.AdditiveBlending, transparent: true, depthWrite: false}));
-  eyeGlow.scale.set(2.0, 1.1, 1); eyeGlow.position.set(0, 0.02, 0.9); head.add(eyeGlow);
-  mesh(new T.CylinderGeometry(0.4, 0.46, 0.08, 28), goldDark, 0, 0.78, 0, head);
-  mesh(new T.CylinderGeometry(0.03, 0.03, 0.32, 10), goldDark, 0, 0.96, 0, head);
-  var ant = mesh(new T.SphereGeometry(0.09, 16, 12), glowMat, 0, 1.16, 0, head);
-  var earL = mesh(new T.CylinderGeometry(0.3, 0.3, 0.16, 28), goldDark, -1.0, -0.02, 0, head); earL.rotation.z = Math.PI / 2;
-  var earR = mesh(new T.CylinderGeometry(0.3, 0.3, 0.16, 28), goldDark, 1.0, -0.02, 0, head); earR.rotation.z = Math.PI / 2;
+  /* head */
+  var head = new T.Group(); torso.add(head);
+  head.position.y = 2.05;
+  var skull = ell(0.72, 1.12, 0.92, 0.95, gold); head.add(skull);
+  var visor = ell(0.62, 1.0, 0.64, 0.55, glass); visor.position.set(0, 0.02, 0.5); head.add(visor);
+  var eyeL = ell(0.085, 1, 1.25, 0.5, glowMat); eyeL.position.set(-0.27, 0.1, 0.8); head.add(eyeL);
+  var eyeR = ell(0.085, 1, 1.25, 0.5, glowMat); eyeR.position.set(0.27, 0.1, 0.8); head.add(eyeR);
+  var smile = mesh(new T.TorusGeometry(0.13, 0.022, 8, 28, Math.PI), glowMat, 0, -0.04, 0.83, head); smile.rotation.z = Math.PI;
+  mesh(new T.CylinderGeometry(0.34, 0.4, 0.09, 28), goldDark, 0, 0.7, 0, head);
+  mesh(new T.CylinderGeometry(0.03, 0.03, 0.3, 10), goldDark, 0, 0.88, 0, head);
+  var ant = mesh(new T.SphereGeometry(0.08, 16, 12), glowMat, 0, 1.06, 0, head);
+  var earL = mesh(new T.CylinderGeometry(0.17, 0.17, 0.13, 24), goldDark, -0.8, 0, 0, head); earL.rotation.z = Math.PI / 2;
+  var earR = mesh(new T.CylinderGeometry(0.17, 0.17, 0.13, 24), goldDark, 0.8, 0, 0, head); earR.rotation.z = Math.PI / 2;
 
-  /* hover glow under the body, light pool + ring on the floor, rising sparkles */
-  var thrust = new T.Sprite(new T.SpriteMaterial({map: glowTex('rgba(255,210,80,.9)', 'rgba(255,190,60,0)'), blending: T.AdditiveBlending, transparent: true, depthWrite: false}));
-  thrust.scale.set(1.8, 1.8, 1); thrust.position.y = -1.5; torso.add(thrust);
-  var disc = mesh(new T.CylinderGeometry(2.0, 2.0, 0.1, 64), new T.MeshStandardMaterial({color: 0x17130A, metalness: 0.8, roughness: 0.35, envMap: env}), 0, -0.07, 0, stageG);
-  var pool = mesh(new T.CircleGeometry(1.7, 48), new T.MeshBasicMaterial({map: glowTex('rgba(255,200,80,.6)', 'rgba(255,190,60,0)'), blending: T.AdditiveBlending, transparent: true, depthWrite: false}), 0, 0.02, 0, stageG); pool.rotation.x = -Math.PI / 2;
-  var ring = mesh(new T.TorusGeometry(2.0, 0.03, 8, 96), new T.MeshBasicMaterial({color: 0xF2C230, transparent: true, opacity: 0.8}), 0, 0.0, 0, stageG); ring.rotation.x = Math.PI / 2;
+  /* floor: disc, ring that pulses with the beat, soft shadow, rising sparkles */
+  var disc = mesh(new T.CylinderGeometry(1.9, 1.9, 0.1, 64), new T.MeshStandardMaterial({color: 0x17130A, metalness: 0.8, roughness: 0.35, envMap: env}), 0, -0.07, 0, stageG);
+  var ring = mesh(new T.TorusGeometry(1.9, 0.03, 8, 96), new T.MeshBasicMaterial({color: 0xF2C230, transparent: true, opacity: 0.8}), 0, 0.0, 0, stageG); ring.rotation.x = Math.PI / 2;
   var pulse = mesh(new T.TorusGeometry(1.2, 0.02, 8, 96), new T.MeshBasicMaterial({color: 0xFFD84A, transparent: true, opacity: 0.5}), 0, 0.01, 0, stageG); pulse.rotation.x = Math.PI / 2;
   function sparkTex(){ var c = document.createElement('canvas'); c.width = c.height = 64; var x = c.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,230,140,1)'); g.addColorStop(1, 'rgba(255,190,60,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); return new T.CanvasTexture(c); }
   var sTex = sparkTex(), sparks = [];
-  for (var i = 0; i < 18; i++) {
+  for (var i = 0; i < 16; i++) {
     var sp = new T.Sprite(new T.SpriteMaterial({map: sTex, blending: T.AdditiveBlending, transparent: true, depthWrite: false}));
-    sp.userData = {a: Math.random() * 6.28, r: 1.3 + Math.random() * 1.0, y: Math.random() * 4.4, v: 0.3 + Math.random() * 0.5, s: 0.14 + Math.random() * 0.16};
+    sp.userData = {a: Math.random() * 6.28, r: 1.0 + Math.random() * 1.0, y: Math.random() * 4.0, v: 0.3 + Math.random() * 0.5, s: 0.12 + Math.random() * 0.14};
     stageG.add(sp); sparks.push(sp);
   }
 
   function resize(){
     var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); camera.aspect = w / h;
-    var d = Math.max(10.8, 12.5 / camera.aspect);
-    camera.position.set(0, 2.8, d); camera.lookAt(0, 2.05, 0); camera.updateProjectionMatrix();
+    var d = Math.max(12.4, 12.4 * 1.05 / Math.min(1, camera.aspect * 1.25));
+    camera.position.set(0, 2.5, d); camera.lookAt(0, 2.0, 0); camera.updateProjectionMatrix();
   }
   resize();
   if (window.ResizeObserver) new ResizeObserver(resize).observe(wrap); else window.addEventListener('resize', resize);
@@ -137,7 +141,7 @@ function start(){
 
   var amp = reduce ? 0.12 : 1, clock = new T.Clock(), t = 0, visible = true;
   if (window.IntersectionObserver) new IntersectionObserver(function(en){ visible = en[0].isIntersecting; }).observe(wrap);
-  var P = {aL: 0, aR: 0, eL: 0, eR: 0};
+  var P = {aL: 0, aR: 0, eL: 0, eR: 0, tw: 0};
   function lerp(a, b, k){ return a + (b - a) * k; }
   function ease(x){ x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
 
@@ -145,7 +149,7 @@ function start(){
     requestAnimationFrame(frame);
     if (!visible || document.hidden) return;
     var dt = Math.min(clock.getDelta(), 0.05); t += dt;
-    var p = t * Math.PI * 2 * 1.0;                      // 1 Hz cycle = a beat every half second (120 bpm)
+    var p = t * Math.PI * 2 * 1.0;                      // 1 Hz cycle = bounce twice a second (120 bpm)
     var moveLen = 6, move = Math.floor(t / moveLen) % 3, mt = t % moveLen;
     var s = Math.sin(p / 2) > 0 ? 1 : -1, bounce = Math.abs(Math.sin(p));
 
@@ -162,27 +166,28 @@ function start(){
     armR.sh.rotation.z = lerp(0.12, P.aR, amp); armL.sh.rotation.z = lerp(-0.12, P.aL, amp);
     armR.el.rotation.z = P.eR * amp; armL.el.rotation.z = P.eL * amp;
 
-    var j = 0; if (jump >= 0) { jump += dt * 1.6; j = Math.sin(Math.min(jump, 1) * Math.PI) * 1.1; if (jump >= 1) jump = -1; }
-    var lift = HOVER + bounce * 0.28 * amp + j;          // floats up on every beat
-    bot.position.y = lift;
-    bot.rotation.z = Math.sin(p / 2) * 0.16 * amp;       // sways side to side
-    torso.rotation.y = Math.sin(p / 2) * 0.45 * amp;
-    torso.rotation.x = (Math.sin(p) * 0.06 - 0.03) * amp;
-    head.rotation.z = Math.sin(p / 2 + 0.9) * 0.2 * amp;
-    head.rotation.x = (Math.sin(p) * 0.12 + 0.04) * amp; // nods on the beat
-    head.rotation.y = -Math.sin(p / 2) * 0.3 * amp;
-    bowl.rotation.z = -Math.sin(p / 2) * 0.12 * amp;
+    var j = 0; if (jump >= 0) { jump += dt * 1.6; j = Math.sin(Math.min(jump, 1) * Math.PI) * 0.9; if (jump >= 1) jump = -1; }
+    bot.position.y = bounce * 0.15 * amp + j;
+    bot.rotation.z = Math.sin(p) * 0.07 * amp;
+    torso.rotation.y = Math.sin(p / 2) * 0.4 * amp;
+    torso.rotation.z = -Math.sin(p) * 0.05 * amp;
+    head.rotation.z = Math.sin(p / 2 + 0.8) * 0.2 * amp;
+    head.rotation.x = (Math.sin(p) * 0.1 + 0.04) * amp;
+    head.rotation.y = -Math.sin(p / 2) * 0.25 * amp;
+
+    var bend = bounce * 0.38 * amp;                      // knees bend on the beat, feet tap in turn
+    legL.hip.rotation.x = -bend - (Math.sin(p / 2) > 0 ? bounce * 0.3 * amp : 0); legR.hip.rotation.x = -bend - (Math.sin(p / 2) > 0 ? 0 : bounce * 0.3 * amp);
+    legL.knee.rotation.x = bend * 1.9 + (Math.sin(p / 2) > 0 ? bounce * 0.5 * amp : 0); legR.knee.rotation.x = bend * 1.9 + (Math.sin(p / 2) > 0 ? 0 : bounce * 0.5 * amp);
+    legL.hip.rotation.z = -0.05 - bounce * 0.04 * amp; legR.hip.rotation.z = 0.05 + bounce * 0.04 * amp;
 
     bot.rotation.y = move === 2 && !reduce ? Math.PI * 2 * ease((mt - 2.2) / 3.0) : 0;   // twirl at the end of the third move
 
-    var eyeS = (Math.sin(t * 2.3) > 0.985) ? 0.15 : 1;  // blink
-    eyeL.scale.y = eyeR.scale.y = eyeS;
+    var eyeS = (Math.sin(t * 2.3) > 0.985) ? 0.12 : 1;  // blink
+    eyeL.scale.y = eyeR.scale.y = 1.25 * eyeS;
     coin.rotation.z += dt * 1.5;
     ant.scale.setScalar(1 + Math.sin(p * 2) * 0.25 * amp);
-    thrust.material.opacity = 0.65 + bounce * 0.35; thrust.scale.setScalar(1.5 + bounce * 0.5);
-    pool.material.opacity = 0.55 + bounce * 0.4; pool.scale.setScalar(1.1 - (lift - HOVER) * 0.12);
-    pulse.scale.setScalar(0.7 + ((p / (Math.PI * 2)) % 1) * 0.6); pulse.material.opacity = 0.55 * (1 - ((p / (Math.PI * 2)) % 1));
-    sparks.forEach(function(sp){ var u = sp.userData; u.y += u.v * dt * amp; if (u.y > 4.6) u.y = 0; u.a += dt * 0.5; sp.position.set(Math.cos(u.a) * u.r, 0.1 + u.y, Math.sin(u.a) * u.r); sp.scale.setScalar(u.s * (1 - u.y / 4.8)); });
+    pulse.scale.setScalar(0.7 + ((p / (Math.PI * 2)) % 1) * 0.55); pulse.material.opacity = 0.55 * (1 - ((p / (Math.PI * 2)) % 1));
+    sparks.forEach(function(sp){ var u = sp.userData; u.y += u.v * dt * amp; if (u.y > 4.2) u.y = 0; u.a += dt * 0.5; sp.position.set(Math.cos(u.a) * u.r, 0.1 + u.y, Math.sin(u.a) * u.r); sp.scale.setScalar(u.s * (1 - u.y / 4.4)); });
 
     if (!drag) { viewYaw += vel; vel *= 0.92; viewYaw *= 0.97; }
     stageG.rotation.y = viewYaw;

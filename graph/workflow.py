@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import streamlit as st
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
 from graph.state import GoldState
@@ -7,6 +8,7 @@ from graph.nodes import generate_prediction
 from graph.subgraphs import build_macro_subgraph, build_safe_haven_subgraph, build_geopolitical_subgraph
 
 
+@st.cache_resource(show_spinner=False)
 def build_graph():
     db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'goldbot_checkpoints.db')
     conn = sqlite3.connect(db_path, check_same_thread=False)

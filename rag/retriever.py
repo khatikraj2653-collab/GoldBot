@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import MarkdownHeaderTextSplitter
@@ -10,11 +11,9 @@ _embeddings = None
 _vectorstore = None
 
 
+@st.cache_resource(show_spinner=False)
 def _get_embeddings():
-    global _embeddings
-    if _embeddings is None:
-        _embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    return _embeddings
+    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
 def build_vectorstore():
@@ -32,18 +31,14 @@ def build_vectorstore():
     return vectorstore
 
 
+@st.cache_resource(show_spinner=False)
 def get_vectorstore():
-    """Loads the FAISS index from disk, building it first if it doesn't exist yet."""
-    global _vectorstore
-    if _vectorstore is not None:
-        return _vectorstore
-
+    """Loads the FAISS index from disk, building it first if it doesn't exist yet.
+    Cached across reruns so the index only loads once per server lifetime."""
     embeddings = _get_embeddings()
     if os.path.exists(INDEX_PATH):
-        _vectorstore = FAISS.load_local(INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
-    else:
-        _vectorstore = build_vectorstore()
-    return _vectorstore
+        return FAISS.load_local(INDEX_PATH, embeddings, allow_dangerous_deserialization=True)
+    return build_vectorstore()
 
 
 def retrieve_factor_context(factor_query: str, k: int = 1) -> str:

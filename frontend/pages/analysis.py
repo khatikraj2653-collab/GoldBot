@@ -401,7 +401,7 @@ if not st.session_state.result:
         <div class='hero-badge'><span class='bdot'></span> LIVE · 9-Factor Safe Haven Analysis</div>
     </div>
     """, unsafe_allow_html=True)
-    render_robot_3d(height=340)
+    render_robot_3d(height=420)
     st.markdown("""
     <div class='hero-wrap' style='padding-top:0'>
         <div class='hero-greeting'>Hi! I am <em>GoldBot</em></div>

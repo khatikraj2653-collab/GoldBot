@@ -181,13 +181,96 @@ Answer clearly and concisely in 2-4 sentences, using the context above where rel
 """)
 
 
+def _extract_number(s):
+    import re
+    if not isinstance(s, str):
+        return None
+    m = re.search(r'-?\d+\.?\d*', s)
+    if not m:
+        return None
+    try:
+        return float(m.group(0))
+    except (ValueError, TypeError):
+        return None
+
+
+def _suggest_gold_score(factor_key, raw):
+    v = _extract_number(raw)
+    if v is None:
+        return None
+    if factor_key == "real_yields":
+        # For GOLD: lower real yields = bullish
+        if v < 0: return 7
+        if v < 1: return 4
+        if v < 2: return 1
+        if v < 2.5: return -3
+        if v < 3: return -5
+        return -7
+    if factor_key == "usd_index":
+        # Stronger USD = gold-bearish
+        if v < 95: return 5
+        if v < 100: return 3
+        if v < 102: return -3
+        if v < 105: return -5
+        return -7
+    if factor_key == "fed_rate":
+        if v < 3: return 5
+        if v < 4: return 3
+        if v < 4.5: return -1
+        if v < 5: return -3
+        return -5
+    if factor_key == "treasury_2y":
+        if v < 3: return 4
+        if v < 4: return 1
+        if v < 4.5: return -2
+        if v < 5: return -4
+        return -6
+    if factor_key == "vix":
+        # Higher VIX = safe-haven bid for gold
+        if v < 13: return -5
+        if v < 16: return -3
+        if v < 20: return -1
+        if v < 25: return 3
+        if v < 35: return 6
+        return 9
+    if factor_key == "inflation_expectations":
+        # 5Y breakeven — higher expectations = gold hedge bullish
+        if v < 2: return -3
+        if v < 2.3: return -1
+        if v < 2.6: return 2
+        if v < 3: return 4
+        return 6
+    if factor_key == "sp500_growth":
+        # Negative S&P = gold safe-haven bid
+        if v > 1: return -3
+        if v > 0: return -1
+        if v > -1: return 1
+        if v > -2: return 3
+        return 5
+    return None
+
+
+HINTABLE_FACTORS = {"real_yields", "usd_index", "fed_rate", "treasury_2y", "vix", "inflation_expectations", "sp500_growth"}
+
+
 def generate_prediction(state: GoldState) -> dict:
+    from tools.cache_utils import _looks_like_error
     rag_context = {
         key: retrieve_factor_context(query)
         for key, query in FACTOR_RAG_QUERIES.items()
     }
 
-    prompt_inputs = {key: state.get(key, "N/A") for key in FACTOR_WEIGHTS}
+    def _with_hint(factor_key):
+        raw = state.get(factor_key, "N/A")
+        if factor_key not in HINTABLE_FACTORS or _looks_like_error(raw):
+            return raw
+        suggested = _suggest_gold_score(factor_key, raw)
+        if suggested is None:
+            return raw
+        sign = "+" if suggested >= 0 else ""
+        return f"{raw}  [PYTHON HINT: suggested score = {sign}{suggested} based on band table — accept if you agree, override if you disagree]"
+
+    prompt_inputs = {key: _with_hint(key) for key in FACTOR_WEIGHTS}
     for key in FACTOR_WEIGHTS:
         prompt_inputs[f"{key}_context"] = rag_context.get(key, "N/A")
 

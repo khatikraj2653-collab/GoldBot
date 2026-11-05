@@ -36,16 +36,38 @@ _init_cache_table()
 # Strings that indicate a failed fetch — we skip caching these so a transient
 # rate limit or API hiccup doesn't poison the cache for 24 hours.
 _ERROR_MARKERS = (
-    "Data unavailable", "Too Many Requests", "Rate limited", "Cannot specify",
-    "N/A for ", "Not enough", "out-of-bounds", "Data temporarily unavailable",
+    "Data unavailable",
+    "Data temporarily unavailable",
+    "Too Many Requests",
+    "Rate limited",
+    "Try after a while",
+    "Cannot specify",
+    "Not enough",
+    "out-of-bounds",
     "did not return",
+    "all sources failed",
+    "N/A for ",
+    "no usable content",
 )
 
 
 def _looks_like_error(value: str) -> bool:
-    if not isinstance(value, str) or not value:
+    """True if the string looks like a failed fetch / missing-data placeholder
+    rather than a real signal. Used both for cache-skip and for the scoring
+    guardrail so the LLM never scores an error string as bullish/bearish."""
+    if not isinstance(value, str) or not value.strip():
         return True
-    return any(m in value for m in _ERROR_MARKERS)
+    if any(m in value for m in _ERROR_MARKERS):
+        return True
+    # Patterns like "EPS: N/A, Growth: N/A" — mostly placeholders with no
+    # substantive numeric data.
+    na_count = value.count("N/A") + value.count("n/a")
+    digit_count = sum(c.isdigit() for c in value)
+    if na_count >= 2 and digit_count < 4:
+        return True
+    if na_count >= 1 and digit_count < 2 and len(value) < 60:
+        return True
+    return False
 
 
 def cached_tool(ttl_seconds):

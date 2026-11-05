@@ -582,6 +582,23 @@ if not st.session_state.result:
                         progress_bar.progress(100, text="Prediction complete")
 
             progress_bar.empty()
+
+            # SAFETY NET: Python band overrides for numeric factors (in case
+            # the compiled graph still references an old generate_prediction).
+            try:
+                from graph.nodes import _suggest_gold_score, HINTABLE_FACTORS
+                from tools.cache_utils import _looks_like_error
+                if isinstance(result.get("scores"), dict):
+                    for factor_key in HINTABLE_FACTORS:
+                        raw = str(result.get(factor_key, ""))
+                        if _looks_like_error(raw):
+                            continue
+                        suggested = _suggest_gold_score(factor_key, raw)
+                        if suggested is not None:
+                            result["scores"][factor_key] = suggested
+            except Exception as _e:
+                print(f"[safety-net Option B gold] skipped: {_e}", flush=True)
+
             st.session_state.result = result
 
             pred_text = result.get("prediction", "")

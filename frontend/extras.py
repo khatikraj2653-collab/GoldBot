@@ -128,17 +128,27 @@ def build_analysis_pdf(status: str, strength, scores: dict, reasoning: str,
 
 def render_download_pdf_button(status: str, strength, scores: dict, reasoning: str,
                                 bullish: list, bearish: list, confidence: str, timestamp: str):
-    """One-click 'Download PDF' button that builds and offers the PDF."""
+    """One-click 'Download PDF' button that always renders something visible."""
+    try:
+        from fpdf import FPDF  # noqa: F401
+    except ImportError:
+        st.button(
+            "PDF export unavailable", disabled=True, use_container_width=True,
+            help="fpdf2 is not installed in this environment.",
+        )
+        return
     try:
         pdf_bytes = build_analysis_pdf(status, strength, scores, reasoning, bullish, bearish, confidence, timestamp)
         st.download_button(
-            label="Download PDF report",
+            label="📄 Download PDF",
             data=pdf_bytes,
-            file_name=f"goldbot_{timestamp.replace(':', '').replace(' ', '_')}.pdf",
+            file_name=f"goldbot_{timestamp.replace(':', '').replace(' ', '_').replace('-', '')}.pdf",
             mime="application/pdf",
-            use_container_width=False,
+            use_container_width=True,
+            type="primary",
         )
-    except ImportError:
-        st.caption("PDF export unavailable (fpdf2 not installed - add `fpdf2` to requirements.txt)")
     except Exception as e:
-        st.caption(f"PDF export failed: {e}")
+        st.button(
+            "PDF export failed", disabled=True, use_container_width=True,
+            help=str(e)[:200],
+        )

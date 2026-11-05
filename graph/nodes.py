@@ -105,9 +105,20 @@ Context: {sp500_growth_context}
 Inflation Expectations: {inflation_expectations}
 Context: {inflation_expectations_context}
 
-Score every factor that has real data, using the full -10 to +10 range. Be decisive — Real Yields at 2.65% is clearly gold-bearish (opportunity cost), USD Index at 101 is mildly gold-bearish (strong dollar), VIX at 16 is mildly gold-bearish (calm market = no safe-haven bid), S&P 500 down 1% is mildly gold-bullish. Do NOT default to 0 Neutral just because you are uncertain — pick a direction and a magnitude for every factor with real data.
+Score every factor that has real data, using the full -10 to +10 range. Use the explicit numeric bands below — do NOT default to 0 for mild signals. The Context section provides historical background; use it to interpret the current Data value, don't ignore it.
 
-NARROW EXCEPTION — score exactly 0 (Neutral) ONLY IF the factor's Data field is literally missing or errored, meaning it contains "Data unavailable", "Too Many Requests", "Rate limited", "no usable content", or is "N/A" standing alone with no accompanying numeric data. For every OTHER factor with real data (even if the signal is mild), give it a real non-zero score. The Context section is general background only — ignore it when scoring; score based on the current Data value.
+EXPLICIT SCORE BANDS (map numeric values deterministically):
+- Real Yields: <0% = +7, 0-1% = +4, 1-2% = +1, 2-2.5% = -3, 2.5-3% = -5, >3% = -7
+- USD Index (DXY): <95 = +5, 95-100 = +3, 100-102 = -3, 102-105 = -5, >105 = -7
+- Fed Rate: <3% = +5, 3-4% = +3, 4-4.5% = -1, 4.5-5% = -3, >5% = -5
+- 2Y Treasury: <3% = +4, 3-4% = +1, 4-4.5% = -2, 4.5-5% = -4, >5% = -6
+- VIX: <13 = -5, 13-16 = -3, 16-20 = -1, 20-25 = +3, 25-35 = +6, >35 = +9
+- Inflation Expectations (5Y breakeven): <2% = -3, 2-2.3% = -1, 2.3-2.6% = +2, 2.6-3% = +4, >3% = +6
+- S&P 500 % change (today): >+1% = -3, 0 to +1% = -1, -1 to 0% = +1, -2 to -1% = +3, <-2% = +5
+- Central Bank Buying: net buying trend = +4 to +7 depending on magnitude; neutral / slowing = 0 to +2; net selling = -3 to -5
+- Geopolitical Risk: pick a sign based on the text — any active conflict / escalation = +3 to +8, de-escalation / calm = -2 to -4; mixed = +1 or +2, never 0
+
+SCORE 0 ONLY IF the factor's Data field is literally missing or errored (contains "Data unavailable", "Too Many Requests", "Rate limited", "no usable content", or bare "N/A"). For every OTHER factor you MUST commit to a non-zero integer from the bands above.
 
 Return ONLY this exact format, no other text:
 REAL_YIELDS_SCORE: [integer -10 to 10]
@@ -187,14 +198,21 @@ def generate_prediction(state: GoldState) -> dict:
         "SP500_GROWTH_SCORE": "sp500_growth",
         "INFLATION_EXPECTATIONS_SCORE": "inflation_expectations",
     }
+    import re
     for line in scoring_response.content.split("\n"):
-        line = line.strip()
+        cleaned = re.sub(r'^[\s\-\*\d\.\`]*\**\s*', '', line).strip().rstrip('*').strip()
         for score_key, factor_key in score_map.items():
-            if line.startswith(score_key + ":"):
-                try:
-                    scores[factor_key] = int(line.split(":")[-1].strip())
-                except:
+            if cleaned.startswith(score_key + ":"):
+                tail = cleaned.split(":", 1)[-1]
+                m = re.search(r'-?\d+', tail)
+                if m:
+                    try:
+                        scores[factor_key] = max(-10, min(10, int(m.group(0))))
+                    except (ValueError, TypeError):
+                        scores[factor_key] = 0
+                else:
                     scores[factor_key] = 0
+                break
     for key in FACTOR_WEIGHTS:
         if key not in scores:
             scores[key] = 0

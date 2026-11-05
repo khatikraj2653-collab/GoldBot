@@ -17,7 +17,8 @@ except Exception as _e:
     print(f"[cache] purge skipped: {_e}", flush=True)
 
 
-@st.cache_resource(show_spinner=False)
+# NOTE: do NOT @st.cache_resource — the compiled graph captures function
+# references at build time, which pins old code across deploys.
 def build_graph():
     db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'goldbot_checkpoints.db')
     conn = sqlite3.connect(db_path, check_same_thread=False)

@@ -14,6 +14,12 @@ llm = ChatOpenAI(
     temperature=0
 )
 
+llm_retry = ChatOpenAI(
+    model="gpt-4o",
+    api_key=os.getenv("OPENAI_API_KEY"),
+    temperature=0.4
+)
+
 FACTOR_WEIGHTS = {
     "real_yields": 14,
     "usd_index": 13,
@@ -242,15 +248,16 @@ def generate_prediction(state: GoldState) -> dict:
             break
         offender_list = "\n".join(f"- {k}: '{v}'" for k, v in zero_offenders)
         complaint = (
-            f"PROBLEM: Your previous response scored {len(zero_offenders)} factors as 0 "
-            f"despite them having REAL DATA (none match the missing-data exception). "
-            f"This violates the mandatory rule and the EXPLICIT SCORE BANDS.\n\n"
-            f"These factors must each get a NON-ZERO integer between -10 and +10:\n"
+            f"YOUR PREVIOUS RESPONSE IS REJECTED. You scored {len(zero_offenders)} factors as 0 "
+            f"despite them having REAL DATA. The EXPLICIT SCORE BANDS tell you exactly what "
+            f"number to pick for each value — you MUST use them.\n\n"
+            f"The following scores MUST be changed to a non-zero integer per the bands:\n"
             f"{offender_list}\n\n"
-            f"Re-output ALL 9 scores in the same format. Apply the EXPLICIT SCORE BANDS table. "
-            f"Every factor above MUST be non-zero."
+            f"Example: if USD Index is 101.42, the bands say USD 100-102 = -3. Pick -3, not 0. "
+            f"If VIX is 16.61, the bands say VIX 16-20 = -1. Pick -1, not 0.\n\n"
+            f"Re-output ALL 9 scores in the exact same format. Every factor above MUST be non-zero."
         )
-        retry_response = llm.invoke(
+        retry_response = llm_retry.invoke(
             rendered_messages
             + [AIMessage(content=scoring_response.content), HumanMessage(content=complaint)]
         )

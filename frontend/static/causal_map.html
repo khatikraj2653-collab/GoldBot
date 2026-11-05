@@ -80,6 +80,23 @@
 .cm.stack .cm-body{grid-template-columns:1fr;}
 .cm.stack .cm-side{max-height:none;}
 @media (prefers-reduced-motion:reduce){.cm .flow{animation:none;}.cm *{transition:none !important;}}
+/* mobile fallback */
+.cm-mobile{display:none;}
+.cm-mobile h4{margin:4px 0 10px;font-size:14px;font-weight:600;color:var(--text);}
+.cm-mobile .mb-group{margin:14px 0 6px;font-family:var(--num);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3);}
+.cm-mobile .mb-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--hair);font-size:13px;}
+.cm-mobile .mb-row:first-of-type{border-top:0;}
+.cm-mobile .mb-label{color:var(--text-2);}
+.cm-mobile .mb-score{font-family:var(--num);font-weight:600;font-variant-numeric:tabular-nums;min-width:36px;text-align:right;}
+.cm-mobile .mb-score.pos{color:#34D399;} .cm-mobile .mb-score.neg{color:#F87171;} .cm-mobile .mb-score.zero{color:var(--text-3);}
+.cm-mobile .mb-prob{display:flex;align-items:baseline;gap:10px;padding:10px 12px;margin-bottom:10px;background:var(--tile);border:1px solid var(--hair);border-radius:10px;}
+.cm-mobile .mb-prob b{font-family:var(--num);font-size:22px;color:#F2C230;}
+.cm-mobile .mb-prob span{font-size:12px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;}
+@media (max-width: 720px){
+  .cm{padding:14px;}
+  .cm-head .cm-btn, .cm-chips, .cm-body, .cm-foot, .cm-sub{display:none !important;}
+  .cm-mobile{display:block;}
+}
 </style>
 <div class="cm" id="cm">
   <div class="cm-head">
@@ -102,6 +119,7 @@
     <aside class="cm-side" id="cm-side"></aside>
   </div>
   <div class="cm-foot" id="cm-foot"></div>
+  <div class="cm-mobile" id="cm-mobile"></div>
   <div class="cm-sr" id="cm-live" aria-live="polite"></div>
 </div>
 <script>
@@ -133,6 +151,26 @@ document.getElementById('cm-title').textContent = sample ? 'Try it: interactive 
 document.getElementById('cm-foot').textContent = sample
   ? 'Illustrative scores, not a live reading. Run a real analysis to see live scores. Node size = factor weight, colour = score, line thickness = effect on strength. ON at 50% or above.'
   : 'What-if view only: the original model scores are unchanged and nothing here is saved. Node size = factor weight, colour = score, line thickness = effect on strength. ON at 50% or above. Not financial advice.';
+
+// mobile fallback: render scores as a grouped list
+(function(){
+  var mb = document.getElementById('cm-mobile'); if(!mb) return;
+  var LAYER_NAME = {macro:'Macro', safe:'Safe haven signals', geo:'Geopolitical'};
+  var probSum = 0; FACT.forEach(function(f){ probSum += (base[f[0]]||0) * f[3]; });
+  var strength = Math.max(15, Math.min(85, Math.round((probSum + 1000) / 20)));
+  var html = '<h4>' + (sample ? 'Sample scores (illustrative)' : 'Gold scores') + '</h4>';
+  html += '<div class="mb-prob"><b>' + strength + '%</b><span>Safe-haven strength (model)</span></div>';
+  ['macro','safe','geo'].forEach(function(lk){
+    html += '<div class="mb-group">' + LAYER_NAME[lk] + '</div>';
+    FACT.filter(function(f){ return f[2]===lk; }).forEach(function(f){
+      var v = base[f[0]] || 0;
+      var cls = v>0 ? 'pos' : (v<0 ? 'neg' : 'zero');
+      var sign = v>0 ? '+' : (v<0 ? '−' : '');
+      html += '<div class="mb-row"><span class="mb-label">'+f[1]+'</span><span class="mb-score '+cls+'">'+sign+Math.abs(v)+'</span></div>';
+    });
+  });
+  mb.innerHTML = html;
+})();
 
 function layerOf(k){ for (var i=0;i<FACT.length;i++) if (FACT[i][0]===k) return FACT[i][2]; }
 function eff(k){ return muted[layerOf(k)] ? 0 : cur[k]; }

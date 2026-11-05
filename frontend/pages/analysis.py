@@ -376,6 +376,23 @@ def smart_truncate(text, limit: int = 1200) -> str:
     return text[:limit].rsplit(' ', 1)[0].strip() + "..."
 
 
+def source_badge(raw_value: str) -> str:
+    """Tiny HTML badge indicating the data source for a factor (primary /
+    fallback / missing / failed)."""
+    if not isinstance(raw_value, str) or not raw_value:
+        return ""
+    low = raw_value.lower()
+    if "fred" in low and "trade-weighted" in low:
+        return "<span class='src-badge src-fallback' title='Primary source rate-limited — showing FRED trade-weighted USD fallback'>🟡 FRED fallback</span>"
+    if "(last close)" in low:
+        return "<span class='src-badge src-fallback' title='Live quote unavailable — showing last close'>🟡 last close</span>"
+    if "not reported for" in low:
+        return "<span class='src-badge src-missing' title='Data not reported by the source'>⚪ not reported</span>"
+    if "data unavailable" in low or "too many requests" in low or "rate limited" in low:
+        return "<span class='src-badge src-error' title='All sources failed'>🔴 unavailable</span>"
+    return ""
+
+
 def score_badge(key, scores, result=None):
     score = scores.get(key)
     if result is not None:
@@ -603,17 +620,34 @@ if st.session_state.result:
         except Exception as e:
             st.caption(f"Causal map unavailable: {e}")
 
+    st.markdown("""
+    <style>
+      .src-badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:10px;font-size:10px;letter-spacing:.04em;vertical-align:middle;font-weight:600;}
+      .src-fallback{background:rgba(245,165,36,.14);color:#F5A524;border:1px solid rgba(245,165,36,.25);}
+      .src-missing{background:rgba(142,154,170,.12);color:#8EA0AB;border:1px solid rgba(142,154,170,.2);}
+      .src-error{background:rgba(248,113,113,.14);color:#F87171;border:1px solid rgba(248,113,113,.3);}
+    </style>
+    """, unsafe_allow_html=True)
+
+    def _gb_card(label, key):
+        raw = str(result.get(key, "N/A"))
+        st.markdown(
+            f"<div class='semi-card'><div class='card-key'>{label}{source_badge(raw)}</div>"
+            f"<div class='card-val'>{smart_truncate(raw)}</div>{score_badge(key, scores, result)}</div>",
+            unsafe_allow_html=True,
+        )
+
     st.markdown("<div class='sec-label'>Macro</div>", unsafe_allow_html=True)
     for label, key in [("Real Yields", "real_yields"), ("USD Index", "usd_index"), ("Fed Rate", "fed_rate"), ("Inflation Expectations", "inflation_expectations")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
+        _gb_card(label, key)
 
     st.markdown("<div class='sec-label'>Safe Haven Signals</div>", unsafe_allow_html=True)
     for label, key in [("2-Year Treasury", "treasury_2y"), ("VIX", "vix"), ("S&P 500 Growth", "sp500_growth")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
+        _gb_card(label, key)
 
     st.markdown("<div class='sec-label'>Geopolitical</div>", unsafe_allow_html=True)
     for label, key in [("Central Bank Buying", "central_bank_buying"), ("Geopolitical Risk", "geopolitical_risk")]:
-        st.markdown(f"<div class='semi-card'><div class='card-key'>{label}</div><div class='card-val'>{smart_truncate(result.get(key,'N/A'))}</div>{score_badge(key, scores, result)}</div>", unsafe_allow_html=True)
+        _gb_card(label, key)
 
     st.markdown("<hr style='border-color:rgba(255,190,60,0.08);margin:24px 0'>", unsafe_allow_html=True)
     st.markdown("<div style='font-family:Space Grotesk,sans-serif;font-size:1rem;font-weight:600;color:#FFF3D6;margin-bottom:14px'>Prediction</div>", unsafe_allow_html=True)

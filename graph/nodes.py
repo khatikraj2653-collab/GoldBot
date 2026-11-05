@@ -260,17 +260,7 @@ def generate_prediction(state: GoldState) -> dict:
         for key, query in FACTOR_RAG_QUERIES.items()
     }
 
-    def _with_hint(factor_key):
-        raw = state.get(factor_key, "N/A")
-        if factor_key not in HINTABLE_FACTORS or _looks_like_error(raw):
-            return raw
-        suggested = _suggest_gold_score(factor_key, raw)
-        if suggested is None:
-            return raw
-        sign = "+" if suggested >= 0 else ""
-        return f"{raw}  [PYTHON HINT: suggested score = {sign}{suggested} based on band table — accept if you agree, override if you disagree]"
-
-    prompt_inputs = {key: _with_hint(key) for key in FACTOR_WEIGHTS}
+    prompt_inputs = {key: state.get(key, "N/A") for key in FACTOR_WEIGHTS}
     for key in FACTOR_WEIGHTS:
         prompt_inputs[f"{key}_context"] = rag_context.get(key, "N/A")
 
@@ -352,6 +342,17 @@ def generate_prediction(state: GoldState) -> dict:
         for factor_key in score_map.values():
             if _looks_like_error(str(state.get(factor_key, ""))):
                 scores[factor_key] = 0
+
+    # OPTION B: Python owns numeric-factor scores via band tables. Overrides
+    # the LLM for these factors; text-heavy factors (geopolitical, central
+    # bank buying) remain fully LLM-scored.
+    for factor_key in HINTABLE_FACTORS:
+        raw = str(state.get(factor_key, ""))
+        if _looks_like_error(raw):
+            continue
+        python_score = _suggest_gold_score(factor_key, raw)
+        if python_score is not None:
+            scores[factor_key] = python_score
 
     strength = calculate_strength(scores)
     status = "ON" if strength >= 50 else "OFF"

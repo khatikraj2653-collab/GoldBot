@@ -90,6 +90,29 @@ def init_history_table():
     conn.close()
 
 
+def purge_stale_history_rows():
+    """Delete pre-Option-B snapshots — rows where every Python-owned numeric
+    factor scored 0 (impossible after the band-table fix). Safe/idempotent."""
+    try:
+        conn = sqlite3.connect(get_db_path())
+        rows = conn.execute("SELECT id, result_json FROM analysis_history").fetchall()
+        stale = []
+        keys = ("real_yields", "usd_index", "fed_rate", "treasury_2y", "vix", "inflation_expectations", "sp500_growth")
+        for rid, rj in rows:
+            try:
+                s = (json.loads(rj) or {}).get("scores") or {}
+                if all(s.get(k, 0) == 0 for k in keys):
+                    stale.append((rid,))
+            except Exception:
+                continue
+        if stale:
+            conn.executemany("DELETE FROM analysis_history WHERE id = ?", stale)
+            conn.commit()
+        conn.close()
+    except Exception:
+        pass
+
+
 def save_history(status, strength, timestamp, result):
     conn = sqlite3.connect(get_db_path())
     conn.execute(
@@ -120,6 +143,9 @@ def load_history_detail(history_id):
 
 
 init_history_table()
+if not st.session_state.get("_purged_stale_history"):
+    purge_stale_history_rows()
+    st.session_state["_purged_stale_history"] = True
 
 st.set_page_config(page_title="GoldBot", page_icon="🪙", layout="wide", initial_sidebar_state="expanded")
 

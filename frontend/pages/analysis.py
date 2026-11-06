@@ -256,8 +256,6 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 @keyframes bounce{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-10px) rotate(-3deg);}}
 .robot-img{animation:bounce 3s ease-in-out infinite;}
 .robot-wrap-outer{position:relative;display:inline-block;}
-.orbit-avatar{width:220px;height:220px;display:inline-block;margin-bottom:16px;filter:drop-shadow(0 0 32px rgba(242,194,48,0.55));}
-.orbit-avatar svg{width:100%;height:100%;display:block;}
 .robot-wrap-outer::before{
     content:'';
     position:absolute;
@@ -481,47 +479,7 @@ with st.sidebar:
 
 if not st.session_state.result:
     robot_img_tag = f"""<div class='robot-wrap-outer'>
-        <div class='orbit-avatar' aria-label='GoldBot avatar'>
-          <svg viewBox='-100 -100 200 200' xmlns='http://www.w3.org/2000/svg'>
-            <defs>
-              <radialGradient id='goldCoreGlow'>
-                <stop offset='0%' stop-color='#FFF3C8' stop-opacity='1'/>
-                <stop offset='55%' stop-color='#F2C230' stop-opacity='0.75'/>
-                <stop offset='100%' stop-color='#F2C230' stop-opacity='0'/>
-              </radialGradient>
-            </defs>
-            <!-- outer ring (Macro: amber) -->
-            <circle r='82' fill='none' stroke='#F2C230' stroke-opacity='0.28' stroke-width='1'/>
-            <g>
-              <animateTransform attributeName='transform' type='rotate' from='0 0 0' to='360 0 0' dur='18s' repeatCount='indefinite'/>
-              <circle cx='82' cy='0' r='5.5' fill='#F2C230'/>
-              <circle cx='0' cy='82' r='4' fill='#F2C230' opacity='0.75'/>
-              <circle cx='-82' cy='0' r='5.5' fill='#F2C230'/>
-              <circle cx='0' cy='-82' r='4' fill='#F2C230' opacity='0.75'/>
-            </g>
-            <!-- mid ring (Safe-haven: blue) -->
-            <circle r='56' fill='none' stroke='#9CC4E8' stroke-opacity='0.3' stroke-width='1'/>
-            <g>
-              <animateTransform attributeName='transform' type='rotate' from='0 0 0' to='-360 0 0' dur='12s' repeatCount='indefinite'/>
-              <circle cx='56' cy='0' r='4' fill='#9CC4E8'/>
-              <circle cx='-56' cy='0' r='4' fill='#9CC4E8'/>
-              <circle cx='0' cy='-56' r='3.5' fill='#9CC4E8' opacity='0.75'/>
-            </g>
-            <!-- inner ring (Geo: orange) -->
-            <circle r='34' fill='none' stroke='#E0875A' stroke-opacity='0.38' stroke-width='1'/>
-            <g>
-              <animateTransform attributeName='transform' type='rotate' from='0 0 0' to='360 0 0' dur='8s' repeatCount='indefinite'/>
-              <circle cx='34' cy='0' r='3.5' fill='#E0875A'/>
-              <circle cx='-34' cy='0' r='3.5' fill='#E0875A'/>
-            </g>
-            <!-- pulsing core -->
-            <circle r='24' fill='url(#goldCoreGlow)'>
-              <animate attributeName='r' values='22;28;22' dur='2.4s' repeatCount='indefinite'/>
-            </circle>
-            <circle r='11' fill='#FFD700'/>
-            <circle r='4.5' fill='#FFF8DC'/>
-          </svg>
-        </div>
+        <img class='robot-img' src='data:image/png;base64,{ROBOT_IMG}' width='180' style='border-radius:24px;filter:drop-shadow(0 0 24px rgba(255,190,60,0.4)) sepia(1) hue-rotate(0deg) saturate(2.5);margin-bottom:16px;'/>
         <div class='robot-cloud'>Gold: Safe Haven? 🪙</div>
         <div class='robot-cloud'>9 live factors ⚡</div>
         <div class='robot-cloud'>RAG-grounded 📚</div>

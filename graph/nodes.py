@@ -182,10 +182,14 @@ Answer clearly and concisely in 2-4 sentences, using the context above where rel
 
 
 def _extract_number(s):
+    """Extract the actual numeric value from a factor string. Takes the first
+    number AFTER the first colon, so labels like '10Y TIPS' or '2-Year Treasury'
+    don't contaminate the extraction with a number from the label itself."""
     import re
     if not isinstance(s, str):
         return None
-    m = re.search(r'-?\d+\.?\d*', s)
+    tail = s.split(":", 1)[1] if ":" in s else s
+    m = re.search(r'-?\d+\.?\d*', tail)
     if not m:
         return None
     try:

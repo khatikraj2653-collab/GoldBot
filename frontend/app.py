@@ -112,7 +112,8 @@ st.markdown("""
 
 st.markdown("""
 <style>
-#MainMenu, footer, header { visibility: hidden; }
+#MainMenu, footer { visibility: hidden; }
+header, [data-testid="stHeader"] { display: none !important; }
 [data-testid="stToolbar"] { display: none; }
 [data-testid="stDecoration"] { display: none; }
 [data-testid="stSidebar"] { display: none !important; }

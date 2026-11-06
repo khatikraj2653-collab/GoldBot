@@ -583,17 +583,82 @@ if not st.session_state.result:
 
             progress_bar.empty()
 
-            # SAFETY NET: Python band overrides for numeric factors (in case
-            # the compiled graph still references an old generate_prediction).
+            # SAFETY NET: Python band overrides for numeric factors.
+            # Inlined so no stale-module import can poison the extraction
+            # (graph.nodes gets held in Python's module cache across deploys).
             try:
-                from graph.nodes import _suggest_gold_score, HINTABLE_FACTORS
+                import re as _re_sn
                 from tools.cache_utils import _looks_like_error
+
+                def _sn_extract(s):
+                    if not isinstance(s, str):
+                        return None
+                    tail = s.split(":", 1)[1] if ":" in s else s
+                    m = _re_sn.search(r'-?\d+\.?\d*', tail)
+                    if not m:
+                        return None
+                    try:
+                        return float(m.group(0))
+                    except (ValueError, TypeError):
+                        return None
+
+                def _sn_gold_band(k, raw):
+                    v = _sn_extract(raw)
+                    if v is None:
+                        return None
+                    if k == "real_yields":
+                        if v < 0: return 7
+                        if v < 1: return 4
+                        if v < 2: return 1
+                        if v < 2.5: return -3
+                        if v < 3: return -5
+                        return -7
+                    if k == "usd_index":
+                        if v < 95: return 5
+                        if v < 100: return 3
+                        if v < 102: return -3
+                        if v < 105: return -5
+                        return -7
+                    if k == "fed_rate":
+                        if v < 3: return 5
+                        if v < 4: return 3
+                        if v < 4.5: return -1
+                        if v < 5: return -3
+                        return -5
+                    if k == "treasury_2y":
+                        if v < 3: return 4
+                        if v < 4: return 1
+                        if v < 4.5: return -2
+                        if v < 5: return -4
+                        return -6
+                    if k == "vix":
+                        if v < 13: return -5
+                        if v < 16: return -3
+                        if v < 20: return -1
+                        if v < 25: return 3
+                        if v < 35: return 6
+                        return 9
+                    if k == "inflation_expectations":
+                        if v < 2: return -3
+                        if v < 2.3: return -1
+                        if v < 2.6: return 2
+                        if v < 3: return 4
+                        return 6
+                    if k == "sp500_growth":
+                        if v > 1: return -3
+                        if v > 0: return -1
+                        if v > -1: return 1
+                        if v > -2: return 3
+                        return 5
+                    return None
+
+                _sn_keys = {"real_yields", "usd_index", "fed_rate", "treasury_2y", "vix", "inflation_expectations", "sp500_growth"}
                 if isinstance(result.get("scores"), dict):
-                    for factor_key in HINTABLE_FACTORS:
+                    for factor_key in _sn_keys:
                         raw = str(result.get(factor_key, ""))
                         if _looks_like_error(raw):
                             continue
-                        suggested = _suggest_gold_score(factor_key, raw)
+                        suggested = _sn_gold_band(factor_key, raw)
                         if suggested is not None:
                             result["scores"][factor_key] = suggested
             except Exception as _e:

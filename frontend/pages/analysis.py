@@ -254,7 +254,8 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 .hero-greeting em { font-style: normal; background: linear-gradient(135deg,#FFD700,#FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-sub { font-size: 0.85rem; color: #C9B27A; margin-bottom: 20px; text-align: center; line-height: 1.7; max-width: 600px; }
 @keyframes bounce{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-10px) rotate(-3deg);}}
-.robot-img{animation:bounce 3s ease-in-out infinite;}
+.robot-rig{position:relative;display:inline-block;animation:bounce 3s ease-in-out infinite;margin-bottom:16px;}
+.robot-img{display:block;}
 .robot-wrap-outer{position:relative;display:inline-block;}
 .robot-wrap-outer::before{
     content:'';
@@ -271,6 +272,44 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}
     50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}
 }
+/* Holographic hover disc beneath the robot */
+.robot-wrap-outer::after{
+    content:'';
+    position:absolute;
+    left:50%;bottom:4px;
+    transform:translateX(-50%);
+    width:170px;height:26px;
+    background:radial-gradient(ellipse at center,rgba(255,215,0,.55) 0%,rgba(255,190,60,.25) 45%,transparent 75%);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-1;
+    animation:disc-pulse 3.2s ease-in-out infinite;
+}
+@keyframes disc-pulse{0%,100%{opacity:.55;transform:translateX(-50%) scaleX(1);}50%{opacity:.95;transform:translateX(-50%) scaleX(1.08);}}
+/* Glowing scanner eyes layered over the robot visor */
+.robot-eye{
+    position:absolute;
+    width:18px;height:18px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,235,120,.95) 0%,rgba(255,190,60,.55) 42%,transparent 72%);
+    pointer-events:none;mix-blend-mode:screen;
+    z-index:2;
+    animation:eye-pulse 2.6s ease-in-out infinite;
+}
+.robot-eye-l{top:36%;left:34%;}
+.robot-eye-r{top:36%;left:52%;animation-delay:.13s;}
+@keyframes eye-pulse{0%,100%{opacity:.55;transform:scale(1);}50%{opacity:1;transform:scale(1.2);}}
+/* Antenna status LED */
+.robot-led{
+    position:absolute;
+    top:-6px;left:calc(50% - 4.5px);
+    width:9px;height:9px;border-radius:50%;
+    background:#FFE680;
+    box-shadow:0 0 14px 3px rgba(255,215,0,.95),0 0 24px 6px rgba(255,190,60,.5);
+    pointer-events:none;
+    z-index:2;
+    animation:led-blink 1.8s ease-in-out infinite;
+}
+@keyframes led-blink{0%,100%{opacity:.4;}50%{opacity:1;}}
 .robot-cloud{
     position:absolute;top:-10px;right:-180px;
     background:rgba(40,30,10,0.95);border:1px solid rgba(255,190,60,0.4);
@@ -479,7 +518,12 @@ with st.sidebar:
 
 if not st.session_state.result:
     robot_img_tag = f"""<div class='robot-wrap-outer'>
-        <img class='robot-img' src='data:image/png;base64,{ROBOT_IMG}' width='180' style='border-radius:24px;filter:drop-shadow(0 0 24px rgba(255,190,60,0.4)) sepia(1) hue-rotate(0deg) saturate(2.5);margin-bottom:16px;'/>
+        <div class='robot-rig'>
+            <img class='robot-img' src='data:image/png;base64,{ROBOT_IMG}' width='180' style='border-radius:24px;filter:drop-shadow(0 0 24px rgba(255,190,60,0.4)) sepia(1) hue-rotate(0deg) saturate(2.5);'/>
+            <span class='robot-eye robot-eye-l'></span>
+            <span class='robot-eye robot-eye-r'></span>
+            <span class='robot-led'></span>
+        </div>
         <div class='robot-cloud'>Gold: Safe Haven? 🪙</div>
         <div class='robot-cloud'>9 live factors ⚡</div>
         <div class='robot-cloud'>RAG-grounded 📚</div>

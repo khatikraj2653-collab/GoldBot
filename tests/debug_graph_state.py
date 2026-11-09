@@ -97,12 +97,6 @@ def install_stubs():
 def main():
     install_stubs()
 
-    # Import AFTER stubs are in place.
-    from graph.workflow import build_graph
-    from graph import nodes as graph_nodes
-
-    # Replace generate_prediction with one that just records what it received,
-    # so we can see the merged state without touching any LLM or scoring logic.
     captured = {}
 
     def recorder(state):
@@ -113,11 +107,17 @@ def main():
         }
         return {"prediction": "stub", "scores": {}}
 
-    with patch.object(graph_nodes, "generate_prediction", recorder):
-        # Fresh sqlite checkpointer in a temp file.
-        os.chdir(tempfile.mkdtemp(prefix="gb-"))
-        app = build_graph()
-        app.invoke({}, config={"configurable": {"thread_id": "debug-1"}})
+    # Patch BEFORE importing workflow, because workflow.py does
+    # `from graph.nodes import generate_prediction` and the compiled graph
+    # captures that reference at build time.
+    import graph.nodes as graph_nodes
+    graph_nodes.generate_prediction = recorder
+
+    from graph.workflow import build_graph
+
+    os.chdir(tempfile.mkdtemp(prefix="gb-"))
+    app = build_graph()
+    app.invoke({}, config={"configurable": {"thread_id": "debug-1"}})
 
     # The FACTOR_WEIGHTS keys are the ones that MUST reach generate_prediction
     # with real data for scoring to work.

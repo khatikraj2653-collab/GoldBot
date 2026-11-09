@@ -9,15 +9,17 @@ from graph.state import GoldState
 from rag.retriever import retrieve_factor_context
 
 llm = ChatOpenAI(
-    model="gpt-4o",
+    model="gpt-6-luna",
     api_key=os.getenv("OPENAI_API_KEY"),
-    temperature=0
+    temperature=0,
+    reasoning_effort="none"
 )
 
 llm_retry = ChatOpenAI(
-    model="gpt-4o",
+    model="gpt-6-luna",
     api_key=os.getenv("OPENAI_API_KEY"),
-    temperature=0.4
+    temperature=0.4,
+    reasoning_effort="none"
 )
 
 FACTOR_WEIGHTS = {

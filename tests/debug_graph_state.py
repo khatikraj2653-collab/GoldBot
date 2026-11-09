@@ -34,6 +34,21 @@ STUBS = {
 
 def install_stubs():
     import types
+
+    # dotenv is not installed in CI; nodes.py calls load_dotenv at import.
+    dotenv_mod = types.ModuleType("dotenv")
+    dotenv_mod.load_dotenv = lambda *a, **kw: None
+    sys.modules["dotenv"] = dotenv_mod
+
+    # rag.retriever is imported by graph.nodes; the recorder replaces
+    # generate_prediction so retrieve_factor_context is never called.
+    rag_pkg = types.ModuleType("rag")
+    rag_pkg.__path__ = []
+    sys.modules["rag"] = rag_pkg
+    rag_r = types.ModuleType("rag.retriever")
+    rag_r.retrieve_factor_context = lambda *a, **kw: ""
+    sys.modules["rag.retriever"] = rag_r
+
     for mod_name, attrs in STUBS.items():
         mod = types.ModuleType(mod_name)
         for a in attrs:
